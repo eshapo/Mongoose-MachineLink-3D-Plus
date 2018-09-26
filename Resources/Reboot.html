@@ -1,0 +1,179 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Reboot</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="Reboot.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript">
+var reboot = "";
+function doConfirm() {
+ blockUI_confirm("It may take 1-2 minutes to reboot your device. Are you sure you want to continue?", function(){document.form.submit();});
+}
+var counter=0;
+var estTime=60;
+var rebootok=0;
+$(document).ready(function() {
+ if(reboot=="reboot") {
+  function check_reload() {
+   counter++;
+   percentage=parseInt(50*counter/estTime);
+   if( percentage<100 ) {
+    document.getElementById( "rebootMsg" ).innerHTML="System rebooting...";
+    document.getElementById( "rebootCt" ).innerHTML=percentage+" %"
+   }
+   else {
+    document.getElementById( "rebootCt" ).innerHTML="100 %"
+    if( percentage>120 ) {
+     document.getElementById( "rebootCt" ).innerHTML=""
+     document.getElementById( "rebootMsg" ).innerHTML="The reboot seems to be taking too long. You may need to manually power cycle your device.";//"The reboot seems to be taking too long, you may need to manually power cycle the device";
+    }
+   }
+   if(percentage>80 && (counter%5)==0 ) {
+    $.get("/cgi-bin/ajax.cgi", function (){ rebootok++; });
+   }
+   if(rebootok) {
+    document.getElementById( "rebootCt" ).innerHTML="100 %"
+    document.getElementById( "rebootMsg" ).innerHTML="Reboot successful. Redirecting you to the Status page...";//"Reboot is successful, now redirecting to the Status page...";
+    if(reboot=="default") {
+     document.cookie="language=en; path=/";
+     setTimeout("window.location='http://" + defaultIP + "/index.html'", 5000);
+    }
+    else {
+     setTimeout("window.location='/index.html'", 5000);
+    }
+   }
+  }
+  document.getElementById("reboot-div").style['display']='none';
+  document.getElementById("wait-div").style['display']='';
+  setInterval(check_reload, 500);
+ }
+ else {
+  document.getElementById("reboot-div").style['display']='';
+  document.getElementById("wait-div").style['display']='none';
+ }
+});
+</script>
+<!-- <%if(request['REQUEST_METHOD']=="POST") {
+ set_single( 'service.system.reset=1' );
+ redirect('/Reboot.html?reboot')
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+ <div class="container">
+  <div id="reboot-div">
+   <form name='form' method="POST" action="Reboot.html">
+    <div class="note-lrg">
+     <div class="wrap alert clearfix">
+      <h2><span class="access"><script language=Javascript>document.write("Warning")</script> - </span><script language=Javascript>document.write("Attention! Clicking 'Reboot' will cause your device to power cycle.")</script></h2>
+      <p><script language=Javascript>document.write("The reboot will take about 1-2 minutes, during which you won't be able to access your device.")</script></p>
+      <div class="submit-row" style="padding-bottom:40px;margin:0">
+       <button type="button" class="strong" onClick="doConfirm()"><script language=Javascript>document.write("Reboot")</script></button>
+      </div>
+     </div>
+    </div>
+   </form>
+  </div>
+  <div id="wait-div" class="pad white-box" style="display:none;">
+   <div id="rebootMsg" align="center" style="font-size:16px; font-weight:bold; padding-top:20px;">
+    <script language=Javascript>document.write("Rebooting...")</script>
+   </div>
+   <div align="center" style="padding-top:10px;">
+    <img width="60px" height="60px" src="img/spinner_250.gif">
+    <b id="rebootCt" style="position:relative;top:-25px; left:30px">0 %</b>
+   </div>
+  </div>
+ </div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+  set_menu("Reboot", "", "root");
+</script>
+</body>
+</html>

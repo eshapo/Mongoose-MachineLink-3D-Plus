@@ -1,0 +1,128 @@
+<po>
+<message msgid="eventNotiType1" msgstr="Unit powered up"/>
+<message msgid="eventNotiType2" msgstr="Unit rebooted"/>
+<message msgid="eventNotiType3" msgstr="Link status change"/>
+<message msgid="eventNotiType4" msgstr="WWAN IP address change"/>
+<message msgid="eventNotiType5" msgstr="WWAN Registration change"/>
+<message msgid="eventNotiType6" msgstr="WWAN Cell ID change"/>
+<message msgid="eventNotiType7" msgstr="WWAN technology change"/>
+<message msgid="eventNotiType8" msgstr="Number of connected Ethernet interfaces change"/>
+<message msgid="eventNotiType9" msgstr="Power source change"/>
+<message msgid="eventNotiType10" msgstr="Web UI login failure"/>
+<message msgid="event noti type 1 desc" msgstr="Notification is sent when the unit is  powered up through connection of a power source or after a soft-reset."/>
+<message msgid="event noti type 2 desc" msgstr="Notification is sent when the unit is rebooted via the Web UI, SMS diagnostics or via command line/telnet session."/>
+<message msgid="event noti type 3 desc" msgstr="Notification is sent if the status of the data connection profile or any IPSec/OpenVPN/PPTP/GRE tunnel endpoint changes i.e. the link goes up or down."/>
+<message msgid="event noti type 4 desc" msgstr="Notification is sent if an active data connection profile's WWAN IP address changes."/>
+<message msgid="event noti type 5 desc" msgstr="Notification is sent if the network registration status changes between &quot;registered&quot;, &quot;unregistered&quot; or “roaming”."/>
+<message msgid="event noti type 6 desc" msgstr="Notification is sent if the router connects to a different cell, marked by a change in the Cell ID. "/>
+<message msgid="event noti type 7 desc" msgstr="Notification is sent if the router connects to a different network technology, e.g (3G/2G)"/>
+<message msgid="event noti type 8 desc" msgstr="Notification is sent if there is a change to the number of directly connected Ethernet interfaces."/>
+<message msgid="event noti type 9 desc" msgstr="Notification is sent if the router's power source changes between DC and PoE (if supported)."/>
+<message msgid="event noti type 10 desc" msgstr="Notification is sent if there was a failure to log in to the router via Web UI."/>
+<message msgid="field100and10000" msgstr="Please specify a value between 100 and 10000"/>
+<message msgid="field1and20" msgstr="Please specify a value between 1 and 20"/>
+<message msgid="GUI pleaseWait" msgstr="Please wait"/>
+<message msgid="eventDestinationErrMsg" msgstr="Please check the configuration of destination profile "/>
+<message msgid="email address" msgstr="Email address"/>
+<message msgid="tcpAddress" msgstr="TCP address"/>
+<message msgid="udpAddress" msgstr="UDP address"/>
+<message msgid="smsNumber" msgstr="SMS number"/>
+<message msgid="event noti title" msgstr="Event notification configuration"/>
+<message msgid="event noti enable" msgstr="Enable event notification"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="event buf max" msgstr="Maximum event buffer size"/>
+<message msgid="100-10000" msgstr="100-10000"/>
+<message msgid="event max retry" msgstr="Maximum retry count"/>
+<message msgid="1-20" msgstr="1-20"/>
+<message msgid="write event to file" msgstr="Write event notification to file"/>
+<message msgid="event noti logfile" msgstr="Event notification log file"/>
+<message msgid="unit id" msgstr="Unit ID"/>
+<message msgid="eventNumber" msgstr="Event number"/>
+<message msgid="eventDescription" msgstr="Event description"/>
+<message msgid="email" msgstr="Email"/>
+<message msgid="rtcp" msgstr="TCP"/>
+<message msgid="UDP" msgstr="UDP"/>
+<message msgid="sms" msgstr="SMS"/>
+<message msgid="destinationProfile" msgstr="Destination profile"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="refresh" msgstr="Refresh"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="event noti saved" msgstr="Your Event notification configuration changes were successfully saved and applied"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

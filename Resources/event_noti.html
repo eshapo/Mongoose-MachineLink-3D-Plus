@@ -1,0 +1,485 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Event Notification</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="event_noti.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<script language="JavaScript">
+var evtnoti_onoff="0";
+var evtnoti_list=["Unit powered up", "Unit rebooted", "Link status change", "WWAN IP address change", "WWAN Registration change", "WWAN Cell ID change", "WWAN technology change", "Number of connected Ethernet interfaces change", "Power source change", "Web UI login failure"];
+var evtnoti_desc_list=["Notification is sent when the unit is  powered up through connection of a power source or after a soft-reset.", "Notification is sent when the unit is rebooted via the Web UI, SMS diagnostics or via command line/telnet session.", "Notification is sent if the status of the data connection profile or any IPSec/OpenVPN/PPTP/GRE tunnel endpoint changes i.e. the link goes up or down.", "Notification is sent if an active data connection profile's WWAN IP address changes.", "Notification is sent if the network registration status changes between &quot;registered&quot;, &quot;unregistered&quot; or “roaming”.",
+                       "Notification is sent if the router connects to a different cell, marked by a change in the Cell ID. ", "Notification is sent if the router connects to a different network technology, e.g (3G/2G)", "Notification is sent if there is a change to the number of directly connected Ethernet interfaces.", "Notification is sent if the router's power source changes between DC and PoE (if supported).", "Notification is sent if there was a failure to log in to the router via Web UI."];
+var EventNotiEnabledClients = new Array();
+var EventNotiDestIdx = new Array();
+var EventNotiDestName = new Array();
+var EventNotiDestClients = new Array();
+var EventNotiDestSmsAddr = new Array();
+var EventNotiDestEmailAddr = new Array();
+var EventNotiDestTcpAddr = new Array();
+var EventNotiDestTcpPort = new Array();
+var EventNotiDestUdpAddr = new Array();
+var EventNotiDestUdpPort = new Array();
+var unsafeSmsString = "\"<>%\\^[]`\+\$\,'#&\n\r";
+function isUnsafeSmsMsg(compareChar) {
+ if (unsafeSmsString.indexOf(compareChar) == -1)
+  return false;
+ else
+  return true;
+}
+function encodeSpecialChars(val) {
+ var len = val.length;
+ var i = 0;
+ var newStr = "";
+ var original = val;
+ for ( i = 0; i < len; i++ ) {
+  if (isUnsafeSmsMsg(val.substring(i,i+1)) == false)
+   newStr = newStr + val.substring(i,i+1);
+  else
+   newStr = newStr + convert(val.substring(i,i+1));
+ }
+ return newStr;
+}
+function EventNotiConfigSet() {
+ var idx;
+ if($("#menuEventNotiEn").val()!="1") {
+  $.get("/cgi-bin/rdb.cgi?service.eventnoti.conf.enable=0", function(){window.location.href="event_noti.html?success";});
+ }
+ if ($("#MaxEventNotiBufSize").val() < 100 || $("#MaxEventNotiBufSize").val() > 10000) {
+  validate_alert("", "Please specify a value between 100 and 10000");
+  return;
+ }
+ if ($("#MaxEventNotiRetryCount").val() < 1 || $("#MaxEventNotiRetryCount").val() > 20) {
+  validate_alert("", "Please specify a value between 1 and 20");
+  return;
+ }
+ cmd_line="/cgi-bin/event_noti.cgi?CMD=EVTNOTI_CONF_SET&";
+ // send event noti configuration via content type bacause it could be over 256 bytes which
+ // is default limit of url length defined in mpr.h
+ contents_body="new_enable=\""+$("#menuEventNotiEn").val()+"\"&"+
+  "new_max_size=\""+$("#MaxEventNotiBufSize").val()+"\"&"+
+  "new_max_retry=\""+$("#MaxEventNotiRetryCount").val()+"\"&"+
+  "new_save_to_file=\""+$("#menuWriteEventNotiToFile").val()+"\"&"+
+  "new_log_file=\""+$("#EventNotiLogFile").val()+"\"&"+
+  "new_prefix_text=\""+$("#EventNotiPrefixText").val()+"\"&";
+ for (idx=1; idx<=evtnoti_list.length; idx++) {
+  var noti_clients = "";
+  if ($("#sms_checkbox"+idx).is(":checked")==true) {
+   noti_clients += "sms;";
+  }
+  if ($("#email_checkbox"+idx).is(":checked")==true) {
+   noti_clients += "email;";
+  }
+  if ($("#tcp_checkbox"+idx).is(":checked")==true) {
+   noti_clients += "tcp;";
+  }
+  if ($("#udp_checkbox"+idx).is(":checked")==true) {
+   noti_clients += "udp;";
+  }
+  contents_body += "new_clients"+idx+"=\""+noti_clients+"\"&";
+  contents_body += "new_dest_idx"+idx+"=\""+(document.getElementById("dest_"+idx).selectedIndex+1)+"\"&";
+ }
+ clear_alert();
+ blockUI_wait("Please wait");
+ $.post(cmd_line, contents_body, function() {
+  error_msg=checkErrors();
+  if( error_msg!="" ) {
+   validate_alert( "", error_msg );
+  }
+  else {
+   window.location.href="event_noti.html?success";
+  }
+ });
+}
+function checkErrors() {
+var errMsg="";
+ for (var i=1; i<EventNotiDestName.length; i++) {
+  var sms_err=false, email_err=false, tcp_err=false, udp_err=false;
+  for (var j=1; j<=evtnoti_list.length; j++) {
+   if((document.getElementById("dest_"+j).selectedIndex+1)==i) {
+    if ($("#sms_checkbox"+j).is(":checked") && EventNotiDestSmsAddr[i]=="") {
+     sms_err=true;
+    }
+    if ($("#email_checkbox"+j).is(":checked") && EventNotiDestEmailAddr[i]=="") {
+     email_err=true;
+    }
+    if ($("#tcp_checkbox"+j).is(":checked") && (EventNotiDestTcpAddr[i]=="" || EventNotiDestTcpPort[i]=="")) {
+     tcp_err=true;
+    }
+    if ($("#udp_checkbox"+j).is(":checked") && (EventNotiDestUdpAddr[i]=="" || EventNotiDestUdpPort[i]=="")) {
+     udp_err=true;
+    }
+   }
+  }
+  if(sms_err || email_err || tcp_err || udp_err) {
+   errMsg+="Please check the configuration of destination profile "+EventNotiDestName[i]+".<br/>";
+  }
+ }
+ return errMsg;
+}
+function setup_check_all() {
+ var total_email_checked=0, total_tcp_checked=0, total_udp_checked=0, total_sms_checked=0;
+ for (var i=1; i<=evtnoti_list.length; i++) {
+  if ($("#email"+"_checkbox"+i).is(":checked")==true) {
+   total_email_checked++;
+  }
+  if ($("#tcp"+"_checkbox"+i).is(":checked")==true) {
+   total_tcp_checked++;
+  }
+  if ($("#udp"+"_checkbox"+i).is(":checked")==true) {
+   total_udp_checked++;
+  }
+  if ($("#sms"+"_checkbox"+i).is(":checked")==true) {
+   total_sms_checked++;
+  }
+ }
+ $("#selectAllEmail").prop('checked', total_email_checked==evtnoti_list.length);
+ $("#selectAllTcp").prop('checked', total_tcp_checked==evtnoti_list.length);
+ $("#selectAllUdp").prop('checked', total_udp_checked==evtnoti_list.length);
+ $("#selectAllSms").prop('checked', total_sms_checked==evtnoti_list.length);
+}
+function DestOptionsGet() {//alert();
+ for (var i=1; i<=evtnoti_list.length; i++) {
+	 $("#dest_"+i).append("<option value='Default'>Default</option>"); //added this line
+  for (var j=1; j<EventNotiDestName.length; j++) {
+   $("#dest_"+i).append("<option value='"+EventNotiDestName[j]+"'>"+EventNotiDestName[j]+"</option>");alert();
+  }
+  $("#dest_"+i).val(EventNotiDestName[parseInt(EventNotiDestIdx[i])]);
+  $("#dest_"+i).change(function() {
+   idx=this.selectedIndex+1;
+   var email_addr="Email address"+":"+EventNotiDestEmailAddr[idx];
+   var tcp_addr="TCP address"+":";
+   tcp_addr+=EventNotiDestTcpAddr[idx]==""?"":EventNotiDestTcpAddr[idx]+":"+EventNotiDestTcpPort[idx]
+   var udp_addr="UDP address"+":";
+   udp_addr+=EventNotiDestUdpAddr[idx]==""?"":EventNotiDestUdpAddr[idx]+":"+EventNotiDestUdpPort[idx]
+   var sms_number="SMS number"+":"+EventNotiDestSmsAddr[idx]
+   this.title=EventNotiDestName[idx]+"\n"+email_addr+"\n"+tcp_addr+"\n"+udp_addr+"\n"+sms_number;
+  });
+  $("#dest_"+i).trigger("change");
+ }
+}
+function EventNotiConfigGet() {
+ var idx;
+ if (EventNotiEn=='1') {
+  $("#menuEventNotiEn").val('1');
+  $("#EventNotiEn-0").attr("checked","checked");
+  $("#box_2145_pin").css("display", "");
+ } else {
+  $("#menuEventNotiEn").val('0');
+  $("#EventNotiEn-1").attr("checked","checked");
+  $("#box_2145_pin").css("display", "none");
+ }
+ $("#MaxEventNotiBufSize").val(MaxEventNotiBufSize);
+ $("#MaxEventNotiRetryCount").val(MaxEventNotiRetryCount);
+ $("#menuWriteEventNotiToFile").val(WriteEventNotiToFile);
+ if (WriteEventNotiToFile=='1')
+  $("#WriteEventNotiToFile-0").attr("checked","checked");
+ else if (WriteEventNotiToFile=='0')
+  $("#WriteEventNotiToFile-1").attr("checked","checked");
+ else {
+  $("#menuWriteEventNotiToFile").val('0');
+  $("#WriteEventNotiToFile-1").attr("checked","checked");
+ }
+ $("#EventNotiLogFile").val(EventNotiLogFile);
+ var decode_msg = unescape(EventNotiPrefixText);
+ decode_msg=decode_msg.replace(/%22/g, "\"");
+ decode_msg=decode_msg.replace(/%0D/g, "\n");
+ $("#EventNotiPrefixText").val(decode_msg);
+ var h="";
+ for (var i=1; i<=evtnoti_list.length; i++) {
+  var email_checked=(EventNotiEnabledClients[i].indexOf('email')!=-1)?"checked":"";
+  var tcp_checked=(EventNotiEnabledClients[i].indexOf('tcp')!=-1)?"checked":"";
+  var udp_checked=(EventNotiEnabledClients[i].indexOf('udp')!=-1)?"checked":"";
+  var sms_checked=(EventNotiEnabledClients[i].indexOf('sms')!=-1)?"checked":"";
+  if (i == 5)
+   h+="<tr title='"+evtnoti_desc_list[i-1]+"'>";
+  else
+   h+='<tr title=\"'+evtnoti_desc_list[i-1]+'\">';
+  h+="<td>"+i+"</td>		<td>"+evtnoti_list[i-1]+"</td>		<td><div class='check-box'><input type='checkbox' class='access' id='email_checkbox"+i+"' onChange='setup_check_all()'"+email_checked+"><label for='email_checkbox"+i+"'>&nbsp;</label></div></td>		<td><div class='check-box'><input type='checkbox' class='access' id='tcp_checkbox"+i+"' onChange='setup_check_all()'"+tcp_checked+"><label for='tcp_checkbox"+i+"'>&nbsp;</label></div></td>		<td><div class='check-box'><input type='checkbox' class='access' id='udp_checkbox"+i+"' onChange='setup_check_all()'"+udp_checked+"><label for='udp_checkbox"+i+"'>&nbsp;</label></div></td>		<td><div class='check-box'><input type='checkbox' class='access' id='sms_checkbox"+i+"' onChange='setup_check_all()'"+sms_checked+"><label for='sms_checkbox"+i+"'>&nbsp;</label></div></td>";
+  h+="<td><select id='dest_"+i+"' style='width:140px' title=''></select></td>		</tr>";
+ }
+ $("#evtnotiList").html(h);
+ setup_check_all();
+}
+function SelectAllNoti(client) {
+ var checkval=false;
+ if (client == 'email') checkval=$("#selectAllEmail").is(":checked");
+ else if (client == 'tcp') checkval=$("#selectAllTcp").is(":checked");
+ else if (client == 'udp') checkval=$("#selectAllUdp").is(":checked");
+ else if (client == 'sms') checkval=$("#selectAllSms").is(":checked");
+ if (client == 'email' ) {for (var i=1; i<=evtnoti_list.length; i++) {$("#email_checkbox"+i).prop("checked", checkval);}}
+ else if (client == 'tcp') {for (var i=1; i<=evtnoti_list.length; i++) {$("#tcp_checkbox"+i).prop("checked", checkval);}}
+ else if (client == 'udp') {for (var i=1; i<=evtnoti_list.length; i++) {$("#udp_checkbox"+i).prop("checked", checkval);}}
+ else if (client == 'sms') {for (var i=1; i<=evtnoti_list.length; i++) {$("#sms_checkbox"+i).prop("checked", checkval);}}
+}
+$(document).ready( function() {
+ blockUI_wait("Please wait");
+ EventNotiConfigGet();
+ DestOptionsGet();
+ $.unblockUI();
+ if (EventNotiEn=='1') {
+  error_msg=checkErrors();
+  if( error_msg!="" ) {
+   validate_alert( "", error_msg );
+  }
+ }
+});
+</script>
+<!--<script language="JavaScript" src="cgi-bin/event_noti.cgi?CMD=EVTNOTI_CONF_GET"></script>
+<script language="JavaScript" src="cgi-bin/event_noti.cgi?CMD=EVTNOTI_DEST_GET"></script>-->
+
+<script language="javascript">
+var EventNotiEn="0";
+var MaxEventNotiBufSize="100";
+var MaxEventNotiRetryCount="5";
+var WriteEventNotiToFile="1";
+var EventNotiLogFile="/var/log/event.log";
+var EventNotiPrefixText="CE82C8";
+var EventNotiEnabledClients = new Array();
+var EventNotiDestIdx = new Array();
+var EventNotiEnabledClients = new Array();
+
+EventNotiEnabledClients[1]="";
+EventNotiDestIdx[1]="1";
+EventNotiEnabledClients[2]="";
+EventNotiDestIdx[2]="1";
+EventNotiEnabledClients[3]="";
+EventNotiDestIdx[3]="1";
+EventNotiEnabledClients[4]="";
+EventNotiDestIdx[4]="1";
+EventNotiEnabledClients[5]="";
+EventNotiDestIdx[5]="1";
+EventNotiEnabledClients[6]="";
+EventNotiDestIdx[6]="1";
+EventNotiEnabledClients[7]="";
+EventNotiDestIdx[7]="1";
+EventNotiEnabledClients[8]="";
+EventNotiDestIdx[8]="1";
+EventNotiEnabledClients[9]="";
+EventNotiDestIdx[9]="1";
+EventNotiEnabledClients[10]="";
+EventNotiDestIdx[10]="1";
+
+
+
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form name="EVENTNOTI" id="form" class="validate div-all" action="#" novalidate>
+  <div class="right-column white-box">
+   <div class="pad">
+    <h2><script language=Javascript>document.write("Event notification configuration")</script></h2>
+    <input type="hidden" name="menuEventNotiEn" id="menuEventNotiEn" value=""/>
+    <input type="hidden" name="menuWriteEventNotiToFile" id="menuWriteEventNotiToFile" value=""/>
+    <input type="hidden" name="menuSendToSameDests" id="menuSendToSameDests" value=""/>
+    <div class="form-row no-bg-form">
+     <label for="EventNotiEn"><script language=Javascript>document.write("Enable event notification")</script></label>
+     <div class="field">
+      <div class="location-settings">
+       <div class="radio-switch" data-toggle-element="box_2145_pin" data-toggle-disabled="btn_2145_change">
+        <input type="radio" class="access" name='EventNotiEn' id='EventNotiEn-0' onClick="javascript:$('#menuEventNotiEn').val('1');">
+        <label for="EventNotiEn-0" class="on"><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" class="access" name='EventNotiEn' id='EventNotiEn-1' onClick="javascript:$('#menuEventNotiEn').val('0');">
+        <label for="EventNotiEn-1" class="off"><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div id="box_2145_pin">
+     <!-- Maximum event notification buffer size -->
+     <div class="form-row no-bg-form">
+      <label for="MaxEventNotiBufSize"><script language=Javascript>document.write("Maximum event buffer size")</script></label>
+      <div class="field">
+       <input type="text" name="MaxEventNotiBufSize" class="validate[required] required mini" id="MaxEventNotiBufSize" value="" onKeyUp="NumfieldEntry(this);">
+       <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("100-10000")+" )")</script></label>
+      </div>
+     </div>
+     <!-- Maximum event notification retry count -->
+     <div class="form-row no-bg-form">
+      <label for="MaxEventNotiRetryCount"><script language=Javascript>document.write("Maximum retry count")</script></label>
+      <div class="field">
+       <input type="text" name="MaxEventNotiRetryCount" class="validate[required] required mini" id="MaxEventNotiRetryCount" value="" onKeyUp="NumfieldEntry(this);">
+       <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("1-20")+" )")</script></label>
+      </div>
+     </div>
+     <!-- Write event notification log to file -->
+     <div class="form-row no-bg-form" style="display:none">
+      <label for="WriteEventNotiToFile"><script language=Javascript>document.write("Write event notification to file")</script></label>
+      <div class="field">
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" class="access" name='WriteEventNotiToFile' id='WriteEventNotiToFile-0' onClick="javascript:$('#menuWriteEventNotiToFile').val('1');">
+         <label for="WriteEventNotiToFile-0" class="on"><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" class="access" name='WriteEventNotiToFile' id='WriteEventNotiToFile-1' onClick="javascript:$('#menuWriteEventNotiToFile').val('0');">
+         <label for="WriteEventNotiToFile-1" class="off"><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- Event notification log file name -->
+     <div class="form-row no-bg-form">
+      <label for="EventNotiLogFile"><script language=Javascript>document.write("Event notification log file")</script></label>
+      <div class="field">
+       <input type="text" name="EventNotiLogFile" id="EventNotiLogFile" value="">
+      </div>
+     </div>
+     <!-- Event notification prefix text -->
+     <div class="form-row no-bg-form">
+      <label for="EventNotiPrefixText"><script language=Javascript>document.write("Unit ID")</script></label>
+      <div class="field">
+       <input type="text" name="EventNotiPrefixText" id="EventNotiPrefixText" value="">
+      </div>
+     </div>
+     <br/>
+     <table class="above-5-column name-list">
+     <colgroup>
+      <col width="60px">
+      <col width="250px">
+      <col width="50px">
+      <col width="50px">
+      <col width="50px">
+      <col width="50px">
+      <col width="auto">
+     </colgroup>
+     <thead id="title-head">
+     <tr>
+      <th class="align10"><script language=Javascript>document.write("Event number")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Event description")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Email")</script>
+       <div class='check-box' style="padding-top:8px">
+        <input type="checkbox" class='access' id="selectAllEmail" name="selectAllEmail" value="" onclick='SelectAllNoti("email")' />
+        <label for='selectAllEmail'>&nbsp;</label>
+       </div>
+      </th>
+      <th class="align10"><script language=Javascript>document.write("TCP")</script>
+       <div class='check-box' style="padding-top:8px">
+             <input type="checkbox" class='access' id="selectAllTcp" name="selectAllTcp" value="" onclick='SelectAllNoti("tcp")' />
+             <label for='selectAllTcp'>&nbsp;</label>
+       </div>
+      </th>
+      <th class="align10"><script language=Javascript>document.write("UDP")</script>
+       <div class='check-box' style="padding-top:8px">
+             <input type="checkbox" class='access' id="selectAllUdp" name="selectAllUdp" value="" onclick='SelectAllNoti("udp")' />
+             <label for='selectAllUdp'>&nbsp;</label>
+       </div>
+      </th>
+      <th class="align10"><script language=Javascript>document.write("SMS")</script>
+       <div class='check-box' style="padding-top:8px">
+             <input type="checkbox" class='access' id="selectAllSms" name="selectAllSms" value="" onclick='SelectAllNoti("sms")' />
+             <label for='selectAllSms'>&nbsp;</label>
+       </div>
+      </th>
+      <th class="align10"><script language=Javascript>document.write("Destination profile")</script></th>
+     </tr>
+     </thead>
+     <tbody id="evtnotiList"></tbody>
+     </table>
+    </div>
+    <div class="submit-row">
+     <button type="button" id="wtSave" onClick="EventNotiConfigSet()"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='event_noti.html'"><script language=Javascript>document.write("Refresh")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+ set_menu("Services", "EVENT_NOTI", "root");
+ if(""=="success") {
+  success_alert("","Your Event notification configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

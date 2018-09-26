@@ -1,0 +1,137 @@
+<po>
+<message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
+<message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="select profile" msgstr="Select profile"/>
+<message msgid="enable port trigger" msgstr="Enable dial port filter"/>
+<message msgid="connect" msgstr="Manual connect"/>
+<message msgid="disconnect" msgstr="Manual disconnect"/>
+<message msgid="dod online desc" msgstr="Online / Offline control"/>
+<message msgid="dod debug desc" msgstr="Verbose logging configuration"/>
+<message msgid="dial on demand config" msgstr="Connect on demand"/>
+<message msgid="dial on traffic" msgstr="Data activity triggered connection"/>
+<message msgid="ignore icmp" msgstr="Ignore ICMP"/>
+<message msgid="ignore tcp" msgstr="Ignore TCP"/>
+<message msgid="ignore udp" msgstr="Ignore UDP"/>
+<message msgid="ignore ntp" msgstr="Ignore NTP"/>
+<message msgid="ignore dns" msgstr="Ignore DNS"/>
+<message msgid="ignore windows 7" msgstr="Ignore Microsoft network awareness (NCSI) traffic"/>
+<message msgid="minimum online time after dial" msgstr="After connecting, stay online for at least"/>
+<message msgid="dial delay after hangup" msgstr="After hanging up, don't redial for"/>
+<message msgid="online time after access" msgstr="On data activity, stay online for at least"/>
+<message msgid="timeout" msgstr="Connect and disconnect timers"/>
+<message msgid="control connection" msgstr="Manual connect and disconnect control"/>
+<message msgid="module power control" msgstr="Module power control"/>
+<message msgid="power off" msgstr="Power off"/>
+<message msgid="power on" msgstr="Power on"/>
+<message msgid="periodic dial" msgstr="Periodic connect schedule"/>
+<message msgid="connection status" msgstr="Connection status"/>
+<message msgid="ignore protocols" msgstr="Connect on data activity except when activity matches these IP protocols"/>
+<message msgid="ignore apps" msgstr="Connect on data activity except when activity matches these applications"/>
+<message msgid="dial on demand" msgstr="Connect on demand"/>
+<message msgid="dial on demand desc" msgstr="The connect on demand feature keeps the PDP context deactivated by default while making it appear that the router has permanent connection to WWAN and locally connected devices. When interesting packets arrive or an SMS wake-up command is received, the router will attempt to establish a WWAN data connection. The router will monitor traffic once the data connection is established and will terminate it when the link is idle."/>
+<message msgid="periodic online time" msgstr="Connect regularly, every"/>
+<message msgid="randomization" msgstr="Randomize connect frequency by up to"/>
+<message msgid="deactivation timer" msgstr="Disconnect regardless of traffic after"/>
+<message msgid="trigger ports" msgstr="Connect only when traffic appears to these UDP/TCP destination ports. You can specify multiple ports by separating them with a comma (eg 21, 23, 53)."/>
+<message msgid="dod debug" msgstr="Log all matched activity to the system log"/>
+<message msgid="immediately" msgstr="Immediate"/>
+<message msgid="seconds" msgstr="seconds"/>
+<message msgid="minute" msgstr="minute"/>
+<message msgid="minutes" msgstr="minutes"/>
+<message msgid="hour" msgstr="hour"/>
+<message msgid="never" msgstr="never"/>
+<message msgid="hours" msgstr="hours"/>
+<message msgid="connection timeout" msgstr="The router isn't connected. Please check the connection and refresh the configuration page."/>
+<message msgid="online" msgstr="Online"/>
+<message msgid="offline" msgstr="Offline"/>
+<message msgid="disabled" msgstr="Disabled"/>
+<message msgid="selected profile" msgstr="Selected profile"/>
+<message msgid="cannot control dod" msgstr="Sorry, we can't control the connect on demand connection. Please check the WWAN configuration."/>
+<message msgid="GUI pleaseWait" msgstr="Please wait"/>
+<message msgid="profile" msgstr="Profile"/>
+<message msgid="no dod profile msg" msgstr="No profile is available for the Connect on demand configuration"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="Msg126" msgstr="Port number must have a value between 1 and 65535."/>
+<message msgid="dodSubmitSuccess" msgstr="Your connect on demand configuration changes were successfully saved and applied."/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

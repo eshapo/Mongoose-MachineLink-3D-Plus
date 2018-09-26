@@ -1,0 +1,381 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Profile Name List</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="Profile_Name_List.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/ajax.cgi?getProfiles"></script>
+<script language='javascript'>
+<!-- <%
+/*if (request['REQUEST_METHOD'] == "POST") {
+ tempval=form['APNName'];
+ set_single( 'service.pppoe.server.0.apn=' + tempval);
+ tempval=form['ServiceName'];
+ set_single( 'service.pppoe.server.0.service=' + tempval);
+ pppoeEn=form['PPPoE'];
+ set_single( 'service.pppoe.server.0.enable=' + pppoeEn);
+ if( pppoeEn=="1" )
+  redirect("/Profile_Name_List.html?successPPPoE");
+ else
+  redirect("/Profile_Name_List.html?success");
+}
+else {/*GET for PPPoE*/
+/* temp=get_single( 'service.pppoe.server.0.apn' );
+ form['APNName'] = temp;
+ temp=get_single( 'service.pppoe.server.0.service' );
+ form['ServiceName']=temp;
+}
+_custom_roam_simcard=get_single("manualroam.custom_roam_simcard");
+%> -->*/
+var roam_simcard="0";
+var pppoe_en="0";
+var v250_en="";
+var padd_en="";
+var emulator_en=(v250_en=="1" && padd_en!="1");
+var max_enabled_profiles="2";
+if(max_enabled_profiles=="" || max_enabled_profiles=="N/A") {
+ max_enabled_profiles=2;
+}
+function checkEnabledProfiles() {
+ en=0;
+ for( i=0; i<stpf.length; i++ ) {
+  if(stpf[i].enable == 1) {
+   en++;
+  }
+ }
+ return en;
+}
+function check_default(idx) {
+ if( $("#pppAutoCon"+(idx-1)+"-1").is(":checked") ) {
+  if(checkEnabledProfiles() && emulator_en) {
+   load_value_to_element($("input:radio[name=pppAutoCon"+(def_profile-1)+"]"), false);
+   stpf[def_profile-1].enable=0;
+  }
+  else if(checkEnabledProfiles()>=max_enabled_profiles) {
+   load_value_to_element($("input:radio[name=pppAutoCon"+(def_profile-1)+"]"), false);
+   stpf[def_profile-1].enable=0;
+  }
+  load_value_to_element($("input:radio[name=pppAutoCon"+(idx-1)+"]"), true);
+  stpf[idx-1].enable=1;
+ }
+ def_profile=idx;
+}
+function check_enable(idx, val) {
+ current_en=checkEnabledProfiles();
+ if( val==1 && stpf[idx].enable!=1 && current_en>0 && emulator_en ) {
+  blockUI_alert("You must disable the Modem emulation first before enabling multiple PDP sessions");
+  el="input:radio.access[name=pppAutoCon"+idx+"]";
+  load_value_to_element(el,false);
+ }
+ else if( val==1 && stpf[idx].enable!=1 && current_en>=max_enabled_profiles ) {
+  blockUI_alert("The maximum number of enabled profiles has been exceeded.");
+  el="input:radio.access[name=pppAutoCon"+idx+"]";
+  load_value_to_element(el,false);
+ }
+ else {
+  clear_alert();
+  stpf[idx].enable=val;
+  if(val==0 && $("input[name=def_profile]:checked").val()==(idx+1)) {
+   for( i=0; i<stpf.length; i++ ) {
+    if(stpf[i].enable == 1) {
+     document.form.def_profile[i].checked=true;
+     def_profile=i+1;
+     break;
+    }
+   }
+  }
+  else if(current_en==0) {
+   def_profile=idx+1;
+   document.form.def_profile[idx].checked=true;
+  }
+ }
+}
+function init_profile_list() {
+var h="";
+var stpf=[{ "name":"Profile1", "conntype":"","enable":"1", "profilenum":"1", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"1", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" },{ "name":"Profile2", "conntype":"","enable":"0", "profilenum":"2", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"0", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" },{ "name":"Profile3", "conntype":"","enable":"0", "profilenum":"3", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"0", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" },{ "name":"Profile4", "conntype":"","enable":"0", "profilenum":"4", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"0", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" },{ "name":"Profile5", "conntype":"","enable":"0", "profilenum":"5", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"0", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" },{ "name":"Profile6", "conntype":"","enable":"0", "profilenum":"6", "dialnum":"atd*99#", "user":"","pass":"","routes":"","snat":"1", "metric":"20", "userpeerdns":"1", "readonly":"0", "reconnect_delay":"30", "reconnect_retries":"0", "authtype":"chap", "padmode":"tcp","port":"0","host":"0.0.0.0","pad_o":"0","connection_op":"1","tcp_nodelay":"0","autoapn":"0", "preferredIPEnable":"","preferredIPAddr":"","APNName":"" }];var def_profile=1; 
+ for( i=0; i<stpf.length; i++ ) {
+  var apn = stpf[i].APNName;
+  if(roam_simcard == "1" && stpf[i].autoapn==1) {//alert();
+   apn = "<td style='font-style:italic'>"+"Automatic";
+  }
+  else if (apn=="") {//alert();
+   apn = "<td style='font-style:italic'>"+"Blank";
+  }
+  else {
+   apn = "<td>"+breakWord(stpf[i].APNName, 20);
+  }
+  h += "<tr><td class='first'>"+breakWord(stpf[i].name, 10)+"</td><td class='radio-box'><input type='radio' class='access' name='def_profile' id='def_profile"+i+"' onchange='check_default(this.value)' value="+(i+1);
+  if( def_profile == i+1 ) {
+   h+=" checked";
+  }
+  h+="><label for='def_profile"+i+"'>&nbsp;</label></td><td>";
+  h+='<div class="location-settings radio-switch"> 			<input type="radio" id="pppAutoCon'+i+'-0" name="pppAutoCon'+i+'" class="access" value=1 onclick="check_enable('+i+','+'1)"';
+  if(stpf[i].enable==1) {
+   h+=" checked";
+  }
+  h+='><label for="pppAutoCon'+i+'-0" class="on">'+"I"+'</label>			<input type="radio" id="pppAutoCon'+i+'-1" name="pppAutoCon'+i+'" class="access" value=0 onclick="check_enable('+i+','+'0)"';
+  if(stpf[i].enable!=1) {
+   h+=" checked";
+  }
+  h+='><label for="pppAutoCon'+i+'-1" class="off">'+"0"+'</label>		</div>';
+  h+="</td>"+apn+"</td><td>"+breakWord(stpf[i].user, 16)+"</td><td class='last'><a class='secondary sml' href='Profile_Settings.html?"+i+"'><i class='icon edit'>"+"Edit"+"</i></a></td></tr>";
+ }
+ $("#TBlist").html(h);
+ $.get("/js/selectivizr.js");
+ if(pppoe_en=="1") {
+  $("#profiles-div").css("display","none");
+ }
+ else {
+  $("#pppoe-div").css("display","none");
+ }
+}
+function submitF() {
+ var cmd="/cgi-bin/rdb.cgi?";
+ cmd="/cgi-bin/rdb.cgi?";
+ for( i=0; i<stpf.length; i++ ) {
+  en=$("#pppAutoCon"+i+"-0").is(":checked")?1:0;
+  if(i>0){
+   cmd+="&";
+  }
+  cmd+="link.profile."+(i+1)+".enable="+en;
+  //Setup default route
+  en=def_profile==(i+1)?1:0;
+  cmd+="&link.profile."+(i+1)+".defaultroute="+en;
+  // if default profile number is different from
+  // dialondemand profile number, then sync dialondemand
+  // profile number with this.
+  var dod_en="0";
+  var dod_pf="1";
+  if (en == 1 && dod_en == 1 && dod_pf != (i+1)) {
+   cmd+="&dialondemand.profile="+(i+1);
+  }
+ }
+ blockUI_wait("Please wait");
+ $.get(cmd, function() { document.form.submit(); });
+}
+$(document).ready(function() {
+ init_profile_list();
+ // load configuration
+ load_values_to_elements(
+  {"input:radio.access[name=PPPoE]":"0"==1}
+ );
+ // override click not to enable when any wwan profile is activated
+ $("input:radio.access[name=PPPoE]").click(function(){
+  // bypass if not on
+  if(!$(this).is(":checked[value=1]")) {
+   $("#pppoe-div").css("display","none");
+   $("#profiles-div").css("display","");
+   return;
+  }
+  if(emulator_en) {
+   load_value_to_element("input:radio.access[name=PPPoE]",false);
+   blockUI_alert("You must disable the Modem emulation first before enabling PPPoE");
+   return;
+  }
+  else {
+   // find the activated profile
+   var prof=-1;
+   for( i=0; i<stpf.length && i<6; i++ ) {
+    if( stpf[i].enable == 1 ) {
+     prof=i;
+     break;
+    }
+   }
+   if(prof>=0) {
+    load_value_to_element("input:radio.access[name=PPPoE]",false);
+    function confirmed_func() {
+     for( i=0; i<stpf.length && i<6; i++ ) {
+      $("#pppAutoCon"+i+"-1").attr("checked","checked");
+      stpf[i].enable=0;
+     }
+     $("#pppoe-div").css("display","");
+     $("#profiles-div").css("display","none");
+     load_value_to_element("input:radio.access[name=PPPoE]",true);
+    }
+    blockUI_confirm("Turning on transparent bridge mode will disable all enabled profiles. Are you sure you want to continue?", confirmed_func);
+   }
+   else {
+    $("#profiles-div").css("display","none");
+    $("#pppoe-div").css("display","");
+   }
+  }
+ });
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form name="form" method="POST" action="Profile_Name_List.html" novalidate>
+  <div class="right-column white-box">
+   <div class="pad">
+    <div class="form-row no-bg-form">
+     <h2><script language=Javascript>document.write("Data connection")</script></h2>
+     <label for="field-1"><script language=Javascript>document.write("Transparent bridge (PPPoE)")</script></label>
+     <div class="field">
+      <div class="location-settings">
+       <div class="radio-switch">
+        <input type="radio" id="radio-1" name="PPPoE" class="access" value=1>
+        <label for="radio-1" class="on"><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="radio-2" name="PPPoE" class="access" value=0>
+        <label for="radio-2" class="off"><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="pad" id="pppoe-div">
+    <div class="p-des-full-width" >
+     <p><script language=Javascript>document.write("In this mode the unit acts as an Ethernet Bridge instead of as an IP Router. This is facilitated by PPPoE which forwards the WAN IP/DNS information to a downstream LAN device and facilitates transparent network connectivity.  To use this feature, you need to initiate a PPPoE client connection from a downstream device (such as a Ethernet Router or computer) which is then accepted by the MachineLink 3G Plus. The MachineLink 3G Plus operates a PPPoE server and will activate a PDP context using the username/password from the PPPoE client connection and the APN configured on this page. This allows control over the PDP context activation by the downstream device.  Once enabled in this mode, some router functionality will no longer be applicable and will cease to function (e.g Connect on demand, routing, VPN, TR-069, Router firewall, remote access, and others). Only a single downstream device is permitted Wireless WAN connectivity and all traffic is forwarded to that device. Please note in this mode, the downstream device is responsible for all network security as the built-in firewall has no effect.")</script></p>
+    </div>
+    <h2><script language=Javascript>document.write("Transparent bridge mode configuration")</script></h2>
+    <div class="grey-box">
+     <div class="form-row">
+      <label for="APNName"><script language=Javascript>document.write("APN name")</script></label>
+      <div class="field">
+       <input id="APNName" type="text" name="APNName" class="large" maxlength=128 value="">
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="ServiceName"><script language=Javascript>document.write("Service name")</script></label>
+      <div class="field">
+       <input class="large" id="ServiceName" type="text" name="ServiceName" maxlength=128 value="">
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="pad" id="profiles-div">
+    <h2><script language=Javascript>document.write("Profile name")</script></h2>
+    <table class="name-list">
+     <colgroup>
+      <col width="100px">
+      <col width="60px">
+      <col width="110px">
+      <col width="170px">
+      <col width=auto>
+      <col width="50px">
+     </colgroup>
+     <thead>
+      <tr>
+       <th></th>
+       <th><script language=Javascript>document.write("Default")</script></th>
+       <th style="padding-right:8px;"><script language=Javascript>document.write("Status")</script></th>
+       <th style="text-align:left;padding-left:10px"><script language=Javascript>document.write("APN")</script></th>
+       <th style="text-align:left;padding-left:10px"><script language=Javascript>document.write("Username")</script></th>
+       <th></th>
+      </tr>
+     </thead>
+     <tbody id="TBlist"></tbody>
+    </table>
+   </div>
+   <div class="pad">
+    <div class="submit-row">
+     <button type="button" id="button1" onclick="submitF();"><script language=Javascript>document.write("Save")</script></button>
+     <button class="secondary" id="button2" type="button" onClick="window.location='Profile_Name_List.html'"><script language=Javascript>document.write("Refresh")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Internet", "Profile_List", "root");
+ if(""=="success") {
+  success_alert("","Your configuration changes were successfully saved and applied. If you have enabled a connection profile, the device will now try to connect automatically. To see the connection status, go to the Status page.");
+ }
+ else if(""=="successPPPoE") {
+  success_alert("","Your Transparent bridge mode (PPPoE) configuration changes were successfully saved and applied.");
+ }
+</script>
+</body>
+</html>

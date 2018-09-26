@@ -1,0 +1,201 @@
+<po>
+<message msgid="dhcp warningMsg11" msgstr="You must enter a value between 0 and 255. Please try again."/>
+<message msgid="dhcp warningMsg12" msgstr="You must enter a value between 1 and 223. Please try again."/>
+<message msgid="dhcp warningMsg13" msgstr="An IP address can't start with 127. Please try another value between 1 and 223."/>
+<message msgid="ip warningMsg3" msgstr="Please specify a value between 0 and 255."/>
+<message msgid="routing warningMsg5" msgstr="You must enter a netmask. Please try again."/>
+<message msgid="warningMsg01" msgstr="The IP address is empty. Please try again."/>
+<message msgid="warningMsg02" msgstr="You must enter a number between [1-9]. Please try again."/>
+<message msgid="routing warningMsg2" msgstr="You have entered the netmask incorrectly. Please try again."/>
+<message msgid="warningMsg03" msgstr="You have entered the IP address incorrectly. Please try again."/>
+<message msgid="Msg131" msgstr="Error: You have entered the server address incorrectly. Please try again."/>
+<message msgid="Msg64" msgstr="Error: You must complete all IP addresses and mask values for local and gateway configuration fields"/>
+<message msgid="Msg65" msgstr="Please enter a PSK password for the PSK key mode"/>
+<message msgid="Msg66" msgstr="You should protect your secret private key with a password"/>
+<message msgid="Msg67" msgstr="Please enter a valid life time number"/>
+<message msgid="Msg68" msgstr="Please enter a valid IKE time number"/>
+<message msgid="Msg69" msgstr="Please enter a valid DPD timeout number"/>
+<message msgid="Msg70" msgstr="Please enter a valid DPD keep alive time"/>
+<message msgid="Msg94" msgstr="Error: You have entered the profile number incorrectly. Please try again."/>
+<message msgid="IPsec empty" msgstr="The IPSec tunnel list is empty"/>
+<message msgid="name" msgstr="Name"/>
+<message msgid="remoteLanAddressMask" msgstr="Remote LAN address/mask"/>
+<message msgid="remoteGateway" msgstr="Remote gateway"/>
+<message msgid="localLanAddressMask" msgstr="Local LAN address/mask"/>
+<message msgid="enable" msgstr="Enable"/>
+<message msgid="edit" msgstr="Edit"/>
+<message msgid="delete" msgstr="Delete"/>
+<message msgid="Msg72" msgstr="Please make sure IPSec is running with at least one tunnel configured before you generate RSA keys. To do this, click on 'Save' on the IPsec page before proceeding."/>
+<message msgid="Msg73" msgstr="Please note that generating RSA keys will erase any previously generated keys. Click on 'OK' to continue or 'Cancel' to go back."/>
+<message msgid="Msg74" msgstr="You have chosen the wrong file type. Files must end in .crt, .key or .pem. Please try again."/>
+<message msgid="Msg76" msgstr="You have chosen the wrong file type. Files must end in .key. Please try again."/>
+<message msgid="GUI pleaseWait" msgstr="Please wait"/>
+<message msgid="Msg77" msgstr="Error: the upload has failed. Please check the connection to the router and try again."/>
+<message msgid="uploaded" msgstr="Uploaded"/>
+<message msgid="not uploaded" msgstr="Not uploaded"/>
+<message msgid="Msg78" msgstr="The certificate was uploaded, but it isn't in a valid format (invalid PKCS No.1 format)"/>
+<message msgid="optional" msgstr="(optional)"/>
+<message msgid="invalid" msgstr="Invalid"/>
+<message msgid="fileChosen" msgstr="File chosen"/>
+<message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
+<message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
+<message msgid="IPsecList" msgstr="IPSec tunnel list"/>
+<message msgid="add" msgstr="Add"/>
+<message msgid="ipSecProfileEdit" msgstr="IPSec profile edit"/>
+<message msgid="ipSecProfile" msgstr="IPSec profile"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="profile name" msgstr="Profile name"/>
+<message msgid="remoteIPsecServerAddress" msgstr="Remote IPSec address"/>
+<message msgid="remoteLanAddress" msgstr="Remote LAN address"/>
+<message msgid="remoteLanSubnetMask" msgstr="Remote LAN subnet mask"/>
+<message msgid="localLanAddress" msgstr="Local LAN address"/>
+<message msgid="localLanSubnetMask" msgstr="Local LAN subnet mask"/>
+<message msgid="encapsulationType" msgstr="Encapsulation type"/>
+<message msgid="any" msgstr="Any"/>
+<message msgid="ESP" msgstr="ESP"/>
+<message msgid="AH" msgstr="AH"/>
+<message msgid="ike mode" msgstr="IKE mode"/>
+<message msgid="main" msgstr="Main"/>
+<message msgid="aggressive" msgstr="Aggressive"/>
+<message msgid="Pfs" msgstr="PFS"/>
+<message msgid="On" msgstr="On"/>
+<message msgid="Off" msgstr="Off"/>
+<message msgid="ike encryption" msgstr="IKE encryption"/>
+<message msgid="aes" msgstr="AES"/>
+<message msgid="aes128" msgstr="AES-128"/>
+<message msgid="aes192" msgstr="AES-192"/>
+<message msgid="aes256" msgstr="AES-256"/>
+<message msgid="3des" msgstr="3DES"/>
+<message msgid="des" msgstr="DES"/>
+<message msgid="ike hash" msgstr="IKE hash"/>
+<message msgid="md5" msgstr="MD5"/>
+<message msgid="sha1" msgstr="SHA1"/>
+<message msgid="IPsec encryption" msgstr="IPSec encryption"/>
+<message msgid="IPsec hash" msgstr="IPSec hash"/>
+<message msgid="dh group" msgstr="DH group"/>
+<message msgid="group1" msgstr="Group1(768)"/>
+<message msgid="group2" msgstr="Group2(1024)"/>
+<message msgid="group5" msgstr="Group5(1536)"/>
+<message msgid="group14" msgstr="Group14(2048)"/>
+<message msgid="group15" msgstr="Group15(3072)"/>
+<message msgid="group16" msgstr="Group16(4096)"/>
+<message msgid="group17" msgstr="Group17(6144)"/>
+<message msgid="group18" msgstr="Group18(8192)"/>
+<message msgid="dpd action" msgstr="DPD action"/>
+<message msgid="none" msgstr="None"/>
+<message msgid="clear" msgstr="Clear"/>
+<message msgid="hold" msgstr="Hold"/>
+<message msgid="restart" msgstr="Restart"/>
+<message msgid="dpd keep alive time" msgstr="DPD keep alive time"/>
+<message msgid="secs" msgstr="secs"/>
+<message msgid="dpd timeout" msgstr="DPD timeout"/>
+<message msgid="ike rekey time" msgstr="IKE re-key time"/>
+<message msgid="Msg79" msgstr="(0-78400, 0=Unlimited) secs"/>
+<message msgid="sa life time" msgstr="SA life time"/>
+<message msgid="key mode" msgstr="Key mode"/>
+<message msgid="preSharedKeys" msgstr="Pre-shared keys"/>
+<message msgid="rsa keys" msgstr="RSA keys"/>
+<message msgid="certificates" msgstr="Certificates"/>
+<message msgid="preSharedKey" msgstr="Pre-shared key"/>
+<message msgid="remote id" msgstr="Remote ID"/>
+<message msgid="xySampleOrBlank" msgstr="(xy.sample.com or blank)"/>
+<message msgid="local id" msgstr="Local ID"/>
+<message msgid="update time2" msgstr="Update time:"/>
+<message msgid="generate" msgstr="Generate"/>
+<message msgid="download" msgstr="Download"/>
+<message msgid="privateKeyPassphrase" msgstr="Private key passphrase"/>
+<message msgid="keyCertificate" msgstr="Key / Certificate"/>
+<message msgid="local private key" msgstr="Local private key"/>
+<message msgid="local public certificate" msgstr="Local public certificate"/>
+<message msgid="remote public certificate" msgstr="Remote public certificate"/>
+<message msgid="ca certificate" msgstr="CA certificate"/>
+<message msgid="crl certificate" msgstr="CRL certificate"/>
+<message msgid="local rsa key upload" msgstr="Local RSA key upload"/>
+<message msgid="chooseFile" msgstr="Choose a file"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="remote rsa key upload" msgstr="Remote RSA key upload"/>
+<message msgid="ipsec certificate upload" msgstr="IPSec certificate upload"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="exit" msgstr="Exit"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="ike warningMsg" msgstr="IKE re-key time must have a value between 0 and 78400."/>
+<message msgid="sa warningMsg" msgstr="SA life time must have a value between 0 and 78400."/>
+<message msgid="ipsecSubmitSuccess" msgstr="Your IPSec VPN configuration changes were successfully saved and applied"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

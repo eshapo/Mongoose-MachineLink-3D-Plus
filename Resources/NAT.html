@@ -1,0 +1,758 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>NAT</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="NAT.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/nat.cgi"></script>
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST" ) {
+ i=form['delindex'];
+ if( i>='0' ) {
+ set_single( 'service.firewall.dnat.'+i+'=', '-p'); //delete last
+  tempval = form['rdbCmd'];
+  set_list( tempval, '-p' );
+  tempval = form['rdbCmd1'];
+  set_list( tempval, '-p' );
+  tempval = form['rdbCmd2'];
+  set_list( tempval, '-p' );
+  tempval = form['rdbCmd3'];
+  set_list( tempval, '-p' );
+  tempval = form['rdbCmd4'];
+  set_list( tempval, '-p' );
+ }
+ redirect('/NAT.html?success');
+}
+%> -->
+<style type="text/css">
+.field-right-desc {
+ display: inline;
+ margin-left: 0px;
+ width: auto;
+ font-weight:normal;
+}
+</style>
+<script language="JavaScript">
+/*****************net_util.js************************/
+function WinExpIP(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(!isValidIpEntry(field,event))
+   validate_alert( "", "You must enter a value between 0 and 255. Please try again.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_1(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  switch(isValidIpEntry_1(field,event)) {
+  case -1:
+   validate_alert( "", "You must enter a value between 1 and 223. Please try again.");
+  break;
+  case -2:
+   validate_alert( "", "An IP address can't start with 127. Please try another value between 1 and 223.");
+  break;
+  default:
+   clear_alert();
+  break;
+  }
+ }
+}
+function WinExpIP_0(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value))
+   validate_alert( "", "Please specify a value between 0 and 255.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_127(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value) || field.value <1 || field.value >223)
+   validate_alert( "", "dhcp warningMsg1");
+  else
+   clear_alert();
+ }
+}
+function hostMin(ip, mask) {
+ var host_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i]);
+ }
+ host_array[3]++;
+ return host_array.join(".");
+}
+function hostMax(ip, mask) {
+ var host_array=new Array();
+ var wildcard_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  wildcard_array[i]=~parseInt(mask_array[i])&255;
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i])|wildcard_array[i];
+ }
+ host_array[3]--;
+ return host_array.join(".");
+}
+function checkIPrange(ipMin, ipMax, myip) {
+var fromArr = ipMin.split(".");
+var toArr = ipMax.split(".");
+var myipArr = myip.split(".");
+var fromip=0; toip=0; myip=0;
+ for(i=0;i<4;i++) {
+  fromip=fromip*1000+parseInt(fromArr[i]);
+  toip=toip*1000+parseInt(toArr[i]);
+  myip=myip*1000+parseInt(myipArr[i]);
+ }
+ if(myip<fromip || myip>toip) {
+  return false;
+ }
+ return true;
+}
+function isWithinHostIpRange(ip, mask, myip) {
+ return checkIPrange(hostMin(ip, mask), hostMax(ip, mask), myip);
+}
+function checkIpAddr(field, ismask, msg) {
+ if (field.value == "") {
+  if (ismask) {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a netmask. Please try again.":"You must enter a netmask. Please try again.");//The netmask is empty.
+  }
+  else {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"The IP address is empty. Please try again.":"The IP address is empty. Please try again.");//IP address is empty.
+  }
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (isAllNum(field.value) == 0) {
+  validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a number between [1-9]. Please try again.":"You must enter a number between [1-9]. Please try again.");//'It should be a [0-9] number.'
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (ismask) {
+  if ((!checkRange(field.value, 1, 0, 256)) ||
+   (!checkRange(field.value, 2, 0, 256)) ||
+   (!checkRange(field.value, 3, 0, 256)) ||
+   (!checkRange(field.value, 4, 0, 256)))
+  {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ else {
+  if ((!checkRange(field.value, 1, 0, 255)) ||
+   (!checkRange(field.value, 2, 0, 255)) ||
+   (!checkRange(field.value, 3, 0, 255)) ||
+   (!checkRange(field.value, 4, 1, 254)))
+  {
+   if (ismask) {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   }
+   else {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the IP address incorrectly. Please try again.":"You have entered the IP address incorrectly. Please try again.");//'IP adress format error.'
+   }
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ clear_alert();
+ return true;
+}
+function parse_ip_into_fields(ipaddr, name) {
+ var i;
+ var ip_array;
+ ip_array=ipaddr.split(".");
+ if(ip_array.length != 4 ) {ip_array[0]=''; ip_array[1]='';ip_array[2]=''; ip_array[3]='';}
+ for(i=0;i<4;i++) {
+  $("input[name="+name+(i+1)+"]").val(ip_array[i]||"");
+ }
+}
+function parse_ip_from_fields(documentItem) {
+ var ip_array=new Array();
+ var val;
+ var j=0;
+ for(var i=0;i<4;i++) {
+  val=$("input[name="+documentItem+(i+1)+"]").val();
+  if(val!="") {
+   ip_array[j++]=val;
+  }
+ /*	else {
+			return "";
+		}*/
+ }
+ return ip_array.join(".");
+}
+function ValidSubnetMask(n, t){
+ NumfieldEntry(t);
+ if(isValidSubnetMask(parse_ip_from_fields(n))<0) {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("success-text").addClass("failure-text");
+  }
+ }
+ else {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("failure-text").addClass("success-text");
+  }
+ }
+}
+function htmlGenIpBlocks(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks0(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks127(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_127(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocks(name_in) {
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"1' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"2' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"3' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"4' class='input-connect-dot'></label>");
+}
+function htmlGenIpBlocksWithoutRequired(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocksWithoutRequired0(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocksWithoutRequired(name_in) {
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'></label>");
+}
+/******************End of net_util.js***********************/
+function submitF() {
+	var st_nat=[ ]; 
+var f = document.formS;
+/********* vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ if(f.ipmapnum.value=="") {
+  greyOutMappingFields();
+ }
+ else {
+  if( (f.ipmapsrcport.value == "")||( (parseInt(f.ipmapsrcport2.value)-parseInt(f.ipmapsrcport.value)) < 0 ) ) {
+   validate_alert("", "You have entered the incoming port range incorrectly. Please try again.");
+   f.editindex.value = '-1';
+   return;
+  }
+  if( (f.ipmapdstport.value == "")||( (parseInt(f.ipmapdstport2.value)-parseInt(f.ipmapdstport.value)) < 0 ) ) {
+   validate_alert("", "You have entered the destination port range incorrectly. Please try again.");
+   f.editindex.value = '-1';
+   return;
+  }
+  if ( (f.ipMapSrcIP1.value == "") || (f.ipMapSrcIP2.value == "")
+   || (f.ipMapSrcIP3.value == "") || (f.ipMapSrcIP4.value == "") ) {
+   validate_alert("", "You have entered the source IP address incorrectly. Please try again.");
+   f.editindex.value = '-1';
+   return;
+  }
+  if ( (f.ipMapDstIP1.value == "") || (f.ipMapDstIP2.value == "")
+   || (f.ipMapDstIP3.value == "") || (f.ipMapDstIP4.value == "") ) {
+   validate_alert("", "You have entered the destination IP address incorrectly. Please try again.");
+   f.editindex.value = '-1';
+   return;
+  }
+ }
+ caldstport2();
+ f.ipmapdstport.disabled = false;
+ f.ipmapsrcip.value = f.ipMapSrcIP1.value + "." + f.ipMapSrcIP2.value + "." + f.ipMapSrcIP3.value + "." + f.ipMapSrcIP4.value;
+ f.ipmapdstip.value = f.ipMapDstIP1.value + "." + f.ipMapDstIP2.value + "." + f.ipMapDstIP3.value + "." + f.ipMapDstIP4.value;
+/*	if( f.ipmapnum.value < 1 || f.ipmapnum.value > st_nat.length )
+
+		f.editindex.value = st_nat.length+1;
+
+	else
+
+		f.editindex.value =f.ipmapnum.value;	*/
+ f.ipmapdstport2.disabled = false;
+ f.ProtocolText.value = f.ipmapprot.value;
+ value = parseInt(f.ipmapnum.value);
+ if( isNaN(value)==true || value < 0 || value > st_nat.length ) {
+  //f.editindex.value = st_nat.length+1;
+  i=st_nat.length;
+  makeCmd();
+  if(document.formS.delindex.value>=50) {
+   validate_alert("", "You have reached the maximum rule count of 50. Please remove a rule and try again.");
+   return;
+  }
+  if(f.ipmapsrcip.value=="0.0.0.0")
+   document.formS.rdbCmd4.value += "service.firewall.dnat."+i+"=\"-p "+f.ProtocolText.value+" --dport "+f.ipmapsrcport.value+":"+f.ipmapsrcport2.value+" -i [wanport] -j DNAT --to-destination "+f.ipmapdstip.value+":"+f.ipmapdstport.value+"-"+f.ipmapdstport2.value+" \"&";
+  else
+   document.formS.rdbCmd4.value += "service.firewall.dnat."+i+"=\"-p "+f.ProtocolText.value+" -s "+f.ipmapsrcip.value+" --dport "+f.ipmapsrcport.value+":"+f.ipmapsrcport2.value+" -i [wanport] -j DNAT --to-destination "+f.ipmapdstip.value+":"+f.ipmapdstport.value+"-"+f.ipmapdstport2.value+" \"&";
+  document.formS.delindex.value = i+1;
+ }
+ else {
+  if (value < 1 || value > 65535) {
+   validate_alert("", "You have entered an invalid item number. Please try again.");
+   f.editindex.value = '-1';
+   return;
+  }
+  i=f.ipmapnum.value - 1;
+  st_nat[i].protocol = f.ProtocolText.value;
+  st_nat[i].sourceIP = f.ipmapsrcip.value;
+  st_nat[i].incomingPortStart = f.ipmapsrcport.value;
+  st_nat[i].incomingPortEnd = f.ipmapsrcport2.value;
+  st_nat[i].destinationIP = f.ipmapdstip.value;
+  st_nat[i].destinationPortStart = f.ipmapdstport.value;
+  st_nat[i].destinationPortEnd = f.ipmapdstport2.value;
+  makeCmd();
+ }
+ f.rdbCmd4.value += "service.firewall.dnat.trigger=1";
+ f.submitForm.disabled=true;
+ f.BtDel.disabled=true;
+ f.BtCancel.disabled=true;
+ f.submit();
+}
+function makeCmd() {
+ var rdb;
+ var rdbCmd;
+ var st_nat=[ ]; 
+ // clear rdb command
+ for(var rdb=0;rdb<5;rdb++) {
+  rdbCmd=document.getElementById(rdb>0?"rdbCmd"+rdb:"rdbCmd");
+  if(rdbCmd!=null) {
+   rdbCmd.value="";
+  }
+ }
+ rdbCmd=null;
+ rdb=0;
+ document.formS.rdbCmd.value = "";
+ k=0;
+ for (var i=0; i<st_nat.length; i++) {
+  if( st_nat[i].protocol != "" ) {
+   rdbCmd=document.getElementById(rdb>0?"rdbCmd"+rdb:"rdbCmd");
+   if(rdbCmd!=null) {
+    if(rdbCmd.value!="")
+     rdbCmd.value += "&";
+    if(st_nat[i].sourceIP=="0.0.0.0")
+     rdbCmd.value += "service.firewall.dnat."+k+"=\"-p "+st_nat[i].protocol+" --dport "+st_nat[i].incomingPortStart+":"+st_nat[i].incomingPortEnd+" -i [wanport] -j DNAT --to-destination "+st_nat[i].destinationIP+":"+st_nat[i].destinationPortStart+"-"+st_nat[i].destinationPortEnd+" \"";
+    else
+     rdbCmd.value += "service.firewall.dnat."+k+"=\"-p "+st_nat[i].protocol+" -s "+st_nat[i].sourceIP+" --dport "+st_nat[i].incomingPortStart+":"+st_nat[i].incomingPortEnd+" -i [wanport] -j DNAT --to-destination "+st_nat[i].destinationIP+":"+st_nat[i].destinationPortStart+"-"+st_nat[i].destinationPortEnd+" \"";
+    k++;
+    rdb=(k/10)|0;
+   }
+  }
+ }
+ document.formS.delindex.value = k;
+ if((rdbCmd!=null) && (rdbCmd.value!=""))
+  rdbCmd.value += "&";
+}
+function delentry( idx ) {
+var f = document.formS;
+ if(idx<0) { //delete current
+  idx=parseInt(f.ipmapnum.value)>0?parseInt(f.ipmapnum.value)-1:0;
+ }
+ try {
+  st_nat[idx].protocol = "";
+  makeCmd();
+  if(f.rdbCmd4.value!="") {
+   f.rdbCmd4.value +="&";
+  }
+  f.rdbCmd4.value += "service.firewall.dnat.trigger=1";
+  f.submitForm.disabled=true;
+  f.BtDel.disabled=true;
+  f.BtCancel.disabled=true;
+  f.submit();
+ }
+ catch(e) {
+  alert(e.message);
+ }
+}
+// If NAT is disabled then we need to grey out these fields
+function unGreyOutMappingFields() {
+ try {
+  document.formS.ipmapnum.disabled = false;
+  document.formS.ipmapprot.disabled = false;
+  document.formS.ipMapSrcIP1.disabled = false;
+  document.formS.ipMapSrcIP2.disabled = false;
+  document.formS.ipMapSrcIP3.disabled = false;
+  document.formS.ipMapSrcIP4.disabled = false;
+  document.formS.ipMapDstIP1.disabled = false;
+  document.formS.ipMapDstIP2.disabled = false;
+  document.formS.ipMapDstIP3.disabled = false;
+  document.formS.ipMapDstIP4.disabled = false;
+  document.formS.ipmapdstport.disabled = false;
+  document.formS.ipmapsrcport.disabled = false;
+  document.formS.ipmapsrcport2.disabled = false;
+ }
+ catch(e) {
+  alert(e.message);
+ }
+}
+// If NAT is disabled then we need to grey out these fields
+function greyOutMappingFields() {
+ try {
+  document.formS.ipmapnum.disabled = true;
+  document.formS.ipmapprot.disabled = true;
+  document.formS.ipMapSrcIP1.disabled = true;
+  document.formS.ipMapSrcIP2.disabled = true;
+  document.formS.ipMapSrcIP3.disabled = true;
+  document.formS.ipMapSrcIP4.disabled = true;
+  document.formS.ipMapDstIP1.disabled = true;
+  document.formS.ipMapDstIP2.disabled = true;
+  document.formS.ipMapDstIP3.disabled = true;
+  document.formS.ipMapDstIP4.disabled = true;
+  document.formS.ipmapdstport.disabled = true;
+  document.formS.ipmapsrcport.disabled = true;
+  document.formS.ipmapsrcport2.disabled = true;
+ }
+ catch(e) {
+  alert(e.message);
+ }
+}
+function caldstport2() {
+ var f = document.formS;
+ if( parseInt(f.ipmapsrcport2.value) != parseInt(f.ipmapsrcport.value) ) {
+  f.ipmapdstport.value = f.ipmapsrcport.value;
+  f.ipmapdstport2.value = f.ipmapsrcport2.value;
+  f.ipmapdstport.disabled = true;
+  return;
+ }
+ f.ipmapdstport.disabled = false;
+ if( (parseInt(f.ipmapdstport.value)>0)&&(parseInt(f.ipmapsrcport2.value)>0)&&(parseInt(f.ipmapsrcport.value)>0)&&(( parseInt(f.ipmapsrcport2.value)-parseInt(f.ipmapsrcport.value))>=0) ) {
+  f.ipmapdstport2.value = parseInt(f.ipmapdstport.value) + parseInt(f.ipmapsrcport2.value) - parseInt(f.ipmapsrcport.value)
+ }
+ else {
+  f.ipmapdstport2.value = "";
+ }
+}
+function checkIPAddr(field) {
+ if(field.value == "") {
+  validate_alert("", "The IP address is empty. Please try again.");
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ var ray = new Array();
+ ray = field.value.split(".");
+ if(ray.length != 4 || IpCheck(ray[0],ray[1],ray[2],ray[3])==false) {
+  validate_alert("", "You have entered the IP address incorrectly. Please try again.");
+  field.focus();
+  return false;
+ }
+ return true;
+}
+function disableTextField (field) {
+ if(document.all || document.getElementById)
+  field.disabled = true;
+ else {
+  field.oldOnFocus = field.onfocus;
+  field.onfocus = skip;
+ }
+}
+function enableTextField (field) {
+ if(document.all || document.getElementById)
+  field.disabled = false;
+ else {
+  field.onfocus = field.oldOnFocus;
+ }
+}
+function add_edit(idx) {
+	var st_nat=[ ]; 
+var f=document.formS;
+ if(idx<0) { //add
+  idx=st_nat.length;
+ }
+ else {
+  f.ipmapprot.value=st_nat[idx].protocol.toLowerCase();
+  RevIpBlocks(st_nat[idx].sourceIP, "document.formS.ipMapSrcIP");
+  f.ipmapsrcport.value=st_nat[idx].incomingPortStart;
+  f.ipmapsrcport2.value=st_nat[idx].incomingPortEnd;
+  RevIpBlocks(st_nat[idx].destinationIP, "document.formS.ipMapDstIP");
+  f.ipmapdstport.value=st_nat[idx].destinationPortStart;
+  f.ipmapdstport2.value=st_nat[idx].destinationPortEnd;
+ }
+ f.ipmapnum.value=idx+1;
+ clear_alert();
+ $("#nat_list").css("display", "none");
+ $("#nat_setup").css("display", "");
+ if(st_nat.length) {
+  $("#list-head").css("display","");
+ }
+ else {
+  $("#list-head").css("display","none");
+ }
+}
+function protocoltotext(i) {
+ document.formS.ProtocolText.value=st_nat[i].protocol;
+}
+$(document).ready(function() {
+var IPForward="value of rdb service.bridge.3GIPForward here";
+var h="";
+var st_nat=[ ]; 
+ if(IPForward == "1") {
+  validate_alert("", "The router is currently in transparent bridge mode, so you cannot configure port forwarding. Please turn off transparent bridge mode and try again.");
+  window.location="/LAN.html?ipsetup";
+ }
+ if (st_nat.length == 0) {
+  $("#list-head").css("display","none");
+  $("#RulesList").html( "<tr><th colspan='7'><div align='center'>"+"The port forwarding list is empty"+"</div></th></tr>" );
+  return;
+ }
+ //document.formS.stlength.value = st_nat.length;
+ for (var i = 0; i < st_nat.length; i++) {
+  protocoltotext(i);
+  h+="<tr>		<td>"+document.formS.ProtocolText.value+"</td>		<td>"+st_nat[i].sourceIP+"</td>		<td>"+st_nat[i].incomingPortStart+"&nbsp;-&nbsp;"+st_nat[i].incomingPortEnd+"</td>		<td>"+st_nat[i].destinationIP+"</td>		<td>"+st_nat[i].destinationPortStart+"&nbsp;-&nbsp;"+st_nat[i].destinationPortEnd+"</td>";
+  h+="<td class='last'><a class='secondary sml' href='javascript:add_edit("+i+")'><i class='icon edit'>"+"Edit"+"</i></a></td>";
+  h+="<td class='last'><a href='javascript:delentry("+i+")' class=\"secondary sml\" style='padding:0;border:0;' title='"+"Delete"+"'><i class='icon close sml'></i></a></td>		</tr>";
+ }
+ $("#RulesList").html(h);
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+<aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+   <div class="note-lrg">
+    <div class="wrap alert clearfix">
+     <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+     <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+    </div>
+   </div>
+  </div>
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box hide_for_pppoe_en">
+   <form name="formS" id="form" class="validate" novalidate method="POST" action="NAT.html">
+   <div class="pad" id="nat_setup" style="display:none">
+    <input type="hidden" name="editindex" value=""/>
+    <input type="hidden" name="ipmapsrcip" value=""/>
+    <input type="hidden" name="ipmapdstip" value=""/>
+    <input type="hidden" name="ProtocolText" value=""/>
+    <input type="hidden" name="ipmapnum"/>
+    <input type="hidden" id="rdbCmd" name="rdbCmd" value=""/>
+    <input type="hidden" id="rdbCmd1" name="rdbCmd1" value=""/>
+    <input type="hidden" id="rdbCmd2" name="rdbCmd2" value=""/>
+    <input type="hidden" id="rdbCmd3" name="rdbCmd3" value=""/>
+    <input type="hidden" id="rdbCmd4" name="rdbCmd4" value=""/>
+    <input type="hidden" name="delindex" value=""/>
+    <h2><script language=Javascript>document.write("Port forwarding settings")</script></h2>
+    <div class="grey-box">
+     <div class="form-row">
+      <fieldset>
+       <label for="ipmapprot"><script language=Javascript>document.write("Protocol")</script></label>
+       <div class="field">
+        <select name="ipmapprot" size="1" >
+         <option value="tcp"><script>document.write("TCP")</script></option>
+         <option value="udp"><script>document.write("UDP")</script></option>
+         <option value="all"><script>document.write("All")</script></option>
+        </select>
+       </div>
+      </fieldset>
+     </div>
+     <div class="form-row">
+      <label for="ipMapSrcIP"><script language=Javascript>document.write("Source IP address")</script></label>
+      <script language=javascript>htmlGenIpBlocks0("ipMapSrcIP");</script>
+     </div>
+     <div class="form-row">
+      <label for="ipmapsrcport"><script language=Javascript>document.write("Source port range"+" ("+"From"+")")</script></label>
+      <input type="text" name="ipmapsrcport" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);document.formS.ipmapsrcport2.value=this.value;caldstport2();">
+      <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></label>
+      <label for="ipmapsrcport2" style="width:auto">(<script language=Javascript>document.write("To")</script>)</label>
+      <input type="text" name="ipmapsrcport2" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);caldstport2()">
+      <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></label>
+     </div>
+     <div class="form-row">
+      <label for="ipMapDstIP"><script language=Javascript>document.write("Destination IP address")</script></label>
+      <script language=javascript>htmlGenIpBlocks("ipMapDstIP");</script>
+     </div>
+     <div class="form-row">
+      <label for="ipmapdstport"><script language=Javascript>document.write("Destination port range"+" ("+"From"+")")</script></label>
+      <input type="text" name="ipmapdstport" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);caldstport2()" onBlur="NumfieldEntry(this);caldstport2()">
+      <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></label>
+      <label for="ipmapdstport2" style="width:auto">(<script language=Javascript>document.write("To")</script>)</label>
+      <input type="text" name="ipmapdstport2" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);caldstport2()">
+      <label class="field-right-desc">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></label>
+     </div>
+    </div>
+    <div class="submit-row multi-button">
+     <button type="button" name="submitForm" onClick="javascript:submitF()"><script language=Javascript>document.write("Save")</script></button>
+     <button type="reset" class="secondary" name='BtDel'><script language=Javascript>document.write("Reset")</script></button>
+     <button type="button" name='BtCancel' class="secondary" onClick="location.href='NAT.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+   </form>
+   <br/>
+   <div class="pad" id="nat_list">
+   <form class="validate" action="#" novalidate>
+    <div class="grid-33">
+     <div class="pad alpha">
+      <h2><script language=Javascript>document.write("Port forwarding list")</script></h2>
+     </div>
+    </div>
+    <div class="grid-66">
+     <div class="pad omega">
+      <div class="submit-row-condensed">
+       <button type="button" class="secondary sml fr" onClick="add_edit(-1)"><i class="icon plus"></i><script language=Javascript>document.write("Add")</script></button>
+      </div>
+     </div>
+    </div>
+    <br/>
+    <table class="above-5-column">
+     <colgroup>
+      <col width="80px">
+      <col width="100px">
+      <col width="150px">
+      <col width="130px">
+      <col width="130px">
+      <col width="100px">
+      <col width="50px">
+     </colgroup>
+     <thead id="list-head">
+      <tr>
+       <th class="align10"><script language=Javascript>document.write("Protocol")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Source IP address")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Incoming port")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Destination IP address")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Destination port")</script></th>
+       <th>&nbsp;</th>
+       <th >&nbsp;</th>
+      </tr>
+     <thead>
+     <tbody id="RulesList"></tbody>
+    </table>
+   </form>
+   </div>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Internet", "NAT", "root");
+ if(""=="success") {
+  success_alert("","Your new port forwarding settings were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

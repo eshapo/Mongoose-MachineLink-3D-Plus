@@ -1,0 +1,564 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Roaming settings</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="roaming_settings.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<script language="JavaScript" src='js/virtualpaginate.js'></script>
+<style>
+.logfile td {font-size:10px; padding:6px 12px 6px 12px;}
+</style>
+<script language="JavaScript">
+var logdata = new Array();
+function loglines(allLines, level) {
+ var lineCnt;
+ var ostr = "";
+ var splitStr = new RegExp(" +");
+ var levelmap = {
+  emerg: 8,
+  emergency: 8,
+  alert: 7,
+  crit: 6,
+  critical: 6,
+  err: 5,
+  error: 5,
+  warn: 4,
+  warning: 4,
+  note: 3,
+  notice: 3,
+  info: 2,
+  debug: 1,
+  all: 0
+ };
+ var levelNumber = 0;
+ var allIndex;
+ var lastIgnore = 0;
+ if (level && level.length && levelmap.hasOwnProperty(level))
+  levelNumber = levelmap[level];
+ lineCnt = 0;
+ for (allIndex = allLines.length - 1; allIndex > 0; allIndex--) {
+  var line = allLines[allIndex];
+  var ray = new Array();
+  ray = line.split(": ");
+  var details = new Array();
+  details = ray.shift().split(splitStr);
+  /* 0 month, 1 day number, 2 time, 3 machine, 4 facility.level */
+  /* determine if level should be set */
+  if (details.length < 5) {
+   if (lastIgnore)
+    continue;
+  }
+  else if (levelNumber > 0) {
+   var lvsplit = details[4].indexOf(".");
+   if (lvsplit) {
+    lvsplit = details[4].substring(lvsplit+1);
+    lvsplit.toLowerCase();
+    if (!levelmap.hasOwnProperty(lvsplit) || levelmap[lvsplit] < levelNumber) {
+    lastIgnore = 1;
+    continue;
+    }
+   }
+   else {
+    if (lastIgnore)
+    continue;
+   }
+  }
+  lastIgnore = 0;
+  var firstColumn = details.shift();
+  details[0] = firstColumn + " " + details[0];
+  if (!lineCnt) {
+   ostr += "<table class='logfile'>"+
+   "<tr><th width='15%' class='align10'>"+"Date"+"  &  "+"Time"+"</td>"+
+   "<th width='10%' class='align10'>"+"Machine"+"</th>"+
+   "<th width='8%' class='align10'>"+"Level"+"</th>"+
+   "<th width='10%' class='align10'>"+"Process"+"</th>"+
+   "<th class='align10'>"+"Message"+"</th></tr>";
+  }
+  ostr += "<tr><td>";
+  td10 = "</td><td>";
+  ostr += details[0]+"  "+details[1]+td10+details[2]+td10+details[3]+td10+details[4]+td10+ray.join(": ")+"</td></tr>"
+  lineCnt++;
+  if (lineCnt > 22) {
+   lineCnt = 0;
+   ostr += "</table>";
+  }
+ }
+ if (lineCnt) {
+  ostr += "</tr></table>";
+ }
+ return ostr;
+}
+var newscriptsalt;
+function displayLogData(level) {
+ if ($.type(logdata.messages)=="undefined") {
+  h="<table><tr><th style='text-align:center'>"+"There are no roaming entries in the log"+"</th></tr></table>";
+  $("#roaming-log-div").css("display", "none");
+  $("#logdata").html(h);
+  return;
+ }
+ var res = loglines(logdata.messages, level);
+ $("#logdata").html(res);
+ newscriptsalt=new virtualpaginate("logfile", 1, "table");
+ newscriptsalt.buildpagination("scriptspaginatealt");
+ if(isNaN(newscriptsalt.pagecount) || newscriptsalt.pagecount<2 ) {
+  $("#selectPage-div").css("display", "none");
+ }
+ else {
+  $("#selectPage-div").css("display", "");
+ }
+}
+function setLogLevel() {
+ var i = document.formS.Level.value;
+ displayLogData(i);;
+}
+function ClearAllLog() {
+ function clearlog_func() {
+  $.get('/cgi-bin/clearlog.cgi', function(){location.href='roaming_settings.html';})
+ }
+ blockUI_confirm("Are you sure you want to clear all logs?", clearlog_func);
+}
+function downloadLog() {
+ location.href = 'cgi-bin/logfile.cgi?action=downloadlog';
+}
+document.write('<style type="text/css">\n.logfile{display: none;}\n</style>')
+/************************************************************************/
+var counter=0;
+var estTime=80;
+var rebootok=0;
+function check_reload() {
+ counter++;
+ percentage=parseInt(50*counter/estTime);
+ if( percentage<100 ) {
+  document.getElementById( "rebootMsg" ).innerHTML="System rebooting...";
+  document.getElementById( "rebootCt" ).innerHTML=percentage+" %"
+ }
+ else {
+  document.getElementById( "rebootCt" ).innerHTML="100 %"
+  document.getElementById( "rebootMsg" ).innerHTML="Redirecting you to the Status page";//Redirecting to the Status page
+  setTimeout("window.location=/index.html", 3000);
+ }
+ if(percentage>80 && (counter%10)==0 ) {
+  $.get("/cgi-bin/ajax.cgi", function (){ rebootok++; });
+ }
+ if(rebootok) {
+  document.getElementById( "rebootCt" ).innerHTML="100 %"
+  document.getElementById( "rebootMsg" ).innerHTML="Reboot successful. Redirecting you to the Status page...";//"Reboot is successful, now redirecting to the Status page...";
+  setTimeout("window.location='/index.html'", 5000);
+ }
+}
+function submitForm() {
+ clear_alert();
+ /*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ roamen=$("#roaming_enable_0").is(":checked")?"1":"0";
+ validatePDPen=$("#validatePDP_enable_0").is(":checked")?"1":"0";
+ retry_time=$("#networkRetry").val();
+ old_roamen="1";
+ old_validatePDPen="1";
+ old_retry_time="30";
+ rdbCmd="/cgi-bin/rdb.cgi?manualroam.enable="+roamen+" -p&manualroam.pdp_validation_check="+validatePDPen+" -p&manualroam.best_network_retry_time="+$("#networkRetry").val()+" -p";
+ if ( roamen != old_roamen || validatePDPen != old_validatePDPen || retry_time != old_retry_time ) {
+  $.get(rdbCmd, function() {window.location.href="roaming_settings.html?success"});
+ }
+}
+function submitFormAdv() {
+ clear_alert();
+ if(!$("#form").valid()) {
+  return;
+ }
+ new_minus_rssi=$("#rssiThreshold").val();
+ minus_rssi=(-1)*new_minus_rssi;
+ old_minus_rssi="-105";
+ rssi_changed="";
+ rdbCmd="/cgi-bin/rdb.cgi?&manualroam.rssi_user_threshold=-p -- "+minus_rssi+"";
+ /* mark rssi threshold was changed from default value */
+ if ( minus_rssi != old_minus_rssi) {
+  $("#rssiThreshold").val((-1)*old_minus_rssi);
+  do_confirm("Adjusting the RSSI roaming threshold incorrectly or without proper testing and validation may adversely affect network acquisition. Establishing a value different from the default, 105 (-105 dBm), will eliminate network registration attempts with any network observed to have a signal lower than the established threshold. Selecting a higher threshold may also eliminate available low cost networks resulting in higher data costs. It is recommended to consult your Vodafone technical contact prior to adjusting this parameter.", function(){
+   $("#rssiThreshold").val(new_minus_rssi);
+   if( rssi_changed != 1 ) {
+    rdbCmd+="&manualroam.rssi_user_threshold.changed=1 -p";
+   }
+   $.get(rdbCmd, function() {success_alert("", "Your configuration changes were successfully saved and applied")});
+  });
+ }
+}
+function deleteFile( filename,range,version )
+{
+ function del_func() {
+  $.getJSON( "./cgi-bin/roaminglist.cgi",{cmd:"deletelist",opt1:filename},
+  function(res,stat,req) {
+   window.location.href="roaming_settings.html?success"
+  }
+  );
+ }
+ if (version.length == 0)
+  version="N/A";
+ blockUI_confirm("Are you sure you want to delete the file: "+"IMSI range"+"["+range+"], "+"Version"+"["+version+"]?", del_func);
+}
+function getFileList()
+{
+ $.getJSON( "./cgi-bin/roaminglist.cgi",{cmd:"getlist"},
+  function(res,stat,req) {
+   roaminglist=res.roaminglist;
+   var h="";
+   if (roaminglist.length == 0) {
+    return;
+   }
+   h="<table>";
+   for (var i=0; i<roaminglist.length;i++) {
+    if($.type(roaminglist[i].range)!="undefined" || $.type(roaminglist[i].version)!="undefined" || $.type(roaminglist[i].filename)!="undefined")
+    {
+     if (roaminglist[i].inuse == "1")
+      h+="<tr> <td style='text-align:center'><span class=\"icon tick-sml\"></span></td>";
+     else
+      h+="<tr> <td style='text-align:center'></td>";
+     h+="<td style='text-align:center'>"+roaminglist[i].range+"</td>";
+     if (roaminglist[i].version.length == 0)
+      h+="<td style='text-align:center'>"+ "N/A" +"</td>";
+     else
+      h+="<td style='text-align:center'>"+roaminglist[i].version+"</td>";
+     if ($.type(roaminglist[i].isfactory)!="undefined" && roaminglist[i].isfactory == "0")
+      h+="<td style='text-align:center'><a class=\"upload\" href=\"javascript:deleteFile('" + roaminglist[i].filename + "','" +roaminglist[i].range+ "','"+roaminglist[i].version+ "')\">" + "Delete" + "</a></td>";
+     else
+      h+="<td style='text-align:center;color:#999'>" + "Default" + "</td>";
+     h+="</tr>";
+    }
+   }
+   h+="</table>";
+   $("#TBlist").html(h);
+  }
+ );
+}
+function check_ok_button(checked)
+{
+ if(checked)
+ {
+  $('#b1').removeAttr("disabled", "disabled");
+ }
+ else
+ {
+  $('#b1').attr('disabled', 'disabled')
+ }
+}
+function do_confirm(msg, func)
+{
+ myfunc=func;
+ msg0="WARNING";
+ msg2="I have read and understand the risk";
+ $.blockUI( {message: "<div style='text-align:center;color:RED'>"+msg0+"</div></br><div style='text-align:left;'>"+msg+"</br></div>		<div class='form-row'><label for='checkbox' style='width:AUTO;text-align:left;'>"+msg2+"</label>		<div class='check-box'>			<input type='checkbox' class='access' name='c2' id='c2' onClick='check_ok_button(this.checked);'><label for='c2' style='background-color:#fff'>&nbsp;</label>		</div></div></br>		<div class='button-double'>		<button class='secondary med' id='b1' onClick='$.unblockUI();myfunc();' disabled>"+"OK"+"</button><button class='secondary med' onClick='$.unblockUI();'>"+"Cancel"+"</button>		</div>", css: {width:'490px', padding:'20px 20px'}
+ });
+}
+$(document).ready( function() {
+ en="1"!="0";
+ load_value_to_element("input:radio.access[name=roaming_enable]", !en);
+ load_value_to_element("input:radio.access[name=validatePDP_enable]","1"!="1");
+ var tmp="30";
+ var rssi_threshold="-105";
+ if (rssi_threshold < 0)
+  rssi_threshold=(-1)*rssi_threshold
+ if (tmp=="") tmp="0";
+ $("#networkRetry").val(tmp);
+ $("#rssiThreshold").val(rssi_threshold);
+ var range="20404";
+ var version="14.11.09.20404";
+ if (version == "")
+  version = "N/A";
+ var versionInUse = "IMSI range" +" [" + range + "], " + "Version" + " [" + version + "]"
+ if ( range.length == 0 || en == false )
+  $("#prlInUse").css("display","none");
+ $("#prlVersionInUse").text(versionInUse);
+ rssi_changed="";
+ $("#showAdvancedSettings").prop('checked', (rssi_changed == 1));
+ $('#advSettings').css('display', (rssi_changed == 1)?'':'none');
+ getFileList();
+ $("input:radio.access[name=roaming_enable]").change(function() {
+  $(".roaming-div").css("display", $("#roaming_enable_0").is(":checked")?"":"none");
+ });
+ $("input:radio.access[name=roaming_enable]").trigger("change");
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <div id="main-content">
+   <form class="validate" name="form" id ="form" novalidate="novalidate">
+   <div class="right-column  white-box">
+    <div class="pad">
+     <h2><script language=Javascript>document.write("Roaming settings")</script></h2>
+     <div id="roaming_enable" class="form-row no-bg-form">
+      <label for="field-0"><script language=Javascript>document.write("Advanced Vodafone network (PLMN) selection")</script></label>
+      <div class="field">
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="roaming_enable_0" name="roaming_enable" class="access" value="0">
+         <label for="roaming_enable_0" class="on"><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="roaming_enable_1" name="roaming_enable" class="access" value="1">
+         <label for="roaming_enable_1" class="off"><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="grey-box roaming-div">
+      <div id="validatePDP_enable" class="form-row no-bg-form">
+       <label for="field-0"><script language=Javascript>document.write("Validate PDP context activation")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="validatePDP_enable_0" name="validatePDP_enable" class="access" value="0">
+          <label for="validatePDP_enable_0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="validatePDP_enable_1" name="validatePDP_enable" class="access" value="1">
+          <label for="validatePDP_enable_1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="networkRetry"><script language=Javascript>document.write("Best network retry period")</script></label>
+       <div class="field">
+        <input type="text" class="large networkRetry required" name="networkRetry" id="networkRetry" onKeyUp="NumfieldEntry(this);" value=""><span class="normal-text">&nbsp;<script language=Javascript>document.write("(10-2880, 0=disabled) minutes")</script></span>
+       </div>
+      </div>
+     </div>
+     <div class="submit-row">
+      <button type="button" onClick="javascript:submitForm()"><script language=Javascript>document.write("Save")</script></button>
+     </div>
+    </div>
+   </div>
+
+   <div class="roaming-div" style="padding: 15px 10px;">
+    <div class="form-row">
+     <label for="checkbox"><script language=Javascript>document.write("Show advanced settings")</script></label>
+     <div class="check-box">
+      <input type="checkbox" class="access" name="showAdvancedSettings" id="showAdvancedSettings" onClick="$('#advSettings').css('display', this.checked?'':'none');"><label for='showAdvancedSettings'>&nbsp;</label>
+     </div>
+    </div>
+
+   <div style="display:none">
+
+    <div class="right-column white-box" id="advSettings">
+     <div class="grey-box" id="roaming-div">
+      <div class="form-row">
+       <label for="rssiThreshold"><script language=Javascript>document.write("RSSI threshold")</script></label>
+       <div class="field">
+        <input type="text" class="large required rssiThreshold" name="rssiThreshold" id="rssiThreshold" maxLength='3' onKeyUp="NumfieldEntry(this);$('#rssiThreshold').valid()" value="">
+       </div>
+       <label></label>
+       <div class="field-des message">
+        <script language=Javascript>document.write("Enter a positive numeric value between 105 and 95, which will be processed as a negative figure between -105 to -95 dBm.")</script>
+       </div>
+      </div>
+     </div>
+     <div class="submit-row">
+      <button type="button" onClick="javascript:submitFormAdv()"><script language=Javascript>document.write("Apply")</script></button>
+     </div>
+    </div>
+    </form>
+   </div>
+   <form class="validate" novalidate="novalidate">
+    <div class="right-column white-box" style="margin:30px 10px;">
+     <div class="pad">
+      <h2><script language=Javascript>document.write("PRL list")</script></h2>
+      <div id="prlInUse" class="form-row no-bg-form">
+       <label for="field-0"><script language=Javascript>document.write("PRL list in use")</script></label>
+       <div class="field">
+        <span class="normal-text" id="prlVersionInUse", name="prlVersionInUse"></span>
+       </div>
+      </div>
+     </div>
+    </div>
+    <table>
+     <colgroup>
+      <col width="10%">
+      <col width="35%">
+      <col width="35%">
+      <col width="20%">
+     </colgroup>
+     <thead id="title-head">
+      <tr>
+       <th style='text-align:center' width="10%"><script language=Javascript>document.write("In Use")</script></th>
+       <th style='text-align:center' width="35%"><script language=Javascript>document.write("IMSI range")</script></th>
+       <th style='text-align:center' width="35%"><script language=Javascript>document.write("Version")</script></th>
+       <th style='text-align:center' width="20%"><script language=Javascript>document.write("Action")</script></th>
+      </tr>
+      <tbody id="TBlist"></tbody>
+     </thead>
+    </table>
+   </form>
+   <form class="validate" name="formS" novalidate="novalidate" method="POST">
+   <div class="right-column white-box" style="margin:30px 10px;">
+    <h2><script language=Javascript>document.write("System log filtered for roaming entries")</script></h2>
+    <div class="p-des-full-width">
+     <p><script language=Javascript>document.write("The system log viewer below shows the standard system log messages as per the System tab, except it is filtered on this page to show only entries relating to the device's network selection and roaming using Vodafone GDSP SIM cards.")</script></p>
+    </div>
+    <div id="roaming-log-div">
+     <div class="form-row" id="selectPage-div">
+      <label for="Level"><script language=Javascript>document.write("Select page")</script></label>
+      <span id="scriptspaginatealt" class="paginationstyle">
+       <a href="#" rel="previous" class="secondary sml">
+        <i class="arrow-l" style="padding:8px 3px 3px 3px;"></i>
+       </a>
+       <select style="width:130px; margin-top:-1px;"></select>
+       <a href="#" rel="next" class="secondary sml" style="margin-left:10px;">
+        <i class="arrow-r" style="padding:8px 3px 3px 3px;"></i>
+       </a>
+      </span>
+     </div>
+     <br/>
+     <div class="submit-row" style="padding:0 0 40px 0;">
+      <button type="button" class="secondary" onClick="javascript:downloadLog();"><script language=Javascript>document.write("Download")</script></button>
+      <button type="button" class="secondary" name="clear" onClick="javascript:ClearAllLog();"><script language=Javascript>document.write("Clear")</script></button>
+     </div>
+    </div>
+    <script language='javascript'>
+                                        set_menu("Internet", "ROAMINGSETTING", "root");
+    </script>
+    <span id="logdata"></span>
+    <script language="JavaScript">
+    
+    </script>
+   </div>
+   </form>
+  </div>
+  <div id="rebootFm" class="white-box" style="display:none">
+   <div id="rebootMsg" align="center" style="font-size:16px; font-weight:bold; padding-top:20px;">
+    <script language=Javascript>document.write("Rebooting...")</script>
+   </div>
+   <div align="center" style="padding-top:10px;">
+    <img width="60px" height="60px" src="img/spinner_250.gif">
+    <b id="rebootCt" style="position:relative;top:-25px; left:30px">0 %</b>
+   </div>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+ if(""=="success") {
+  success_alert("","");
+  blockUI_confirm_l("The system needs to reboot in order to make these changes take effect, are you sure you want to continue?", function(){window.location.href="roaming_settings.html?reboot"});
+  getFileList();
+ }
+ else if(""=="reboot") {
+  $("#main-content").css("display","none");
+  $("#rebootFm").css("display","");
+  $.get("/cgi-bin/rdb.cgi?service.system.reset=1", function(){setInterval(check_reload, 500);});
+ }
+/********* vdf validator**********/
+ VALIDATOR.config.errors["networkRetry"]="Best network retry period must have a value between 10 and 2880, or 0 for disable.";
+ $.validator.addMethod("networkRetry",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c!=0 && c < 10) || (c > 2880) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.networkRetry);
+ VALIDATOR.config.errors["rssiThreshold"]="RSSI threshold must have a positive numeric value between 105 and 95 (corresponding to -105 to -95 dBm).";
+ $.validator.addMethod("rssiThreshold",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c < 95) || (c > 105) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.rssiThreshold);
+</script>
+</body>
+</html>

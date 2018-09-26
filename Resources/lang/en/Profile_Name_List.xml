@@ -1,0 +1,104 @@
+<po>
+<message msgid="enableMultiProfileWarning1" msgstr="You must disable the Modem emulation first before enabling multiple PDP sessions"/>
+<message msgid="maxEnabledProfilesExceeded" msgstr="The maximum number of enabled profiles has been exceeded."/>
+<message msgid="band automatic" msgstr="Automatic"/>
+<message msgid="blank" msgstr="Blank"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="edit" msgstr="Edit"/>
+<message msgid="GUI pleaseWait" msgstr="Please wait"/>
+<message msgid="enablePPPoEWarning1" msgstr="You must disable the Modem emulation first before enabling PPPoE"/>
+<message msgid="pppoeEnableWarningMsg" msgstr="Turning on transparent bridge mode will disable all enabled profiles. Are you sure you want to continue?"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="transparentBridgePPPoE" msgstr="Transparent bridge (PPPoE)"/>
+<message msgid="pppoeIntroduction 3gplus" msgstr="In this mode the unit acts as an Ethernet Bridge instead of as an IP Router. This is facilitated by PPPoE which forwards the WAN IP/DNS information to a downstream LAN device and facilitates transparent network connectivity.  To use this feature, you need to initiate a PPPoE client connection from a downstream device (such as a Ethernet Router or computer) which is then accepted by the MachineLink 3G Plus. The MachineLink 3G Plus operates a PPPoE server and will activate a PDP context using the username/password from the PPPoE client connection and the APN configured on this page. This allows control over the PDP context activation by the downstream device.  Once enabled in this mode, some router functionality will no longer be applicable and will cease to function (e.g Connect on demand, routing, VPN, TR-069, Router firewall, remote access, and others). Only a single downstream device is permitted Wireless WAN connectivity and all traffic is forwarded to that device. Please note in this mode, the downstream device is responsible for all network security as the built-in firewall has no effect."/>
+<message msgid="pppoeConfiguration" msgstr="Transparent bridge mode configuration"/>
+<message msgid="apnName" msgstr="APN name"/>
+<message msgid="serviceName" msgstr="Service name"/>
+<message msgid="profileNameList" msgstr="Profile name"/>
+<message msgid="default" msgstr="Default"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="apn" msgstr="APN"/>
+<message msgid="user" msgstr="Username"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="refresh" msgstr="Refresh"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="wwanSubmitSuccess" msgstr="Your configuration changes were successfully saved and applied. If you have enabled a connection profile, the device will now try to connect automatically. To see the connection status, go to the Status page."/>
+<message msgid="pppoeSubmitSuccess" msgstr="Your Transparent bridge mode (PPPoE) configuration changes were successfully saved and applied."/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

@@ -1,0 +1,149 @@
+<po>
+<message msgid="dhcp warningMsg11" msgstr="You must enter a value between 0 and 255. Please try again."/>
+<message msgid="dhcp warningMsg12" msgstr="You must enter a value between 1 and 223. Please try again."/>
+<message msgid="dhcp warningMsg13" msgstr="An IP address can't start with 127. Please try another value between 1 and 223."/>
+<message msgid="ip warningMsg3" msgstr="Please specify a value between 0 and 255."/>
+<message msgid="routing warningMsg5" msgstr="You must enter a netmask. Please try again."/>
+<message msgid="warningMsg01" msgstr="The IP address is empty. Please try again."/>
+<message msgid="warningMsg02" msgstr="You must enter a number between [1-9]. Please try again."/>
+<message msgid="routing warningMsg2" msgstr="You have entered the netmask incorrectly. Please try again."/>
+<message msgid="warningMsg03" msgstr="You have entered the IP address incorrectly. Please try again."/>
+<message msgid="8bit" msgstr="8 bits"/>
+<message msgid="7bit" msgstr="7 bits"/>
+<message msgid="6bit" msgstr="6 bits"/>
+<message msgid="5bit" msgstr="5 bits"/>
+<message msgid="none" msgstr="None"/>
+<message msgid="even" msgstr="Even"/>
+<message msgid="odd" msgstr="Odd"/>
+<message msgid="Off" msgstr="Off"/>
+<message msgid="hardware" msgstr="Hardware"/>
+<message msgid="saveSettings" msgstr="Saving settings, please wait..."/>
+<message msgid="builtinSerial" msgstr="Built in serial port"/>
+<message msgid="externalSerial" msgstr="External serial port"/>
+<message msgid="custom" msgstr="Custom"/>
+<message msgid="notReady" msgstr="Not ready"/>
+<message msgid="conflicts" msgstr="Conflicts"/>
+<message msgid="noConflicts" msgstr="No conflicts"/>
+<message msgid="station active" msgstr="Activate"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="serialPortStatus" msgstr="Serial port status"/>
+<message msgid="debugLevel" msgstr="Debug level"/>
+<message msgid="serialPortSettings" msgstr="Serial port settings"/>
+<message msgid="hostPort" msgstr="Host port"/>
+<message msgid="customHost" msgstr="Custom host port name"/>
+<message msgid="baud rate" msgstr="Baud rate"/>
+<message msgid="dataBits" msgstr="Data bits"/>
+<message msgid="stopBits" msgstr="Stop bits"/>
+<message msgid="parity" msgstr="Parity"/>
+<message msgid="flow control" msgstr="Flow control"/>
+<message msgid="inter character timeout" msgstr="Inter character timeout"/>
+<message msgid="x100ms" msgstr="x100ms"/>
+<message msgid="endCharacter" msgstr="End-of-line character"/>
+<message msgid="asciiCode" msgstr="ASCII code"/>
+<message msgid="startLineTimestamps" msgstr="Start of line timestamps"/>
+<message msgid="yymmddhhmmss" msgstr="YYYYMMDDHHMMSS"/>
+<message msgid="tcpIpServer" msgstr="TCP/IP Server"/>
+<message msgid="listeningPort" msgstr="Listening port"/>
+<message msgid="1-65535" msgstr="1-65535"/>
+<message msgid="incomingConnectionIs" msgstr="Incoming connection is"/>
+<message msgid="exclusive" msgstr="Exclusive"/>
+<message msgid="shared" msgstr="Shared"/>
+<message msgid="tcpIpClient" msgstr="TCP/IP Client"/>
+<message msgid="connectTo" msgstr="Connect to"/>
+<message msgid="firstAvailable" msgstr="First available"/>
+<message msgid="allAvailable" msgstr="All available"/>
+<message msgid="protocol" msgstr="Protocol"/>
+<message msgid="rtcp" msgstr="TCP"/>
+<message msgid="UDP" msgstr="UDP"/>
+<message msgid="remoteHost" msgstr="Remote Host"/>
+<message msgid="server_port" msgstr="Server:Port"/>
+<message msgid="network" msgstr="Network"/>
+<message msgid="remoteServerRetryPeriod" msgstr="Remote server retry period"/>
+<message msgid="seconds" msgstr="seconds"/>
+<message msgid="keepaliveRange" msgstr="0-65535 seconds (0=disabled)"/>
+<message msgid="maxNumberOfProbeFailures" msgstr="Number of probe failures before disconnect"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="Msg126" msgstr="Port number must have a value between 1 and 65535."/>
+<message msgid="dlevelError" msgstr="Debug level field must have a value between 0 and 2"/>
+<message msgid="Msg122" msgstr="Error: Inter Character timeout must have a value between 0 and 65535."/>
+<message msgid="field1and20" msgstr="Please specify a value between 1 and 20"/>
+<message msgid="field1and65535" msgstr="Please specify a value between 1 and 65535"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

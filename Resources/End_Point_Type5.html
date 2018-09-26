@@ -1,0 +1,184 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>End point type5 (UDP Client)</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="End_Point_Type5.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/end_points.cgi?getList"></script>
+<script language="JavaScript">
+var EP_Name="";
+function submitForm() {
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ blockUI_wait("Please wait");
+ for (var i=0; i<endpoints.length;i++) {
+  if(endpoints[i].name==EP_Name) {
+   break;
+  }
+ }
+ rdbCmd="/cgi-bin/rdb.cgi?service.dsm.ep.conf."+i+".name="+EP_Name+" -p&service.dsm.ep.conf."+i+".type=5 -p&";
+ pf="service.dsm.ep.conf."+EP_Name+".";
+ rdbCmd+=pf+"ip_address="+$("#ipaddress").val()+" -p&" +pf+"port_number="+$("#portnumber").val()+" -p&" +pf+"timeout="+$("#timeout").val()+" -p&service.dsm.trigger=1";
+ $.get(rdbCmd, function(){setTimeout("window.location='/end_points.html?success'", 3000)});
+}
+$(document).ready(function() {
+ $("#ipaddress").val("");
+ $("#portnumber").val("");
+ $("#timeout").val("");
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box">
+   <form name="form" id="form" class="validate" novalidate method="POST" action="End_Point_Type5.html">
+   <div class="pad" id="setup">
+   
+     <script language="javascript">
+    var rhyan_url=window.location.href;
+ var rhyan_search=rhyan_url.search("html?");
+ var rhyan_length=rhyan_url.length;
+ var EP_Name=rhyan_url.slice(rhyan_search+5,rhyan_length);
+   </script>
+   
+    <h2><script language=Javascript>document.write("UDP client"+"  "+"endpoint"+"   ("+EP_Name+")")</script></h2>
+    <div class="grey-box">
+     <div class="form-row">
+      <label for="ipaddress"><script language=Javascript>document.write("Server IP address")</script></label>
+      <div class="field">
+       <input type="text" name="ipaddress" id="ipaddress" class="large required validate[required]" value="">
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="portnumber"><script language=Javascript>document.write("Port number")</script></label>
+      <div class="field">
+       <input type="text" name="portnumber" id="portnumber" class="large required validate[required, funcCall[validate_field1and65535]]" value="">
+       <span class="normal-text">&nbsp;<script language=Javascript>document.write(_("1-65535"))</script></span>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="timeout"><script language=Javascript>document.write("Retry timeout")</script></label>
+      <div class="field">
+       <input type="text" name="timeout" id="timeout" class="large required validate[required, funcCall[validate_fieldzand1000]]" onKeyUp='NumfieldEntry(this)' value="">
+       <span class="normal-text">&nbsp;<script language=Javascript>document.write(_("0-1000")+"&nbsp;&nbsp;"+"seconds"+"&nbsp;"+"(0 = No retry)")</script></span>
+      </div>
+     </div>
+    </div>
+    <div class="submit-row" id="submit-div">
+     <button type="button" onClick="window.location='end_points.html'"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='end_points.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+   </form>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+set_menu("Services", "EDP", "root");
+function validate_field1and65535(field) {
+ if( field.val() < 1 || field.val() > 65535 ) {
+  return "Please specify a value between 1 and 65535";
+ }
+}
+function validate_fieldzand1000(field) {
+ if( field.val() < 0 || field.val() > 1000 ) {
+  return "Please specify a value between 0 and 1000";
+ }
+}
+</script>
+</body>
+</html>

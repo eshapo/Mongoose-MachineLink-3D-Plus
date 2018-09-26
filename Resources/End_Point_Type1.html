@@ -1,0 +1,277 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>End point type1 (Serial)</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="End_Point_Type1.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/end_points.cgi?getList"></script>
+<script language="JavaScript" src="cgi-bin/end_points.cgi?serialList"></script>
+<script language="JavaScript">
+var EP_Name="";
+var host_if_list_length=0;
+var scriptname="End_Point_Type1.html"
+var ep_type=scriptname.match("[0-9]+");
+if (ep_type[0] == "undefined")
+ ep_type[0]="1";
+if(typeof(host_if_list)!="undefined") {
+ $.map(host_if_list, function(x,y) {
+  host_if_list_length++;
+ });
+}
+var types_list={"1":"Serial port (generic)", "2":"TCP server", "3":"TCP client", "4":"UDP server", "5":"UDP client", "6":"GPS data", "7":"User defined executable", "8":"RS232 port", "9":"RS485 port", "10":"RS422 port"};
+var baud_rate_list={"115200":"115200", "57600":"57600", "38400":"38400", "19200":"19200", "9600":"9600", "4800":"4800", "2400":"2400", "1200":"1200", "600":"600", "300":"300"};
+var databits_list={"8":"8 bits", "7":"7 bits", "6":"6 bits", "5":"5 bits"};
+var stopbits_list={"1":"1", "2":"2"};
+var parity_list={"none":"None", "even":"Even", "odd":"Odd"};
+function submitForm() {
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ blockUI_wait("Please wait");
+ for (var i=0; i<endpoints.length;i++) {
+  if(endpoints[i].name==EP_Name) {
+   break;
+  }
+ }
+ if($("#host_if").val()=="custom") {
+  host_if=$("#custom_if").val();
+ }
+ else {
+  host_if=$("#host_if").val();
+ }
+ rdbCmd="/cgi-bin/rdb.cgi?service.dsm.ep.conf."+i+".name="+EP_Name+" -p&service.dsm.ep.conf."+i+".type="+ep_type[0]+" -p&";
+ pf="service.dsm.ep.conf."+EP_Name+".";
+ rdbCmd+=pf+"dev_name="+host_if+" -p&"+pf+"bit_rate="+$("#baud").val()+" -p&"+pf+"data_bits="+$("#databits").val()+" -p&"+pf+"stop_bits="+$("#stopbits").val()+" -p&"+pf+"parity="+$("#parity").val()+" -p&service.dsm.trigger=1";
+ $.get(rdbCmd, function(){setTimeout("window.location='/end_points.html?success'", 3000)});
+}
+function add_sif_options(myid, mylist, def) {
+ mydef="custom";
+ $.each( ["#"+myid], function(idx,el) {
+  $.each( mylist, function(val,attr) {
+   var buildinSerial=0;
+   if(attr=="platform") {
+    txt="Built in serial port";
+    attr="";
+    buildinSerial=1;
+   }
+   else if( attr.indexOf("inserted")!=-1) {
+    txt="External serial port"+" ("+attr.substring(8)+")";
+    attr="";
+   }
+   else if( attr=="custom") {
+    txt="Custom";
+    attr="";
+   }
+   else {
+    txt="External serial port"+" ("+attr.substring(8)+")";
+    attr="disabled";
+   }
+   if(def==val) {
+    mydef=val;
+   }
+   if(ep_type[0]=="1" || buildinSerial == 1)
+    $(el).append("<option value='"+val+"' "+attr+">"+txt+"</option>");
+  });
+ });
+ if(def!="") {
+  $("#"+myid).val(mydef);
+  if(mydef=="custom") {
+   $("#custom_if").val(def);
+  }
+ }
+}
+$(document).ready(function() {
+ add_options("baud", baud_rate_list, 115200);
+ add_options("databits", databits_list, 8);
+ add_options("stopbits", stopbits_list, 1);
+ add_options("parity", parity_list, "none");
+ //add_options("fc", fc_list, 0);
+ var host_if="";
+ if(host_if_list_length>0) {
+  $.extend(true, host_if_list, {"custom":"custom"});
+  add_sif_options("host_if", host_if_list, host_if);
+ }
+ else {
+  $("#custom_if-div").css("display", "");
+  $("#host_if-div").css("display", "none");
+ }
+ $("#host_if").change(function() {
+  if(this.value=="custom") {
+   $("#custom_if-div").css("display", "");
+  }
+  else {
+   $("#custom_if-div").css("display", "none");
+  }
+ });
+ $("#host_if").trigger("change");
+ var v="";
+ $("#baud").val(v==""?"115200":v);
+ v="";
+ $("#databits").val(v==""?"8":v);
+ v="";
+ $("#stopbits").val(v==""?"1":v);
+ v="";
+ $("#parity").val(v==""?"none":v);
+ 
+ var rhyan_url=window.location.href;
+ var rhyan_search=rhyan_url.search("html?");
+ var rhyan_length=rhyan_url.length;
+ var EP_Name=rhyan_url.slice(rhyan_search+5,rhyan_length);
+ 
+  $("#ep_name").html(types_list[ep_type[0]]+"  "+"endpoint"+"   ("+EP_Name+")");
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box">
+   <form name="form" id="form" class="validate" novalidate method="POST" action="End_Point_Type1.html">
+   <div class="pad" id="setup">
+    <h2 id="ep_name"></h2>
+    <div class="grey-box">
+     <div class="form-row" id="host_if-div">
+      <label for="host_if"><script language=Javascript>document.write("Host port")</script></label>
+      <div class="field">
+        <select id="host_if" name="host_if" style="width:auto"></select>
+<!-- <input type="text" name="host_if" id="host_if" class="large required" value=""> -->
+      </div>
+     </div>
+     <div class="form-row" id="custom_if-div">
+      <label for="custom_if"><script language=Javascript>document.write("Custom host port name")</script></label>
+      <div class="field">
+       <input type="text" name="custom_if" id="custom_if" class="large required validate[required]" value="">
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="baud"><script language=Javascript>document.write("Baud rate")</script></label>
+      <div class="field">
+       <select id="baud" name="baud"></select>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="databits"><script language=Javascript>document.write("Data bits")</script></label>
+      <div class="field">
+       <select id="databits" name="databits"></select>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="stopbits"><script language=Javascript>document.write("Stop bits")</script></label>
+      <div class="field">
+       <select id="stopbits" name="stopbits"></select>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="parity"><script language=Javascript>document.write("Parity")</script></label>
+      <div class="field">
+       <select id="parity" name="parity"></select>
+      </div>
+     </div>
+    </div>
+    <div class="submit-row" id="submit-div">
+
+     <button type="button" onClick="window.location='end_points.html'"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='end_points.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+   </form>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Services", "EDP", "root");
+</script>
+</body>
+</html>

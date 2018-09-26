@@ -1,0 +1,661 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Static Routing</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="routing.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/routes.cgi"></script>
+<script language="JavaScript">
+/*****************net_util.js************************/
+function WinExpIP(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(!isValidIpEntry(field,event))
+   validate_alert( "", "You must enter a value between 0 and 255. Please try again.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_1(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  switch(isValidIpEntry_1(field,event)) {
+  case -1:
+   validate_alert( "", "You must enter a value between 1 and 223. Please try again.");
+  break;
+  case -2:
+   validate_alert( "", "An IP address can't start with 127. Please try another value between 1 and 223.");
+  break;
+  default:
+   clear_alert();
+  break;
+  }
+ }
+}
+function WinExpIP_0(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value))
+   validate_alert( "", "Please specify a value between 0 and 255.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_127(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value) || field.value <1 || field.value >223)
+   validate_alert( "", "dhcp warningMsg1");
+  else
+   clear_alert();
+ }
+}
+function hostMin(ip, mask) {
+ var host_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i]);
+ }
+ host_array[3]++;
+ return host_array.join(".");
+}
+function hostMax(ip, mask) {
+ var host_array=new Array();
+ var wildcard_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  wildcard_array[i]=~parseInt(mask_array[i])&255;
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i])|wildcard_array[i];
+ }
+ host_array[3]--;
+ return host_array.join(".");
+}
+function checkIPrange(ipMin, ipMax, myip) {
+var fromArr = ipMin.split(".");
+var toArr = ipMax.split(".");
+var myipArr = myip.split(".");
+var fromip=0; toip=0; myip=0;
+ for(i=0;i<4;i++) {
+  fromip=fromip*1000+parseInt(fromArr[i]);
+  toip=toip*1000+parseInt(toArr[i]);
+  myip=myip*1000+parseInt(myipArr[i]);
+ }
+ if(myip<fromip || myip>toip) {
+  return false;
+ }
+ return true;
+}
+function isWithinHostIpRange(ip, mask, myip) {
+ return checkIPrange(hostMin(ip, mask), hostMax(ip, mask), myip);
+}
+function checkIpAddr(field, ismask, msg) {
+ if (field.value == "") {
+  if (ismask) {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a netmask. Please try again.":"You must enter a netmask. Please try again.");//The netmask is empty.
+  }
+  else {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"The IP address is empty. Please try again.":"The IP address is empty. Please try again.");//IP address is empty.
+  }
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (isAllNum(field.value) == 0) {
+  validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a number between [1-9]. Please try again.":"You must enter a number between [1-9]. Please try again.");//'It should be a [0-9] number.'
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (ismask) {
+  if ((!checkRange(field.value, 1, 0, 256)) ||
+   (!checkRange(field.value, 2, 0, 256)) ||
+   (!checkRange(field.value, 3, 0, 256)) ||
+   (!checkRange(field.value, 4, 0, 256)))
+  {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ else {
+  if ((!checkRange(field.value, 1, 0, 255)) ||
+   (!checkRange(field.value, 2, 0, 255)) ||
+   (!checkRange(field.value, 3, 0, 255)) ||
+   (!checkRange(field.value, 4, 1, 254)))
+  {
+   if (ismask) {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   }
+   else {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the IP address incorrectly. Please try again.":"You have entered the IP address incorrectly. Please try again.");//'IP adress format error.'
+   }
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ clear_alert();
+ return true;
+}
+function parse_ip_into_fields(ipaddr, name) {
+ var i;
+ var ip_array;
+ ip_array=ipaddr.split(".");
+ if(ip_array.length != 4 ) {ip_array[0]=''; ip_array[1]='';ip_array[2]=''; ip_array[3]='';}
+ for(i=0;i<4;i++) {
+  $("input[name="+name+(i+1)+"]").val(ip_array[i]||"");
+ }
+}
+function parse_ip_from_fields(documentItem) {
+ var ip_array=new Array();
+ var val;
+ var j=0;
+ for(var i=0;i<4;i++) {
+  val=$("input[name="+documentItem+(i+1)+"]").val();
+  if(val!="") {
+   ip_array[j++]=val;
+  }
+ /*	else {
+			return "";
+		}*/
+ }
+ return ip_array.join(".");
+}
+function ValidSubnetMask(n, t){
+ NumfieldEntry(t);
+ if(isValidSubnetMask(parse_ip_from_fields(n))<0) {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("success-text").addClass("failure-text");
+  }
+ }
+ else {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("failure-text").addClass("success-text");
+  }
+ }
+}
+function htmlGenIpBlocks(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks0(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks127(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_127(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocks(name_in) {
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"1' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"2' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"3' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"4' class='input-connect-dot'></label>");
+}
+function htmlGenIpBlocksWithoutRequired(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocksWithoutRequired0(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocksWithoutRequired(name_in) {
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'></label>");
+}
+/******************End of net_util.js***********************/
+function submitStaticRoute() {
+	var st_routes=[ ]; var routingtable=[ { "Destination":"0.0.0.0", "Gateway":"1.2.3.4", "Genmask":"0.0.0.0", "Flags":"UG", "Metric":"20", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"1.2.3.4", "Gateway":"0.0.0.0", "Genmask":"255.255.255.252", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"192.168.1.0", "Gateway":"0.0.0.0", "Genmask":"255.255.255.0", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"br0" } ]; 
+ var f=document.form;
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ if ( (f.dstIP1.value == "") || (f.dstIP2.value == "") || (f.dstIP3.value == "") || (f.dstIP4.value == "") ) {
+  validate_alert("","You have entered the destination IP address incorrectly. Please try again.");
+  f.editindex.value = '-1';
+  return;
+ }
+ empty_gateway_ip= (f.gatewayIP1.value == "") || (f.gatewayIP2.value == "") || (f.gatewayIP3.value == "") || (f.gatewayIP4.value == "");
+ auto_network_interface=f.networkInf.value=="auto";
+ if (auto_network_interface && empty_gateway_ip) {
+  validate_alert("","You have entered the gateway IP incorrectly. Please try again.");
+  f.editindex.value = '-1';
+  return;
+ }
+ f.dstIP.value = f.dstIP1.value + "." + f.dstIP2.value + "." + f.dstIP3.value + "." + f.dstIP4.value;
+ f.subMask.value = f.subMask1.value + "." + f.subMask2.value + "." + f.subMask3.value + "." + f.subMask4.value;
+ clear_alert();
+ switch(isValidSubnetMask(f.subMask.value)) {
+  case -1:
+   validate_alert("", "You have entered an invalid subnet mask. Please try again.");
+  return;
+  break;
+  case -2:
+   validate_alert("", "The subnet mask must be contiguous. Please try again.");//The subnet mask has to be contiguous. Please enter a valid mask
+  return;
+  break;
+ }
+ if(empty_gateway_ip)
+  f.gatewayIP.value = ""
+ else
+  f.gatewayIP.value = f.gatewayIP1.value + "." + f.gatewayIP2.value + "." + f.gatewayIP3.value + "." + f.gatewayIP4.value;
+ value = parseInt(f.routenum.value);
+ if( isNaN(value)==true || value < 0 || value > st_routes.length ) {
+  //f.editindex.value = st_routes.length+1;
+  i=st_routes.length;
+  makeCmd();
+  f.rdbCmd.value += "service.router.static.route."+i+"="+escape(f.routeName.value)+","+f.dstIP.value+","+f.subMask.value+","+f.gatewayIP.value+","+f.metric.value+","+f.networkInf.value+"&";
+  document.form.delindex.value = i+1;
+ }
+ else {
+  //f.editindex.value = f.routenum.value;
+  if (value < 1 || value > 65535) {
+   validate_alert("","You have entered an invalid item number. Please try again.");//Invalid item number.
+   f.editindex.value = '-1';
+   return;
+  }
+  i=f.routenum.value-1;
+  st_routes[i].routeName = escape($("#routeName").val());
+  st_routes[i].dstIP = f.dstIP.value;
+  st_routes[i].subMask = f.subMask.value;
+  st_routes[i].gatewayIP = f.gatewayIP.value;
+  st_routes[i].metric = f.metric.value;
+  st_routes[i].networkInf = f.networkInf.value;
+  makeCmd();
+ }
+ f.rdbCmd.value += "service.router.static.route.trigger=1";
+ f.submitForm.disabled=true;
+ f.BtDel.disabled=true;
+ f.BtCancel.disabled=true;
+ blockUI_wait("Please wait");
+ f.submit();
+}
+function makeCmd() {
+	var st_routes=[ ]; var routingtable=[ { "Destination":"0.0.0.0", "Gateway":"1.2.3.4", "Genmask":"0.0.0.0", "Flags":"UG", "Metric":"20", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"1.2.3.4", "Gateway":"0.0.0.0", "Genmask":"255.255.255.252", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"192.168.1.0", "Gateway":"0.0.0.0", "Genmask":"255.255.255.0", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"br0" } ]; 
+ document.form.rdbCmd.value = "";
+ k=0;
+ for (var i=0; i<st_routes.length; i++) {
+  if( st_routes[i].routeName != "" ) {
+   if( k>0 ) document.form.rdbCmd.value += "&";
+   document.form.rdbCmd.value += "service.router.static.route."+k+"="+st_routes[i].routeName+","+st_routes[i].dstIP+","+st_routes[i].subMask+","+st_routes[i].gatewayIP+","+st_routes[i].metric+","+st_routes[i].networkInf;
+   k++;
+  }
+ }
+ document.form.delindex.value = k;
+ if(k>0) document.form.rdbCmd.value += "&";
+}
+function delentry(idx) {
+var f=document.form;
+ if(idx<0) { //delete current
+  idx=parseInt(f.routenum.value)>0?parseInt(f.routenum.value)-1:0;
+ }
+ st_routes[idx].routeName = "";
+ makeCmd();
+ f.rdbCmd.value += "service.router.static.route.trigger=1";
+ f.submitForm.disabled=true;
+ f.BtDel.disabled=true;
+ f.BtCancel.disabled=true;
+ blockUI_wait("Please wait");
+ f.submit();
+}
+function add_edit(idx) {
+var f=document.form;
+var st_routes=[ ]; var routingtable=[ { "Destination":"0.0.0.0", "Gateway":"1.2.3.4", "Genmask":"0.0.0.0", "Flags":"UG", "Metric":"20", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"1.2.3.4", "Gateway":"0.0.0.0", "Genmask":"255.255.255.252", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"192.168.1.0", "Gateway":"0.0.0.0", "Genmask":"255.255.255.0", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"br0" } ]; 
+ if(idx<0) { //add
+  idx=routingtable.length;
+ }
+ else {
+  $("#routeName").val(st_routes.routeName);
+  RevIpBlocks(st_routes[idx].dstIP, "document.form.dstIP");
+  RevIpBlocks(st_routes[idx].subMask, "document.form.subMask");
+  RevIpBlocks(st_routes[idx].gatewayIP, "document.form.gatewayIP");
+  f.metric.value=st_routes[idx].metric;
+  f.networkInf.value=st_routes[idx].networkInf;
+ }
+ f.routenum.value=idx+1;
+ $("#route_list").css("display", "none");
+ $("#route_setup").css("display", "");
+ clear_alert();
+}
+$(document).ready(function() {
+var netInfo_text={"auto":"Auto", "wwan":"WWAN", "br0":"br0"};
+var h="";
+var st_routes=[ ]; var routingtable=[ { "Destination":"0.0.0.0", "Gateway":"1.2.3.4", "Genmask":"0.0.0.0", "Flags":"UG", "Metric":"20", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"1.2.3.4", "Gateway":"0.0.0.0", "Genmask":"255.255.255.252", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"192.168.1.0", "Gateway":"0.0.0.0", "Genmask":"255.255.255.0", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"br0" } ]; 
+ if (st_routes.length == 0) {
+  h="<tr><th colspan=\"9\"><div align=\"center\">"+"The static routing list is empty"+"</div></th></tr>";
+  $("#title-head").css("display","none");
+  $("#TBlist").html(h);
+  return ;
+ }
+ for (var i=0; i<st_routes.length;i++) {
+  h+="<tr>		<td>"+st_routes[i].routeName+"</td>		<td>"+st_routes[i].dstIP+"</td>		<td>"+st_routes[i].subMask+"</td>		<td>"+st_routes[i].gatewayIP+"</td>		<td>"+netInfo_text[st_routes[i].networkInf]+"</td>		<td>"+st_routes[i].metric+"</td>";
+  h+="<td class='last'><a href='javascript:add_edit("+i+")' class='secondary sml'><i class='icon edit'>"+"Edit"+"</i></a></td>";
+  h+="<td class='last'><a href='javascript:delentry("+i+")' class='secondary sml' style='padding:0;border:0;' title='"+"Delete"+"'><i class='icon close'></i></a></td>		</tr>";
+ }
+ $("#TBlist").html(h);
+});
+</script>
+<!-- <%
+if ( request['REQUEST_METHOD'] == "POST" ) {
+ /*static--add/delete */
+ set_single( 'service.router.static.route.'+form['delindex']+'=', '-p'); //delete last
+ tempval = form['rdbCmd'];
+ set_escapedlist( tempval, '-p' );
+ esp_sleep(5000);
+ redirect('/routing.html?success');
+}
+else { /*GET*/
+ ;
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+   <div class="note-lrg">
+    <div class="wrap alert clearfix">
+     <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+     <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+    </div>
+   </div>
+  </div>
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box hide_for_pppoe_en">
+   <form name="form" id="form" class="validate" novalidate method="POST" action="routing.html">
+   <div class="pad" id="route_setup" style="display:none">
+    <input type="hidden" name="editindex" value="">
+    <input type="hidden" name="dstIP" value="">
+    <input type="hidden" name="subMask" value="">
+    <input type="hidden" name="gatewayIP" value="">
+    <input type="hidden" name="rdbCmd" value=""/>
+    <input type="hidden" name="delindex" value="">
+    <input type="hidden" name="routenum" id="routenum">
+    <h2><script language=Javascript>document.write("Static routes")</script></h2>
+    <div class="grey-box">
+     <div class="form-row">
+      <label for="routeName"><script language=Javascript>document.write("Route name")</script></label>
+      <input type=text name='routeName' id='routeName' class="validate[required] large" maxlength=64 value="" onKeyUp="nameFilter(this);">
+     </div>
+     <div class="form-row">
+      <fieldset>
+       <label for="networkInf"><script language=Javascript>document.write("Network interface")</script></label>
+       <div class="field">
+        <select id="networkInf" name="networkInf">
+         <option value="auto"><script language="JavaScript">document.write("Auto")</script></option>
+         <option value="wwan"><script language="JavaScript">document.write("WWAN")</script></option>
+         <option value="br0">br0</option>
+        </select>
+       </div>
+      </fieldset>
+     </div>
+     <div class="form-row">
+      <label for="dstIP"><script language=Javascript>document.write("Destination IP address")</script></label>
+      <script language=javascript>htmlGenIpBlocks0("dstIP");</script>
+     </div>
+     <div class="form-row">
+      <label for="subMask"><script language=Javascript>document.write("Destination subnet mask")</script></label>
+      <script language=javascript>htmlGenIpBlocks0("subMask");</script>
+     </div>
+     <div class="form-row">
+      <label for="gatewayIP"><script language=Javascript>document.write("Gateway IP address")</script></label>
+      <script language=javascript>htmlGenIpBlocks("gatewayIP");</script>
+     </div>
+     <div class="form-row">
+      <label for="metric"><script language=Javascript>document.write("Metric")</script></label>
+      <input type=text name='metric' class="validate[required,funcCall[validate_metric]] metric sml" maxLength="5" onkeyup="NumfieldEntry(this);" value="" data-prompt-position='bottomLeft:-5,0'>
+      <span class="normal-text">&nbsp;(<script language=Javascript>document.write(_("0-65535"))</script>)</span>
+     </div>
+    </div>
+    <div class="submit-row multi-button">
+     <button type="button" name='submitForm' onClick="submitStaticRoute();"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" name='BtDel' class="secondary" onClick="add_edit(-1)"><script language=Javascript>document.write("Refresh")</script></button>
+     <button type="button" name='BtCancel' class="secondary" onClick="window.location='routing.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+   </form>
+   <div class="pad" id="route_list">
+   <form class="validate" novalidate>
+    <div class="grid-33">
+     <div class="pad alpha">
+      <h2><script language=Javascript>document.write("Static routing list")</script></h2>
+     </div>
+    </div>
+    <div class="grid-66">
+     <div class="pad omega">
+      <div class="submit-row-condensed">
+       <button type="button" class="secondary sml fr" onClick="add_edit(-1)"><i class="icon plus"></i><script language=Javascript>document.write("Add")</script></button>
+      </div>
+     </div>
+    </div>
+    <br/>
+    <table class="above-5-column name-list">
+     <colgroup>
+      <col width="120px">
+      <col width="160px">
+      <col width="160px">
+      <col width="160px">
+      <col width="100px">
+      <col width="100px">
+      <col width="auto">
+      <col width="auto">
+     </colgroup>
+     <thead id="title-head">
+     <tr>
+      <th class="align10"><script language=Javascript>document.write("Route name")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Destination IP address")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Subnet mask")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Gateway IP address")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Network interface")</script></th>
+      <th class="align10"><script language=Javascript>document.write("Metric")</script></th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+     </tr>
+     <tbody id="TBlist"></tbody>
+     </thead>
+    </table>
+   </form>
+   <form class="validate" action="#" novalidate>
+    <div class="row">
+     <div class="grid-33">
+      <div class="pad alpha">
+       <h2><script language=Javascript>document.write("Active routing list")</script></h2>
+      </div>
+     </div>
+    </div>
+    <br/>
+    <table class="above-5-column">
+     <colgroup>
+      <col width="110px">
+      <col width="110px">
+      <col width="110px">
+      <col width="60px">
+      <col width="70px">
+      <col width="70px">
+      <col width="70px">
+      <col width="100px">
+     </colgroup>
+     <thead>
+      <tr>
+       <th class="align10"><script language=Javascript>document.write("Destination")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Gateway")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Netmask")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Flags")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Metric")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Ref")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Use")</script></th>
+       <th class="align10" style="padding-right:5px;"><script language=Javascript>document.write("Interface")</script></th>
+      </tr>
+     </thead>
+     <tbody>
+     <script language=Javascript>
+     function makeRouteList() {
+		 var st_routes=[ ]; var routingtable=[ { "Destination":"0.0.0.0", "Gateway":"1.2.3.4", "Genmask":"0.0.0.0", "Flags":"UG", "Metric":"20", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"1.2.3.4", "Gateway":"0.0.0.0", "Genmask":"255.255.255.252", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"wwan0" }, { "Destination":"192.168.1.0", "Gateway":"0.0.0.0", "Genmask":"255.255.255.0", "Flags":"U", "Metric":"0", "Ref":"0", "Use":"0", "Iface":"br0" } ]; 
+      if (routingtable.length == 0) {
+       document.write("<tr><th colspan=\"8\"><div align=\"center\">"+"The static routing list is empty"+"</div></th></tr>");
+       return ;
+      }
+      for (var i=0; i< routingtable.length;i++) {
+       document.write("<tr>");
+       document.write("<td>"+routingtable[i].Destination+"</td>");
+       document.write("<td>"+routingtable[i].Gateway+"</td>");
+       document.write("<td>"+routingtable[i].Genmask+"</td>");
+       document.write("<td>"+routingtable[i].Flags+"</td>");
+       document.write("<td>"+routingtable[i].Metric+"</td>");
+       document.write("<td>"+routingtable[i].Ref+"</td>");
+       document.write("<td>"+routingtable[i].Use+"</td>");
+       document.write("<td>"+routingtable[i].Iface+"</td>");
+       document.write("</tr>");
+      }
+     }
+     makeRouteList();
+     </script>
+     </tbody>
+    </table>
+   </form>
+   </div>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Internet", "STATIC_ROUTING", "root");
+ if(""=="success") {
+  success_alert("","Your routing table configuration changes were successfully saved and applied");
+ }
+/********* vdf validator**********/
+ VALIDATOR.config.errors["metric"]="Metric values must be between 0 and 65535. Please try again.";
+ $.validator.addMethod("metric",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( c < 0 || c > 65535 || !isAllNum(c) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.metric);
+</script>
+</body>
+</html>

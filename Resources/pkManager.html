@@ -1,0 +1,170 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Package Manager</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="pkManager.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--<script language="JavaScript" src="cgi-bin/pkManager.cgi"></script>-->
+<script language="javascript">var st=[ ]; </script>
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST" ) {
+ i=form['delindex'];
+ set_single( 'service.firewall.dnat.'+i+'=' ); //delete last
+ tempval = form['rdbCmd'];
+ set_list( tempval, '-p' );
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+<aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+  <div class="grid-9 omega">
+   <form name="form" method="POST" action="pkManager.html">
+   <div class="right-column white-box">
+    <div class="pad">
+     <h2><script language=Javascript>document.write("Software applications manager")</script></h2>
+     <input type="hidden" name="editindex" value="">
+     <table border="0" cellspacing="0" ID="Table2">
+     <thead id="listTitle">
+      <tr>
+       <th width="20%" class="align10"><script language=Javascript>document.write("Application name")</script></div></th>
+       <th width="10%" class="align10"><script language=Javascript>document.write("Version")</script></div></th>
+       <th width="15%" class="align10"><script language=Javascript>document.write("Architecture")</script></div></th>
+       <th width="20%" class="align10"><script language=Javascript>document.write("Time installed")</script></div></th>
+       <th width="20%">&nbsp;</th>
+       <th width="15%">&nbsp;</th>
+      </tr>
+     </thead>
+     <script language="Javascript">
+     function uninstall( idx ) {
+      var msg="";
+      if( st[idx].detail.indexOf("/etc/appweb/appweb.conf")>0 ) {
+       msg = "This package contains the web server configuration file. If you uninstall this package it will disable the web server.";//Stop! This package contains the web server configuration file,uninstall this package will disable the web server!
+      }
+      msg += "Are you sure you want to uninstall this package: "+" '"+st[idx].Package+"'?";//Do you really want to uninstall this package
+      blockUI_confirm(msg, function() {
+       $.get("/cgi-bin/file_action.cgi?U&"+st[idx].Package, function(v) {alert(v); location.reload();});
+      });
+     }
+     function makeList() {
+      if (st.length == 0) {
+       $("#listTitle").css("display", "none");
+       document.write( "<tr><th colspan='6' style='text-align:center'>"+"Your software applications list is empty"+"</td></tr>" );
+       return;
+      }
+      //document.form2.stlength.value = st.length;
+      for (var i = 0; i < st.length; i++) {
+       installedTime = new Date(st[i].Installed_Time*1000);
+       document.write("<tr>");
+       document.write("<td>"+st[i].Package+"</td>");
+       document.write("<td>"+st[i].Version+"</td>");
+       document.write("<td>"+st[i].Architecture+"</td>");
+       document.write("<td>"+installedTime.toLocaleString()+"</td>");
+       alert_msg=st[i].description.replace("Description: ","Description:\\n")+"\\n"+"Package details"+":\\n"+st[i].detail;
+       document.write("<td><a href='javascript:alert(\""+alert_msg+"\");' title=\""+st[i].description+"&#10"+st[i].title+"\">"+"Package details"+"</a></td>");
+       document.write("<td><a href=javascript:uninstall(\""+i+"\"); title=\"Uninstall "+st[i].Package+"\">"+"Uninstall"+"</td>");
+       document.write("</tr>");
+      }
+     }
+     makeList();
+     </script>
+     </table>
+    </div>
+   </div>
+   </form>
+  </div>
+ </div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("System", "PKG_MANAGER", "root");
+</script>
+</body>
+</html>

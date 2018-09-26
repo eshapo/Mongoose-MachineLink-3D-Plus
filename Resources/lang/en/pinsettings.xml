@@ -1,0 +1,125 @@
+<po>
+<message msgid="noAction" msgstr="No changes have been applied"/>
+<message msgid="operation successful" msgstr="Your settings have been changed successfully"/>
+<message msgid="SIMwarningMsg4" msgstr="If you continue you'll lose your existing PIN. Are you sure you want to continue?"/>
+<message msgid="SIMwarningMsg6" msgstr="Your PIN must be between 4 and 8 digits long. Please try again."/>
+<message msgid="wan warningMsg12" msgstr="Your PINs don't match. Please check and try again."/>
+<message msgid="SIMwarningMsg5" msgstr="You are saving your PIN without verification. Are you sure you want to continue?"/>
+<message msgid="MEPlength" msgstr="The network unlock code must be between 8 and 12 digits long.Please try again."/>
+<message msgid="MEPPins" msgstr="Your network unlock codes don't match. Please check and try again. "/>
+<message msgid="SIMwarningMsg7" msgstr="Please enable PIN protection before you continue"/>
+<message msgid="SIMwarningMsg8" msgstr="Your new PINs don't match. Please check and try again."/>
+<message msgid="wwan warningMsg13" msgstr="Your PUK codes don't match. Please check and try again."/>
+<message msgid="wwan warningMsg19" msgstr="The PUK code must be 8 digits long. Please try again."/>
+<message msgid="wwan warningMsg16" msgstr="You must enter your PIN to enable or disable PIN verification"/>
+<message msgid="saveSettings" msgstr="Saving settings, please wait..."/>
+<message msgid="mep warningMsg2" msgstr="You must enter the network unlock code on the network unlock page to continue"/>
+<message msgid="SIMwarningMsg10" msgstr="This device is locked to a specific network that isn't compatible with the inserted SIM card. Please contact the service provider that sold you this router to obtain the network unlock code."/>
+<message msgid="SIMwarningMsg1" msgstr="You have entered the wrong PIN. Please check and try again. "/>
+<message msgid="wan attempts" msgstr="remaining attempt(s)"/>
+<message msgid="SIMlocked" msgstr="SIM is PIN locked"/>
+<message msgid="status pukLocked" msgstr="SIM is PUK locked"/>
+<message msgid="newPin" msgstr="New PIN"/>
+<message msgid="confirmNewPin" msgstr="Confirm new PIN"/>
+<message msgid="warningMsg17" msgstr="Your SIM is PUK locked now. Please enter the PUK code to unlock. You have"/>
+<message msgid="puk warningMsg2" msgstr="SIM hardware error. Please contact your customer care center."/>
+<message msgid="warningMsg13" msgstr="You need to enter the PUK code again since the last code was incorrect. You have"/>
+<message msgid="mepLocked" msgstr="Network locked"/>
+<message msgid="MEP unsuccessful" msgstr="Sorry, the network unlock failed. Please try again."/>
+<message msgid="simOK" msgstr="SIM OK"/>
+<message msgid="wwan warningMsg18" msgstr="The SIM unlock was successful"/>
+<message msgid="SIMwarningMsg3" msgstr="Sorry, this operation failed. You may have entered the wrong code, please check and try again."/>
+<message msgid="simSecurityWarningMsg" msgstr="Please insert a SIM card before configuring SIM security settings"/>
+<message msgid="warningMsg14" msgstr="You need to unlock the SIM by inputing PIN before disable"/>
+<message msgid="pin remembered" msgstr="PIN remembered"/>
+<message msgid="numberRetriesRemaining" msgstr="Retries remaining"/>
+<message msgid="pin settings" msgstr="PIN settings"/>
+<message msgid="pinProtection" msgstr="PIN protection"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="changePIN" msgstr="Change PIN"/>
+<message msgid="current pin" msgstr="Current PIN"/>
+<message msgid="confirm current pin" msgstr="Confirm current PIN"/>
+<message msgid="puk" msgstr="PUK"/>
+<message msgid="wwan confirmPUK" msgstr="Confirm PUK"/>
+<message msgid="rememberPin" msgstr="Remember PIN"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="simSubmitSuccess" msgstr="Your PIN settings changes were successful."/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

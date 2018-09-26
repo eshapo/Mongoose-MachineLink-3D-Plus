@@ -1,0 +1,236 @@
+<po>
+<message msgid="name" msgstr="Name"/>
+<message msgid="interface" msgstr="Interface"/>
+<message msgid="localLAN" msgstr="Local LAN"/>
+<message msgid="remoteGateway" msgstr="Remote gateway"/>
+<message msgid="remoteLAN" msgstr="Remote LAN"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="connected" msgstr="Connected"/>
+<message msgid="connecting" msgstr="Connecting..."/>
+<message msgid="waiting" msgstr="Waiting..."/>
+<message msgid="disconnected" msgstr="Disconnected"/>
+<message msgid="profile name" msgstr="Profile name"/>
+<message msgid="status connection" msgstr="Connection status"/>
+<message msgid="local IP" msgstr="Local IP"/>
+<message msgid="remote IP" msgstr="Remote IP"/>
+<message msgid="vpnServerIP" msgstr="VPN server IP"/>
+<message msgid="status up" msgstr="Up"/>
+<message msgid="ready" msgstr="Ready"/>
+<message msgid="na" msgstr="N/A"/>
+<message msgid="clientPublicIP" msgstr="Client public IP"/>
+<message msgid="vpnClientIP" msgstr="VPN client IP"/>
+<message msgid="dataReceived" msgstr="Data received"/>
+<message msgid="dataSent" msgstr="Data Sent"/>
+<message msgid="sessionStart" msgstr="Session start"/>
+<message msgid="unregisteredNoSearch" msgstr="Not registered, searching stopped"/>
+<message msgid="registeredHome" msgstr="Registered, home network"/>
+<message msgid="unregisteredSearching" msgstr="Not registered, searching..."/>
+<message msgid="registrationDenied" msgstr="Registration denied"/>
+<message msgid="unknown" msgstr="Unknown"/>
+<message msgid="registeredRoaming" msgstr="Registered, roaming"/>
+<message msgid="registeredSMShome" msgstr="Registered for SMS&lt;br/&gt;(home network)"/>
+<message msgid="registeredSMSroaming" msgstr="Rregistered for SMS&lt;br/&gt;(roaming)"/>
+<message msgid="emergency" msgstr="Emergency"/>
+<message msgid="Authentication failed" msgstr="Authentication failed, retrying anyway..."/>
+<message msgid="Failed due to incorrect APN" msgstr="Failed due to incorrect APN, retrying anyway..."/>
+<message msgid="Network timeout" msgstr="Network timeout, retrying..."/>
+<message msgid="Unknown error" msgstr="Unknown error, retrying anyway..."/>
+<message msgid="not available" msgstr="(not available)"/>
+<message msgid="high" msgstr="(High)"/>
+<message msgid="medium" msgstr="(Medium)"/>
+<message msgid="low" msgstr="(Low)"/>
+<message msgid="enabled" msgstr="Enabled"/>
+<message msgid="disabled" msgstr="Disabled"/>
+<message msgid="blank" msgstr="Blank"/>
+<message msgid="limited service" msgstr="Limited service"/>
+<message msgid="manual roaming status 0" msgstr="Commencing registration..."/>
+<message msgid="manual roaming status 1" msgstr="No networks available, rescanning..."/>
+<message msgid="manual roaming status 2" msgstr="No networks visible. Please see &lt;a style=color:blue href=./roaming_settings.html&gt;registration log&lt;/a&gt;. Waiting &lt;reboot_mm_ss&gt; (mm:ss) to retry."/>
+<message msgid="manual roaming status 3" msgstr="Connection to all networks failed. Please see &lt;a style=color:blue href=./roaming_settings.html&gt;registration log&lt;/a&gt;. Waiting &lt;reboot_mm_ss&gt; (mm:ss) to retry."/>
+<message msgid="manual roaming status 4" msgstr="Registration to &lt;provider&gt; failed (RSSI &lt;rssi&gt; too low), trying next network..."/>
+<message msgid="manual roaming status 5" msgstr="Registration to &lt;provider&gt; failed (IMSI attach failure), trying next network..."/>
+<message msgid="manual roaming status 6" msgstr="Connection to APN on &lt;provider&gt; failed (PDP context failure), trying next network..."/>
+<message msgid="manual roaming status 7" msgstr="Registration to &lt;provider&gt; failed (GPRS attach failure), trying next network..."/>
+<message msgid="manual roaming status 8" msgstr="Starting &quot;Best&quot; network retry scan..."/>
+<message msgid="manual roaming status 12" msgstr="No networks visible. Please see &lt;a style=color:blue href=./roaming_settings.html&gt;registration log&lt;/a&gt;. Retrying..."/>
+<message msgid="manual roaming status 13" msgstr="Connection to all networks failed. Please see &lt;a style=color:blue href=./roaming_settings.html&gt;registration log&lt;/a&gt;. Retrying..."/>
+<message msgid="roaming" msgstr="Roaming"/>
+<message msgid="not roaming" msgstr="Not roaming"/>
+<message msgid="detectingSIM" msgstr="Detecting SIM..."/>
+<message msgid="simOK" msgstr="SIM OK"/>
+<message msgid="resettingModem" msgstr="Resetting modem"/>
+<message msgid="puk warningMsg1" msgstr="SIM hardware error"/>
+<message msgid="simIsNotInserted" msgstr="SIM is not inserted"/>
+<message msgid="admin warningMsg8" msgstr="Please insert an active SIM card in order to connect. It will take around a minute for the router to restart after you insert the SIM."/>
+<message msgid="admin warningMsg2" msgstr="SIM general failure"/>
+<message msgid="SIMlocked" msgstr="SIM is PIN locked"/>
+<message msgid="admin warningMsg3" msgstr="You must enter your PIN code to unlock and use the SIM."/>
+<message msgid="status pukLocked" msgstr="SIM is PUK locked"/>
+<message msgid="admin warningMsg4" msgstr="You must enter your PUK code to unlock and use the SIM."/>
+<message msgid="mep warningMsg2" msgstr="You must enter the network unlock code on the network unlock page to continue"/>
+<message msgid="admin warningMsg6" msgstr="Network reject - account"/>
+<message msgid="admin warningMsg7" msgstr="Network reject"/>
+<message msgid="puk warningMsg2" msgstr="SIM hardware error. Please contact your customer care center."/>
+<message msgid="Waiting for registration" msgstr="Waiting for registration..."/>
+<message msgid="disconnecting" msgstr="Disconnecting..."/>
+<message msgid="waitingDemand" msgstr="Disconnected&lt;/br&gt;(Waiting for demand)"/>
+<message msgid="status down" msgstr="Down"/>
+<message msgid="CSyes" msgstr="Yes"/>
+<message msgid="CSno" msgstr="No"/>
+<message msgid="carrier" msgstr="Carrier"/>
+<message msgid="currentSession" msgstr="Current session"/>
+<message msgid="showEndTime" msgstr="Show end time"/>
+<message msgid="sessionDuration" msgstr="Session duration"/>
+<message msgid="showDuration" msgstr="Show duration"/>
+<message msgid="sessionEnd" msgstr="Session end time"/>
+<message msgid="hideDataUsage" msgstr="Hide data usage"/>
+<message msgid="showDataUsage" msgstr="Show data usage"/>
+<message msgid="noProfileEnabled" msgstr="There are no packet data profiles enabled"/>
+<message msgid="admin warningMsg9-1" msgstr="Packet data whilst roaming is disabled. Please click "/>
+<message msgid="admin warningMsg9-2" msgstr="here"/>
+<message msgid="admin warningMsg9-3" msgstr=" to enable."/>
+<message msgid="profileName" msgstr="Profile name"/>
+<message msgid="defaultProfile" msgstr="Default profile"/>
+<message msgid="wwan ipaddr" msgstr="WWAN IP"/>
+<message msgid="dnsServer" msgstr="DNS server"/>
+<message msgid="apn" msgstr="APN"/>
+<message msgid="connectionUpTime" msgstr="Connection uptime"/>
+<message msgid="dataReceivedBytes" msgstr="Data received (bytes)"/>
+<message msgid="dataSentBytes" msgstr="Data sent (bytes)"/>
+<message msgid="totalDataBytes" msgstr="Total data (bytes)"/>
+<message msgid="sysInfo" msgstr="System information"/>
+<message msgid="status system up time" msgstr="System up time"/>
+<message msgid="routerVersion" msgstr="Device version"/>
+<message msgid="boardVersion" msgstr="Board version"/>
+<message msgid="routerSerialNumber" msgstr="Serial number"/>
+<message msgid="firmware" msgstr="Firmware version"/>
+<message msgid="hardwareVersion" msgstr="Hardware version"/>
+<message msgid="machineLink3gPlus" msgstr="MachineLink 3G Plus"/>
+<message msgid="advStatus phoneModule" msgstr="Cellular module"/>
+<message msgid="model" msgstr="Model"/>
+<message msgid="module firmware" msgstr="Module firmware"/>
+<message msgid="cid" msgstr="CID"/>
+<message msgid="status CSimei" msgstr="IMEI"/>
+<message msgid="hardware" msgstr="Hardware"/>
+<message msgid="cellularConnectionStatus" msgstr="Cellular connection status"/>
+<message msgid="networkRegistrationStatus" msgstr="Network registration status"/>
+<message msgid="simStatus" msgstr="SIM status"/>
+<message msgid="provider" msgstr="Provider"/>
+<message msgid="signal strength" msgstr="Signal strength (dBm)"/>
+<message msgid="status CSfrequency" msgstr="Frequency"/>
+<message msgid="status CScoverage" msgstr="Coverage"/>
+<message msgid="roaming status" msgstr="Roaming status"/>
+<message msgid="wwanStatus" msgstr="Packet data connection status"/>
+<message msgid="wan connection type pppoe" msgstr="Transparent bridge mode"/>
+<message msgid="IP" msgstr="IP"/>
+<message msgid="apnName" msgstr="APN name"/>
+<message msgid="serviceName" msgstr="Service name"/>
+<message msgid="status ipsec" msgstr="IPSec VPN status"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="advStatus advancedStatus" msgstr="Advanced status"/>
+<message msgid="country code" msgstr="Country code"/>
+<message msgid="advStatus networkCode" msgstr="Network code"/>
+<message msgid="signalQualityEcIo" msgstr="Signal Quality (Ec/Io)"/>
+<message msgid="signalQualityEcN0" msgstr="Signal quality (Ec/N0)"/>
+<message msgid="receivedSignalCodePower" msgstr="Received signal code power (RSCP)"/>
+<message msgid="dcInputVoltage" msgstr="DC input voltage"/>
+<message msgid="hsupaCategory" msgstr="HSUPA category"/>
+<message msgid="hsdpaCategory" msgstr="HSDPA category"/>
+<message msgid="advStatus iccid" msgstr="SIM ICCID"/>
+<message msgid="primaryScramblingCode" msgstr="Primary scrambling code (PSC)"/>
+<message msgid="powerSource" msgstr="Power input mode"/>
+<message msgid="advStatus locationAreaCode" msgstr="Location area code (LAC)"/>
+<message msgid="advStatus routingAreaCode" msgstr="Routing area code (RAC)"/>
+<message msgid="advStatus imsi" msgstr="IMSI"/>
+<message msgid="advStatus cellID" msgstr="Cell ID"/>
+<message msgid="advStatus channelNumber" msgstr="Channel number (UARFCN)"/>
+<message msgid="advStatus modulePRIID" msgstr="Module PRIID"/>
+<message msgid="PRI part number" msgstr="PRI part number"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="macAddress" msgstr="MAC address"/>
+<message msgid="ethernet port status" msgstr="Ethernet port status"/>
+<message msgid="wan connection type pptp" msgstr="PPTP VPN status"/>
+<message msgid="remoteServerAddress" msgstr="Remote server address"/>
+<message msgid="PtPLocal" msgstr="P-t-P local"/>
+<message msgid="PtPRemote" msgstr="P-t-P Remote"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="sent event noti count" msgstr="Event count"/>
+<message msgid="log low case" msgstr="log"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

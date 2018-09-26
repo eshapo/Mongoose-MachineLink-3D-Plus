@@ -1,0 +1,282 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Email Client Setting</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="email_client.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST") {
+ set_single( 'service.email.client.conf.addr_fm='+ form['EmailClientFmAddr']);
+ set_single( 'service.email.client.conf.server_addr='+ form['EmailServerAddr']);
+ set_single( 'service.email.client.conf.server_port='+ form['EmailServerPort']);
+ set_single( 'service.email.client.conf.username='+ form['EmailServerUsername']);
+ set_single( 'service.email.client.conf.password='+ form['EmailServerPassword']);
+ redirect('/email_client.html?success');
+}
+else { /*GET*/
+ form['EmailClientFmAddr'] = get_single( 'service.email.client.conf.addr_fm' );
+ form['EmailServerAddr'] = get_single( 'service.email.client.conf.server_addr' );
+ form['EmailServerPort'] = get_single( 'service.email.client.conf.server_port' );
+ form['EmailServerUsername'] = get_single( 'service.email.client.conf.username' );
+ form['EmailServerPassword'] = get_single( 'service.email.client.conf.password' );
+ form['EmailServerConfirmPassword'] = get_single( 'service.email.client.conf.password' );
+}
+%> -->
+<script language="JavaScript">
+function ValidateSettings(is_email_test)
+{
+    clear_alert();
+ if (document.EMAILCLIENT.EmailServerPassword.value != document.EMAILCLIENT.EmailServerConfirmPassword.value) {
+  validate_alert("", "Password not matched");
+  return false;
+ }
+ if ( $("#EmailServerPort").val()<1 || $("#EmailServerPort").val()>65535 ) {
+  validate_alert("", "Invalid port number");
+  return false;
+ }
+ if (is_email_test) {
+  if (!($("#EmailServerTestRecipent").val())) {
+   validate_alert("", "Invalid test recipient.");
+   return false;
+  }
+ }
+ return true;
+}
+function EmailClientConfigSet() {
+ if (!ValidateSettings(false)) {
+  return;
+ }
+ //document.EMAILCLIENT.wtSave.disabled = true;
+ //blockUI_wait("Saving settings, please wait...");
+ document.EMAILCLIENT.submit();
+}
+$(document).ready(function() {
+    /*
+
+     * Click handler for the "Send test email button".
+
+     * Packages the email settings into an html post and
+
+     * hands it off to cgi to send the test email.
+
+     */
+    $("#send_test_email").click(function() {
+        if (!ValidateSettings(true)) {
+            return;
+        }
+        $.blockUI
+        (
+            {
+                message: "<div> Sending test email... </div>"
+            }
+        );
+        $.post(
+            "cgi-bin/send_test_email.cgi",
+            {
+                recipient:$("#EmailServerTestRecipent").val(),
+                server:$("#EmailServerAddr").val(),
+                port:$("#EmailServerPort").val(),
+                username:$("#EmailServerUsername").val(),
+                password:$("#EmailServerPassword").val()
+            },
+            function(res) {
+                if (res.cgiresult == 1) {
+                    $.blockUI({
+                        message: "<div>"+"Successully sent test email" +
+                            "<div class='button-raw med'>" +
+                            "<button class='secondary med' " +
+                            "onClick='$.unblockUI();'>"+ "OK" +
+                            "</button></div></div>"
+                    });
+                }
+                else {
+                    $.blockUI({
+                        message: "<div>"+"Failed to send test email. Please check the email settings." +
+                            "<div class='button-raw med'>" +
+                            "<button class='secondary med' " +
+                            "onClick='$.unblockUI();'>"+ "OK" +
+                            "</button></div></div>"
+                    });
+                }
+            }
+        );
+    }
+)});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form name="EMAILCLIENT" id="form" class="validate div-all" method="POST" action="email_client.html" novalidate>
+  <div class="right-column white-box">
+   <div class="pad">
+    <h2><script language=Javascript>document.write("Email server settings")</script></h2>
+    <!-- From Address -->
+    <div class="form-row no-bg-form" style="display:none;">
+     <label for="EmailClientFmAddr"><script language=Javascript>document.write("Display name")</script></label>
+     <div class="field">
+      <input type="text" name="EmailClientFmAddr" id="EmailClientFmAddr" value="">
+     </div>
+    </div>
+    <!-- Mail Server Address -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerAddr"><script language=Javascript>document.write("Email server address (SMTP)")</script></label>
+     <div class="field">
+      <input type="text" name="EmailServerAddr" id="EmailServerAddr" value="">
+     </div>
+    </div>
+    <!-- Mail Server Port Number -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerPort"><script language=Javascript>document.write("Email server port")</script></label>
+     <div class="field">
+      <input type="text" name="EmailServerPort" id="EmailServerPort" value="" maxLength="5" class="sml" onKeyUp="NumfieldEntry(this);">
+      <label class="field-right-desc">&nbsp;<script language=Javascript>document.write(" ( "+"TLS:587, SSL:465, Default:25"+" )")</script></label>
+     </div>
+    </div>
+    <!-- Mail Server Username -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerUsername"><script language=Javascript>document.write("Username")</script></label>
+     <div class="field">
+      <input type="text" name="EmailServerUsername" id="EmailServerUsername" value="">
+     </div>
+    </div>
+    <!-- Mail Server Password -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerPassword"><script language=Javascript>document.write("Password")</script></label>
+     <div class="field">
+      <input style="display:none" type="password" name="fakepasswordremembered"/><!--Chrome now ignores autocomplete="off"-->
+      <input type="password" name="EmailServerPassword" id="EmailServerPassword" value="">
+     </div>
+    </div>
+    <!-- Mail Server Confirm Password -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerConfirmPassword"><script language=Javascript>document.write("Confirm password")</script></label>
+     <div class="field">
+      <input type="password" name="EmailServerConfirmPassword" id="EmailServerConfirmPassword" value="">
+     </div>
+    </div>
+    <!-- Mail Server Send Test Email -->
+    <div class="form-row no-bg-form">
+     <label for="EmailServerTestRecipent">
+      <script language=Javascript>
+       document.write("Email test recipient")
+      </script>
+     </label>
+     <div class="field">
+      <input type="text" name="EmailServerTestRecipent"
+       id="EmailServerTestRecipent">
+     </div>
+     <button type="button" id="send_test_email"
+      class="secondary" style="margin-left:20px">
+      <script language=Javascript>
+       document.write("Send test email")
+      </script>
+     </button>
+    </div>
+    <div class="submit-row">
+     <button type="button" id="wtSave" onClick="EmailClientConfigSet()"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='email_client.html'"><script language=Javascript>document.write("Refresh")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+ set_menu("Services", "EMAILCLIENT", "root");
+ if(""=="success") {
+  success_alert("","Your Email server configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

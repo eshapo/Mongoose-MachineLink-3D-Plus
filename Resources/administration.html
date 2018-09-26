@@ -1,0 +1,538 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Administration</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="administration.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript">
+function setLanguageOptions() {
+ 
+ var lang_fr="value of rdb webinterface.lang_fr here";
+ var lang_ar="value of rdb webinterface.lang_ar here";
+ var current_lang="";
+ var lang_element = document.getElementById("langSelection");
+ if (lang_fr == "1" || lang_ar == "1") {
+  lang_element.options.length = 0;
+  lang_element.options[lang_element.length] = new Option("EN-English", 'en');//'English'
+  if (lang_fr == 1) {
+   if(current_lang=="fr")
+    lang_element.options[lang_element.length] = new Option("FR-Français", 'fr', false, true);
+   else
+    lang_element.options[lang_element.length] = new Option("FR-Français", 'fr', false, false);
+  }
+  if (lang_ar == 1) {
+   if(current_lang=="ar")
+    lang_element.options[lang_element.length] = new Option("AR-Arabic", 'ar', false, true);
+   else
+    lang_element.options[lang_element.length] = new Option("AR-Arabic", 'ar', false, false);
+  }
+  document.getElementById("langDisplay").style["display"]="";
+ }
+}
+function submitLang() {
+ var lang=document.getElementById("langSelection").value;
+ setLanguage(lang);
+}
+function ungreyOutPortField() {
+ if ( (document.form.incomingPort.value < 1) || (document.form.incomingPort.value > 65534) )
+  document.form.incomingPort.value = "8080";
+}
+////////////////////////////////////////
+function submitF() {
+var f = document.form;
+ if(document.getElementById("webbrowser_ID-0").checked == true) {
+  if ( (f.incomingPort.value < 1) || (f.incomingPort.value > 65534) || (f.incomingPort.value == "") ) {
+   validate_alert("", "Invalid port number");
+   return;
+  }
+ }
+ if (f.Pass.value != f.PassConf.value) {
+  validate_alert("", "Your passwords don't match. Please try again. ");//passwords do not match
+  return;
+ }
+
+ if(f.userName.value=="root") {
+  f.rootPass.value=f.Pass.value;
+ }
+ else {
+  f.adminPass.value=f.Pass.value;
+ }
+ if (f.TelnetPass.value != f.TelnetPassConf.value) {
+  validate_alert("", "Your passwords don't match. Please try again. ");//passwords do not match
+  return;
+ }
+ f.telnethiddenPass.value=f.TelnetPass.value;
+
+ f.adminPass.value=f.Pass.value;
+
+ f.submit();
+}
+function checkPass(val) {
+ document.form.userName.value=val;
+ if( val=="root" ) {
+  document.form.Pass.value=document.form.rootPass.value;
+  document.form.PassConf.value=document.form.rootPass.value;
+ }
+ else {
+  document.form.Pass.value=document.form.adminPass.value;
+  document.form.PassConf.value=document.form.adminPass.value;
+ }
+}
+</script>
+<!-- <%
+/* To change the value of dummyPW, check chpasswd.template first. */
+/* The template uses dummyPW for empty password                   */
+var dummyPW="**********";
+if (request['REQUEST_METHOD'] == "POST") {
+ if(form['Pass']==form['PassConf']) {
+  currval = get_single( 'admin.remote.webenable' );
+  tempval = form['webenable'];
+  if (currval != tempval) {
+   set_single( 'admin.remote.webenable='+tempval);
+  }
+  currval = get_single( 'admin.remote_https.enable' );
+  tempval = form['remoteHTTPSenable'];
+  if (currval != tempval) {
+   set_single( 'admin.remote_https.enable='+tempval, '-p');
+  }
+  currval = get_single( 'admin.remote.telnetenable' );
+  tempval = form['telnetenable'];
+  if (currval != tempval) {
+   set_single( 'admin.remote.telnetenable='+tempval);
+  }
+  currval = get_single( 'admin.remote.pingenable' );
+  tempval = form['pingenable'];
+  if (currval != tempval) {
+   set_single( 'admin.remote.pingenable='+tempval);
+  }
+  currval = get_single( 'admin.remote.port' );
+  tempval = form['incomingPort'];
+  if (currval != tempval) {
+   set_single( 'admin.remote.port='+tempval);
+  }
+  currval = get_single( 'admin.remote_https.port' );
+  tempval = form['httpsPort'];
+  if (currval != tempval) {
+   set_single( 'admin.remote_https.port='+tempval, '-p');
+  }
+  tempval = form['adminPass'];
+  if(tempval==dummyPW) {
+   tempval=session["adminPass"];
+  }
+  set_single( 'admin.user.admin'+'='+tempval );
+  if(session["user"]=="root") {
+   tempval = form['rootPass'];
+   if(tempval==dummyPW) {
+    tempval=session["rootPass"];
+   }
+   set_single( 'admin.user.root'+'='+tempval );
+  }
+  if(session["user"]=="root") {
+   tempval = form['telnethiddenPass'];
+   if(tempval!=dummyPW) {
+    if(tempval == "") {
+     set_single( 'telnet.passwd.new'+'='+dummyPW );
+    }
+    else {
+     set_single( 'telnet.passwd.new'+'='+tempval );
+    }
+    set_single( 'telnet.passwd.trigger=1');
+   }
+  }
+  /* set ssh configuration */
+  set_single_direct("-p","admin.remote.sshd_enable",form["sshd_wan_enable"]);
+  set_single_direct("-p","admin.remote.sshd_port",form["sshdPort"]);
+  /* set local router access controln */
+  set_single_direct("-p","admin.local.ssh_enable",form["ssh_local_enable"]);
+  set_single_direct("-p","admin.local.telnetenable",form["telnet_local_enable"]);
+ }
+ else {
+  form['webenable']=get_single( 'admin.remote.webenable');
+  form['remoteHTTPSenable'] = get_single( 'admin.remote_https.enable' );
+  form['telnetenable']=get_single( 'admin.remote.telnetenable');
+  form['pingenable']=get_single( 'admin.remote.pingenable');
+  form['incomingPort'] = get_single( 'admin.remote.port' );
+  form['httpsPort'] = get_single( 'admin.remote_https.port' );
+ }
+ redirect('/administration.html?success');
+}
+else { /*GET*/
+ form['webenable']=get_single( 'admin.remote.webenable');
+ form['remoteHTTPSenable'] = get_single( 'admin.remote_https.enable' );
+ form['telnetenable']=get_single( 'admin.remote.telnetenable');
+ form['pingenable']=get_single( 'admin.remote.pingenable');
+ form['incomingPort'] = get_single( 'admin.remote.port' );
+ form['httpsPort'] = get_single( 'admin.remote_https.port' );
+ temp = get_single( 'admin.user.admin' );
+ session['adminPass'] =temp;
+ temp = get_single( 'admin.user.root' );
+ session["rootPass"]=temp;
+ form['userName']=session["user"];
+}
+var temp = get_single( 'admin.user.admin' );
+session['adminPass'] =temp;
+temp = get_single( 'admin.user.root' );
+session["rootPass"]=temp;
+form['adminPass']=dummyPW;
+form['rootPass']=dummyPW;
+form['Pass']=dummyPW;
+form['PassConf']=dummyPW;
+if(session["user"]=="root") {
+ form['telnethiddenPass']=dummyPW;
+ form['TelnetPass']=dummyPW;
+ form['TelnetPassConf']=dummyPW;
+}
+%> -->
+<script language="JavaScript">
+function initValue() {
+ if( $("#webenable").val()=='1') {
+  $("#webbrowser_ID-0").attr("checked","checked");
+  $("#webbrowser_div").css("display", "");
+ }
+ else {
+  $("#webbrowser_ID-1").attr("checked","checked");
+  $("#webbrowser_div").css("display", "none");
+ }
+ if($("#remoteHTTPSenable").val()=="1") {
+  $("#web_https-0").attr("checked","checked");
+  $("#web_https_div").css("display", "");
+ }
+ else {
+  $("#web_https-1").attr("checked","checked");
+  $("#web_https_div").css("display", "none");
+ }
+ if( $("#telnetenable").val()=='1') {
+  $("#telnet_ID-0").attr("checked","checked");
+ }
+ else {
+  $("#telnet_ID-1").attr("checked","checked");
+ }
+ /* set sshd configuration */
+ load_values_to_elements({
+  "input:radio.access[name=sshd_wan_enable]":"0"=="1",
+  /* use 22 if value does not exist - for backward compatibility */
+  "#sshdPort":"22"||"22"
+ });
+ if( $("#pingenable").val()=='1') {
+  $("#ping_ID-0").attr("checked","checked");
+ }
+ else {
+  $("#ping_ID-1").attr("checked","checked");
+ }
+ load_values_to_elements({
+  "input:radio.access[name=telnet_local_enable]":""!="0",
+ });
+ if($("#httpsPort").val()=="" || $("#httpsPort").val()=="N/A") {
+  $("#httpsPort").val("443");
+ }
+ load_values_to_elements({
+  "input:radio.access[name=ssh_local_enable]":""!="0",
+ });
+}
+$(document).ready( function() {
+ $("input:radio[name=web_https]").click(function(){
+  var val=$("input:radio[name=web_https]:checked").val();
+  $("#web_https_div").css("display",val=="1"?"":"none");
+  $("#remoteHTTPSenable").val(val);
+ });
+ initValue();
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form class="validate" name="form" id="form" novalidate method="POST" action="administration.html?server">
+  <div class="right-column white-box">
+   <div class="pad">
+    <input type="hidden" name='adminPass' size=32 maxlength=32 value="">
+    <input type="hidden" name='rootPass' size=32 maxlength=32 value="">
+    <input type="hidden" name='telnethiddenPass' size=32 maxlength=32 value="">
+    <input type="hidden" name="userName" id="userName" value=""/>
+    <input type="hidden" name="webenable" id="webenable" value=""/>
+    <input type="hidden" name="remoteHTTPSenable" id="remoteHTTPSenable" value=""/>
+    <input type="hidden" name="telnetenable" id="telnetenable" value=""/>
+    <input type="hidden" name="pingenable" id="pingenable" value=""/>
+    <div class="hide_for_pppoe_en">
+     <h2><script language=Javascript>document.write("Remote router access control")</script></h2>
+     <div class="form-row no-bg-form">
+      <div class="form-row no-bg-form">
+       <label for="webbrowser_ID"><script language=Javascript>document.write("Enable HTTP")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="webbrowser_ID-0" name="webbrowser_ID" class="access" onclick="$('#webenable').val(1);$('#webbrowser_div').css('display', '');">
+          <label for="webbrowser_ID-0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="webbrowser_ID-1" name="webbrowser_ID" class="access" onclick="$('#webenable').val(0);$('#webbrowser_div').css('display', 'none');">
+          <label for="webbrowser_ID-1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="webbrowser_div" style="display: none">
+       <label for="incomingPort"><script language=Javascript>document.write("HTTP management port")</script></label>
+       <div class="field">
+        <input type="text" name="incomingPort" id="incomingPort" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);" value="">
+        <span class="normal-text">&nbsp;(<script language=Javascript>document.write("Choose a port between 1 and 65534")</script>)</span>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label><script language=Javascript>document.write("Enable HTTPS")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="web_https-0" name="web_https" class="access" value="1">
+          <label for="web_https-0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="web_https-1" name="web_https" class="access" value="0">
+          <label for="web_https-1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="web_https_div" style="display: none">
+       <label for="httpsPort"><script language=Javascript>document.write("Remote HTTPS access port")</script></label>
+       <div class="field">
+        <input type="text" name="httpsPort" id="httpsPort" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);" value="">
+        <span class="normal-text">&nbsp;(<script language=Javascript>document.write("Choose a port between 1 and 65534")</script>)</span>
+       </div>
+      </div>
+      <div class="form-row no-bg-form" id="telnet_trID">
+       <label for="field-2"><script language=Javascript>document.write("Enable telnet")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="telnet_ID-0" name="telnet_ID" class="access" onclick="$('#telnetenable').val(1)">
+          <label for="telnet_ID-0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="telnet_ID-1" name="telnet_ID" class="access" onclick="$('#telnetenable').val(0)">
+          <label for="telnet_ID-1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <!-- ssh enable -->
+      <div class="form-row no-bg-form">
+       <label><script language=Javascript>document.write("Enable SSH")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch" data-toggle-element="sshd_div">
+          <input type="radio" id="sshd_wan_enable_0" name="sshd_wan_enable" class="access" value="1">
+          <label for="sshd_wan_enable_0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="sshd_wan_enable_1" name="sshd_wan_enable" class="access" value="0">
+          <label for="sshd_wan_enable_1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <!-- ssh port -->
+      <div class="form-row" id="sshd_div" style="display:none">
+       <label><script language=Javascript>document.write("Remote SSH access port")</script></label>
+       <div class="field">
+        <input type="text" name="sshdPort" id="sshdPort" class="sml" maxLength="5" onKeyUp="NumfieldEntry(this);">
+        <span class="normal-text">&nbsp;(<script language=Javascript>document.write("Choose a port between 1 and 65534")</script>)</span>
+       </div>
+      </div>
+      <div class="form-row no-bg-form" id="ping_trID">
+       <label for="field-3"><script language=Javascript>document.write("Enable ping")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="ping_ID-0" name="ping_ID" class="access" value=1 onclick="$('#pingenable').val(1)">
+          <label for="ping_ID-0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="ping_ID-1" name="ping_ID" class="access" value=0 onclick="$('#pingenable').val(0)">
+          <label for="ping_ID-1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <h2><script language=Javascript>document.write("Local router access control")</script></h2>
+    <div class="form-row no-bg-form">
+     <div class="form-row no-bg-form" id="telnet_trID">
+      <label for="field-2"><script language=Javascript>document.write("Enable local Telnet")</script></label>
+      <div class="field">
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="telnet_local_enable-0" name="telnet_local_enable" class="access" value="1">
+         <label for="telnet_local_enable-0" class="on"><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="telnet_local_enable-1" name="telnet_local_enable" class="access" value="0">
+         <label for="telnet_local_enable-1" class="off"><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="form-row no-bg-form">
+      <label><script language=Javascript>document.write("Enable local SSH")</script></label>
+      <div class="field">
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="ssh_local_enable_0" name="ssh_local_enable" class="access" value="1">
+         <label for="ssh_local_enable_0" class="on"><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="ssh_local_enable_1" name="ssh_local_enable" class="access" value="0">
+         <label for="ssh_local_enable_1" class="off"><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <h2><script language=Javascript>document.write("Web User Interface account")</script></h2>
+    <div class="form-row no-bg-form">
+     <div class="form-row">
+      <label for="field-2"><script language=Javascript>document.write("Username")</script></label>
+      <div class="field">
+       
+       <select name="user_name" class="med" id="user_name" onchange="checkPass(this.value)">
+        <option value="root">root</option>
+        <option value="admin">admin</option>
+       </select>
+       
+       <span class="normal-text">admin</span>
+       
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="Pass"><script language=Javascript>document.write("Password")</script></label>
+      <div class="field">
+       <input type="password" name="Pass" id="field-3" class="med" value="RhyanTelecom">
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="PassConf"><script language=Javascript>document.write("Confirm password")</script></label>
+      <div class="field">
+       <input type="password" name="PassConf" id="field-4" class="med" value="RhyanTelecom">
+      </div>
+     </div>
+    </div>
+    <div class="hr"></div>
+    
+    <h2><script language=Javascript>document.write("Telnet/SSH account")</script></h2>
+    <div class="form-row no-bg-form">
+     <div class="form-row">
+      <label for="user_name"><script language=Javascript>document.write("Username")</script></label>
+      <div class="field">
+       <span class="normal-text">root</span>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="Pass"><script language=Javascript>document.write("Password")</script></label>
+      <div class="field">
+       <input type="password" name="TelnetPass" id="field-5" maxlength=127 class="med" value="RhyanTelecom">
+       <span class="normal-text">&nbsp;(<script language=Javascript>document.write(" 1-126 characters in length")</script>)</span>
+      </div>
+     </div>
+     <div class="form-row">
+      <label for="PassConf"><script language=Javascript>document.write("Confirm password")</script></label>
+      <div class="field">
+       <input type="password" name="TelnetPassConf" id="field-6" maxlength=127 class="med" value="RhyanTelecom">
+       <span class="normal-text">&nbsp;(<script language=Javascript>document.write(" 1-126 characters in length")</script>)</span>
+      </div>
+     </div>
+    </div>
+    <div class="hr"></div>
+    
+    <div class="submit-row">
+     <button type="button" onClick="submitF()"><script language=Javascript>document.write("Save")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script type="text/javascript">
+  set_menu("System", "ADMINISTRATION", "root");
+ if(""=="success") {
+  success_alert("","Your administration configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

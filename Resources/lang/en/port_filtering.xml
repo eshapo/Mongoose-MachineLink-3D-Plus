@@ -1,0 +1,140 @@
+<po>
+<message msgid="dhcp warningMsg11" msgstr="You must enter a value between 0 and 255. Please try again."/>
+<message msgid="dhcp warningMsg12" msgstr="You must enter a value between 1 and 223. Please try again."/>
+<message msgid="dhcp warningMsg13" msgstr="An IP address can't start with 127. Please try another value between 1 and 223."/>
+<message msgid="ip warningMsg3" msgstr="Please specify a value between 0 and 255."/>
+<message msgid="routing warningMsg5" msgstr="You must enter a netmask. Please try again."/>
+<message msgid="warningMsg01" msgstr="The IP address is empty. Please try again."/>
+<message msgid="warningMsg02" msgstr="You must enter a number between [1-9]. Please try again."/>
+<message msgid="routing warningMsg2" msgstr="You have entered the netmask incorrectly. Please try again."/>
+<message msgid="warningMsg03" msgstr="You have entered the IP address incorrectly. Please try again."/>
+<message msgid="port filter action accept" msgstr="Accept"/>
+<message msgid="port filter action drop" msgstr="Drop"/>
+<message msgid="inbound" msgstr="Inbound"/>
+<message msgid="outbound" msgstr="Outbound"/>
+<message msgid="forward" msgstr="Forward"/>
+<message msgid="inboundForward" msgstr="Inbound/Forward"/>
+<message msgid="rtcp" msgstr="TCP"/>
+<message msgid="UDP" msgstr="UDP"/>
+<message msgid="ICMP" msgstr="ICMP"/>
+<message msgid="all" msgstr="All"/>
+<message msgid="filteringRuleEmpty" msgstr="MAC / IP / Port filtering rule is empty"/>
+<message msgid="edit" msgstr="Edit"/>
+<message msgid="delete" msgstr="Delete"/>
+<message msgid="port filter warningMsg11" msgstr="The drop policy will block access to the router unless You have configured the filter rules. Please configure your filter rules before setting up this policy."/>
+<message msgid="port filter warningMsg2" msgstr="Please input an IP and/or port value"/>
+<message msgid="warningMsg11" msgstr="You have entered a MAC address incorrectly. Please try again in the format (XX:XX:XX:XX:XX:XX)."/>
+<message msgid="port filter warningMsg3" msgstr="Invalid port number: source port."/>
+<message msgid="port filter warningMsg12" msgstr="Subnet suffix must have a value between 0 and 32"/>
+<message msgid="port filter warningMsg10" msgstr="The requested rule is invalid as it already exists. Please try again."/>
+<message msgid="filteringRuleSubmitSuccess" msgstr="Your MAC / IP / Port filtering rules changes were successfully saved and applied"/>
+<message msgid="port filter warningMsg9" msgstr="The requested rule is invalid as the action of this rule would be the same with default policy. Please try again."/>
+<message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
+<message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="default rule" msgstr="Default rule (inbound/forward)"/>
+<message msgid="port basic default policy accepted" msgstr="Accepted"/>
+<message msgid="port basic default policy dropped" msgstr="Dropped"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="port filter setting" msgstr="MAC / IP / Port filter settings"/>
+<message msgid="bound" msgstr="Bound"/>
+<message msgid="protocol" msgstr="Protocol"/>
+<message msgid="port filter macaddr" msgstr="Source MAC address"/>
+<message msgid="port filter source ipaddr" msgstr="Source IP address"/>
+<message msgid="port filter source port range" msgstr="Source port range"/>
+<message msgid="from" msgstr="From"/>
+<message msgid="1-65535" msgstr="1-65535"/>
+<message msgid="to" msgstr="To"/>
+<message msgid="port filter dest ipaddr" msgstr="Destination IP address"/>
+<message msgid="port filter dest port range" msgstr="Destination port range"/>
+<message msgid="action" msgstr="Action"/>
+<message msgid="comment" msgstr="Comment"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="currentFilteringRulesInSystem" msgstr="Current MAC / IP / Port filtering rules in effect"/>
+<message msgid="add" msgstr="Add"/>
+<message msgid="move down" msgstr="Down"/>
+<message msgid="move up" msgstr="Up"/>
+<message msgid="index" msgstr="Index"/>
+<message msgid="transparent bridge warnMsg3" msgstr="Sorry, you can't configure MAC/IP/port filtering as the router is in transparent bridge mode. To configure, please disable transparent bridging."/>
+<message msgid="reset" msgstr="Reset"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="portFilteringSubmitSuccess" msgstr="Your port filtering configuration changes were successfully saved and applied"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

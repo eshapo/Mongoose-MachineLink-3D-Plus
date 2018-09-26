@@ -1,0 +1,203 @@
+<po>
+<message msgid="dhcp warningMsg11" msgstr="You must enter a value between 0 and 255. Please try again."/>
+<message msgid="dhcp warningMsg12" msgstr="You must enter a value between 1 and 223. Please try again."/>
+<message msgid="dhcp warningMsg13" msgstr="An IP address can't start with 127. Please try another value between 1 and 223."/>
+<message msgid="ip warningMsg3" msgstr="Please specify a value between 0 and 255."/>
+<message msgid="routing warningMsg5" msgstr="You must enter a netmask. Please try again."/>
+<message msgid="warningMsg01" msgstr="The IP address is empty. Please try again."/>
+<message msgid="warningMsg02" msgstr="You must enter a number between [1-9]. Please try again."/>
+<message msgid="routing warningMsg2" msgstr="You have entered the netmask incorrectly. Please try again."/>
+<message msgid="warningMsg03" msgstr="You have entered the IP address incorrectly. Please try again."/>
+<message msgid="waitSeveralMinutesMsg" msgstr="This will take several minutes. Please wait."/>
+<message msgid="genDHmag1" msgstr="Generating DH parameters"/>
+<message msgid="genDHmag2" msgstr="bit long safe prime"/>
+<message msgid="genDHmag3" msgstr="generator"/>
+<message msgid="dhDoneMsg" msgstr="Done. DH parameters generated successfully."/>
+<message msgid="failed" msgstr="Failed"/>
+<message msgid="Msg124" msgstr="Please enter your profile name"/>
+<message msgid="Msg81" msgstr="Please enter the server port, network address and network mask."/>
+<message msgid="Msg82" msgstr="Please enter your username and password"/>
+<message msgid="Msg83" msgstr="Please enter the server IP address and port"/>
+<message msgid="Msg84" msgstr="Please select a certificate"/>
+<message msgid="Msg85" msgstr="Please enter the local IP address and server port"/>
+<message msgid="Msg86" msgstr="Please enter the network address"/>
+<message msgid="Msg88" msgstr="Please enter the network mask"/>
+<message msgid="Msg127" msgstr="Please ensure you generate server secret key."/>
+<message msgid="Msg129" msgstr="Please ensure you upload the client secret key."/>
+<message msgid="Msg121" msgstr="Unknown VPN mode found No.1"/>
+<message msgid="Msg94" msgstr="Error: You have entered the profile number incorrectly. Please try again."/>
+<message msgid="openVpnServerListEmpty" msgstr="The OpenVPN server list is empty"/>
+<message msgid="openVpnClientListEmpty" msgstr="The OpenVPN client list is empty"/>
+<message msgid="openVpnP2PListEmpty" msgstr="The OpenVPN P2P list is empty"/>
+<message msgid="profileName" msgstr="Profile name"/>
+<message msgid="vpnNetworkAddress" msgstr="VPN network address"/>
+<message msgid="authentication type" msgstr="Authentication type"/>
+<message msgid="user name" msgstr="Username"/>
+<message msgid="serverIPAddress" msgstr="Server IP address"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="edit" msgstr="Edit"/>
+<message msgid="certificate" msgstr="Certificate"/>
+<message msgid="na" msgstr="N/A"/>
+<message msgid="usernamePassword" msgstr="Username / Password"/>
+<message msgid="usernamePasswordCerti" msgstr="Certificate and Username / Password"/>
+<message msgid="delete" msgstr="Delete"/>
+<message msgid="openVPNServerEdit" msgstr="OpenVPN server edit"/>
+<message msgid="openVPNClientEdit" msgstr="OpenVPN client edit"/>
+<message msgid="openVPNPeerEdit" msgstr="OpenVPN peer edit"/>
+<message msgid="Msg87" msgstr="Sorry, the delete failed. Please check the connection and try again."/>
+<message msgid="warningMsg05" msgstr="Invalid ip address."/>
+<message msgid="invalidSubnetMask" msgstr="You have entered an invalid subnet mask. Please try again."/>
+<message msgid="wlan warningMsg16" msgstr="The subnet mask must be contiguous. Please try again."/>
+<message msgid="new" msgstr="New"/>
+<message msgid="dhGenerated" msgstr="DH parameters have been generated successfully"/>
+<message msgid="Msg89" msgstr="You have entered an incorrect certificate name. Please try again."/>
+<message msgid="Msg95" msgstr="You have entered an incorrect country name. Please enter 2 letters only."/>
+<message msgid="Msg96" msgstr="Please complete all certificate fields"/>
+<message msgid="Msg97" msgstr="Sorry, the client key didn't generate correctly. Please check the certificate information and try again."/>
+<message msgid="Msg99" msgstr="The DH key didn't generate correctly. Please try again."/>
+<message msgid="Msg98" msgstr="This process will take several minutes to generate the DH parameters. It will delete and invalidate all previously generated server and client keys. Are you sure you want to continue?"/>
+<message msgid="Msg101" msgstr="Sorry, the CA key didn't generate correctly. Please check the certificate information and try again."/>
+<message msgid="Msg100" msgstr="It will take about a minute to generate new CA and server keys. This action will invalidate all previously generated client keys. Are you sure you want to continue?"/>
+<message msgid="Msg77" msgstr="Error: the upload has failed. Please check the connection to the router and try again."/>
+<message msgid="fileChosen" msgstr="File chosen"/>
+<message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
+<message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
+<message msgid="openVPNServerList" msgstr="OpenVPN server list"/>
+<message msgid="add" msgstr="Add"/>
+<message msgid="openVPNClientList" msgstr="OpenVPN client list"/>
+<message msgid="openVPNp2pList" msgstr="OpenVPN P2P list"/>
+<message msgid="openVPNProfile" msgstr="OpenVPN profile"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="profile name" msgstr="Profile name"/>
+<message msgid="openVPNType" msgstr="OpenVPN type"/>
+<message msgid="client" msgstr="Client"/>
+<message msgid="peer to peer" msgstr="Peer-to-peer"/>
+<message msgid="type" msgstr="Type"/>
+<message msgid="server port" msgstr="Server port"/>
+<message msgid="vpnNetworkSubnetMask" msgstr="VPN network subnet mask"/>
+<message msgid="diffieHellmanParameters" msgstr="Diffie-Hellman parameters"/>
+<message msgid="generate" msgstr="Generate"/>
+<message msgid="server key size" msgstr="Server key size"/>
+<message msgid="serverCertificates" msgstr="Server certificates"/>
+<message msgid="notBefore" msgstr="Not before"/>
+<message msgid="notAfter" msgstr="Not after"/>
+<message msgid="country" msgstr="Country"/>
+<message msgid="state" msgstr="State"/>
+<message msgid="city" msgstr="City"/>
+<message msgid="organization" msgstr="Organisation"/>
+<message msgid="email" msgstr="Email"/>
+<message msgid="generateCAcertificate" msgstr="Generate CA certificate"/>
+<message msgid="password" msgstr="Password"/>
+<message msgid="downloadCAcertificate2" msgstr="Download CA TGZ"/>
+<message msgid="downloadCAcertificate" msgstr="Download CA certificate"/>
+<message msgid="remoteNetworkAddress" msgstr="Remote network address"/>
+<message msgid="remoteNetworkMask" msgstr="Remote network subnetmask"/>
+<message msgid="setNetworkInformation" msgstr="Set network information"/>
+<message msgid="certificateManagement" msgstr="Certificate management"/>
+<message msgid="name" msgstr="Name"/>
+<message msgid="revoked" msgstr="Revoked"/>
+<message msgid="revoke" msgstr="Revoke"/>
+<message msgid="download-p12" msgstr="Download P12"/>
+<message msgid="download-tgz" msgstr="Download TGZ"/>
+<message msgid="default gateway" msgstr="Default gateway"/>
+<message msgid="selectCertificate" msgstr="Select certificate"/>
+<message msgid="certificateIssuerInformation" msgstr="Certificate issuer information"/>
+<message msgid="certificateSubjectInformation" msgstr="Certificate subject information"/>
+<message msgid="Msg104" msgstr="(leave empty if it's a peer-to-peer server)"/>
+<message msgid="status lan ipaddr" msgstr="Local IP address"/>
+<message msgid="remote IP add" msgstr="Remote IP address"/>
+<message msgid="remoteNetwork" msgstr="Remote network"/>
+<message msgid="address" msgstr="Address"/>
+<message msgid="subnet mask" msgstr="Subnet mask"/>
+<message msgid="serverSecretKey" msgstr="Server secret key"/>
+<message msgid="update time" msgstr="Update time"/>
+<message msgid="download" msgstr="Download"/>
+<message msgid="clientSecretKey" msgstr="Client secret key"/>
+<message msgid="caUpload" msgstr="CA upload"/>
+<message msgid="select file" msgstr="Choose file"/>
+<message msgid="chooseFile" msgstr="Choose a file"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="certificateUpload" msgstr="Certificate upload"/>
+<message msgid="clientSecretKeyUpload" msgstr="Client secret key upload"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="exit" msgstr="Exit"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="openvpnSubmitSuccess" msgstr="Your open VPN configuration changes were successfully saved and applied"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

@@ -1,0 +1,119 @@
+<po>
+<message msgid="selectFileToUpload" msgstr="You haven't selected a file to upload. Please select a file and try again."/>
+<message msgid="authenticationError" msgstr="Authentication Error!"/>
+<message msgid="errors" msgstr="Errors"/>
+<message msgid="install" msgstr="Install"/>
+<message msgid="delete" msgstr="Delete"/>
+<message msgid="freeSpace" msgstr="Free space"/>
+<message msgid="installConfirm" msgstr="Do you really want to install the file "/>
+<message msgid="deleteConfirm" msgstr="Are you sure you want to delete the file: "/>
+<message msgid="setman rebooting" msgstr="System rebooting..."/>
+<message msgid="setman warningMsg6" msgstr="The reboot seems to be taking too long. You may need to manually power cycle your device."/>
+<message msgid="redirectingLogin" msgstr="Reboot successful. Redirecting you to the logon page."/>
+<message msgid="firmwareUpdateSuccessful" msgstr="The firmware update was successful"/>
+<message msgid="installationSuccessful" msgstr="The installation was successful"/>
+<message msgid="redirectStatus" msgstr="Redirecting you to the Status page"/>
+<message msgid="rebootToMain" msgstr="Reboot to main system"/>
+<message msgid="powerCycleDevice" msgstr="Please power cycle the device."/>
+<message msgid="Msg61" msgstr="There's no response from your device. You may need to manually power cycle it."/>
+<message msgid="Msg62" msgstr="Estimated time remaining"/>
+<message msgid="seconds" msgstr="seconds"/>
+<message msgid="upgradeFailed" msgstr="Sorry, the firmware upgrade has failed. The unit will now reboot."/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="fileChosen" msgstr="File chosen"/>
+<message msgid="Msg63" msgstr="Sorry, the upload was unsuccessful. There isn't enough memory available to upload this file."/>
+<message msgid="GUI rebooting" msgstr="Rebooting..."/>
+<message msgid="fileUpload" msgstr="File uploads"/>
+<message msgid="phase" msgstr="Phase"/>
+<message msgid="percent complete" msgstr="Percent complete"/>
+<message msgid="current position" msgstr="Current position"/>
+<message msgid="kbytes" msgstr="KB"/>
+<message msgid="elapsed time" msgstr="Elapsed time"/>
+<message msgid="est time left" msgstr="Estimated time left"/>
+<message msgid="est speed" msgstr="Estimated speed"/>
+<message msgid="chooseFile" msgstr="Choose a file"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="uploadedFiles" msgstr="Uploaded files"/>
+<message msgid="file name" msgstr="File name"/>
+<message msgid="date" msgstr="Date"/>
+<message msgid="size" msgstr="Size"/>
+<message msgid="action" msgstr="Action"/>
+<message msgid="close" msgstr="Close"/>
+<message msgid="deleteFileSuccess" msgstr="The file was deleted successfully."/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

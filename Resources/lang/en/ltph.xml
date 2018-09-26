@@ -1,0 +1,120 @@
+<po>
+<message msgid="periodic ping settings" msgstr="Periodic Ping settings"/>
+<message msgid="close introduction" msgstr="Close introduction"/>
+<message msgid="display introduction" msgstr="Display introduction"/>
+<message msgid="succ" msgstr="Success"/>
+<message msgid="fail" msgstr="Fail"/>
+<message msgid="minute" msgstr="minute"/>
+<message msgid="minutes" msgstr="minutes"/>
+<message msgid="hour" msgstr="hour"/>
+<message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
+<message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
+<message msgid="watchdogsSettings" msgstr="Watchdogs settings"/>
+<message msgid="ping watchdog desc 01" msgstr="When configured, the watchdog feature transmits controlled ping packets to 1 or 2 user specified IP addresses. Should the watchdog not receive responses to the pings, it will reboot the device in a last resort attempt to restore connectivity."/>
+<message msgid="ping watchdog desc 02" msgstr="Please be very careful when considering using this feature in situations where the device is intentionally offline for a particular reason (e.g user configured PDP session disconnect, or the connect on demand feature enabled). This is because the watchdog feature expects to be able to access the internet at all times, and will always eventually reboot the router if access isn't restored by the time the various timers and retries expire."/>
+<message msgid="ping watchdog desc 03" msgstr="It is due to the nature of the watchdog being a last resort standalone backup mechanism that it will continue to do its job and reboot the device even when the connect on demand session is idle, or the PDP context is disabled by the user. Therefore, it is recommended to disable this feature if connect on demand is configured, or if the PDP context is intentionally disconnected on occasion. "/>
+<message msgid="ping watchdog desc 04" msgstr="This feature operates as follows:"/>
+<message msgid="ping watchdog desc 05" msgstr="After every &quot;Periodic Ping timer&quot; configured interval, the router sends 3 consecutive pings to the &quot;First destination address&quot;."/>
+<message msgid="ping watchdog desc 06" msgstr="If all 3 pings fail the router sends 3 consecutive pings to the &quot;Second destination address&quot;."/>
+<message msgid="ping watchdog desc 07" msgstr="The router then sends 3 consecutive pings to the &quot;First destination address&quot; and 3 consecutive pings to the &quot;Second destination address&quot; every &quot;Periodic Ping accelerated timer&quot; configured interval."/>
+<message msgid="ping watchdog desc 08" msgstr="If all accelerated pings in step C above fail the number of times configured in &quot;Fail count&quot;, the router reboots."/>
+<message msgid="ping watchdog desc 09" msgstr="If any ping succeeds the router returns to step A and does not reboot."/>
+<message msgid="ping watchdog desc 10" msgstr="Note: The &quot;Periodic Ping timer&quot; should never be set to a value less than 300 seconds- this is to allow the router time to reconnect to the cellular network following a reboot."/>
+<message msgid="ping watchdog desc 11" msgstr="To disable the Watchdog, simply set &quot;Fail count&quot; to 0"/>
+<message msgid="monitor destinationAddress" msgstr="First destination address"/>
+<message msgid="monitor secondAddress" msgstr="Second destination address"/>
+<message msgid="monitor pingTimer" msgstr="Periodic Ping timer"/>
+<message msgid="period300" msgstr="(0=disable, 300-65535) secs"/>
+<message msgid="monitor acceleratedTimer" msgstr="Periodic Ping accelerated timer"/>
+<message msgid="period60" msgstr="(0=disable, 60-65535) secs"/>
+<message msgid="monitor failCount" msgstr="Fail count"/>
+<message msgid="count" msgstr="(0=disable, 1-65535) times"/>
+<message msgid="monitor periodicReset" msgstr="Periodic reboot"/>
+<message msgid="force reset" msgstr="Force reboot every"/>
+<message msgid="period5min" msgstr="(0=disable, 5-65535) mins "/>
+<message msgid="random period" msgstr="Randomize reboot time"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="monitor warningMsg1" msgstr="The Periodic Ping timer must have a value between 300 and 65535. Please try again."/>
+<message msgid="log Error" msgstr="Error"/>
+<message msgid="monitor warningMsg2" msgstr="The periodic ping accelerated timer must have a value between 60 and 65535. Please try again."/>
+<message msgid="monitor warningMeg10" msgstr="The periodic Ping fail count must have a value between 1 and 65535. Please try again."/>
+<message msgid="monitor warningMsg4" msgstr="The force reboot timeout must have a value between 5 and 65535. Please try again."/>
+<message msgid="ltphSubmitSuccess" msgstr="Your Ping Watchdog configuration changes were successfully saved and applied"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

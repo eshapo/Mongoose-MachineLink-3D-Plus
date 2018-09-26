@@ -1,0 +1,907 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Connect on Demand</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="dod.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+<aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+<div class="grid-9 omega">
+ <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+  <div class="note-lrg">
+   <div class="wrap alert clearfix">
+    <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+    <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+   </div>
+  </div>
+ </div>
+ <form name="form" id="form" class="validate hide_for_pppoe_en" novalidate method="POST" action="dod.html">
+ <div class="right-column white-box">
+  <div class="pad hide_for_pppoe_en">
+   <h2><script language=Javascript>document.write("Connect on demand")</script></h2>
+   <!--- dial on demand feature ui --->
+   <div id="dial_on_demand_div" class="hide_profile_off show_for_autoapn">
+    <div class="p-des-full-width">
+     <p id="dial_on_demand_desc"></p>
+    </div>
+    <div id="dod_enable_div" class="form-row no-bg-form" style="display:none">
+     <label id="dod_select_title"></label>
+     <div class="location-settings">
+      <div class="radio-switch" data-toggle-element="dod_table2">
+       <input type="radio" id="dod_enable_on" name="dod_enable" class="access" value="1">
+       <label for='dod_enable_on' class='on'><script language=Javascript>document.write("I")</script></label>
+       <input type="radio" id="dod_enable_off" name="dod_enable" class="access" value="0">
+       <label for='dod_enable_off' class='off'><script language=Javascript>document.write("0")</script></label>
+      </div>
+     </div>
+    </div>
+    <div id="dod_table2">
+     <div id="dod_profile_div" class="form-row" style="display:none">
+      <label id="dod_profile_select"><script language=Javascript>document.write("Select profile")</script></label>
+      <div class="field">
+       <select name="dod_profiles" id="dod_profiles">
+       </select>
+      </div>
+     </div>
+     <div class="grey-box">
+      <div class="p-des-full-width" style="padding:15px 0 0 20px; width:660px;">
+       <b id="dial_on_traffic"></b>
+       <p id="trigger_port"></p>
+      </div>
+      <br/>
+      <div class="form-row">
+       <label for="portlist"><script language=Javascript>document.write("Enable dial port filter")</script></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="trigger_port_en_on" name="trigger_port_en" class="access" value="1">
+         <label for='trigger_port_en_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="trigger_port_en_off" name="trigger_port_en" class="access" value="0">
+         <label for='trigger_port_en_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+       <div class="field" id="portlist_div">
+        <input type="text" class="required portlist med" name="portlist" id="portlist" value="">
+        <input type="hidden" id="trigger_ports" name="trigger_ports">
+       </div>
+      </div>
+      <div class="hr" id="ignore_protocols_div"></div>
+      <div class="p-des-full-width">
+       <p id="ignore_protocols" style="padding-left:20px"></p>
+      </div>
+      <div class="form-row" id="dod_ignore_icmp_div">
+       <label id="dod_ignore_icmp_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_ignore_icmp_on" name="dod_ignore_icmp" class="access" value="1">
+         <label for='dod_ignore_icmp_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_ignore_icmp_off" name="dod_ignore_icmp" class="access" value="0">
+         <label for='dod_ignore_icmp_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="dod_ignore_tcp_div">
+       <label id="dod_ignore_tcp_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_ignore_tcp_on" name="dod_ignore_tcp" class="access" value="1">
+         <label for='dod_ignore_tcp_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_ignore_tcp_off" name="dod_ignore_tcp" class="access" value="0">
+         <label for='dod_ignore_tcp_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="dod_ignore_udp_div">
+       <label id="dod_ignore_udp_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_ignore_udp_on" name="dod_ignore_udp" class="access" value="1">
+         <label for='dod_ignore_udp_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_ignore_udp_off" name="dod_ignore_udp" class="access" value="0">
+         <label for='dod_ignore_udp_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="hr"></div>
+      <div class="p-des-full-width">
+       <p id="ignore_apps" style="padding-left:20px"></p>
+      </div>
+      <div class="form-row" id="dod_ignore_dns_div">
+       <label id="dod_ignore_dns_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_ignore_dns_on" name="dod_ignore_dns" class="access" value="1">
+         <label for='dod_ignore_dns_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_ignore_dns_off" name="dod_ignore_dns" class="access" value="0">
+         <label for='dod_ignore_dns_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="dod_ignore_ntp_div">
+       <label id="dod_ignore_ntp_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_ignore_ntp_on" name="dod_ignore_ntp" class="access" value="1">
+         <label for='dod_ignore_ntp_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_ignore_ntp_off" name="dod_ignore_ntp" class="access" value="0">
+         <label for='dod_ignore_ntp_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="form-row" id="dod_windows7_div">
+       <label id="dod_windows7_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_windows7_on" name="dod_windows7" class="access" value="1">
+         <label for='dod_windows7_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_windows7_off" name="dod_windows7" class="access" value="0">
+         <label for='dod_windows7_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="hr"></div>
+      <b id="timeout_td" style="padding-left:20px"></b>
+      <div class="form-row">
+       <fieldset>
+        <label for="online_time" id="online_time_td"></label>
+        <div class="field">
+         <select id="online_time" name="online_time"></select>
+        </div>
+       </fieldset>
+      </div>
+      <div class="form-row">
+       <fieldset>
+        <label for="min_online_time" id="min_online_time_td"></label>
+        <div class="field">
+         <select id="min_online_time" name="min_online_time" ></select>
+        </div>
+       </fieldset>
+      </div>
+      <div class="form-row">
+       <fieldset>
+        <label for="dial_delay" id="dial_delay_label"></label>
+        <div class="field">
+         <select id="dial_delay" name="dial_delay"></select>
+        </div>
+       </fieldset>
+      </div>
+      <div class="form-row">
+       <fieldset>
+        <label for="deactivation_time" id="deactivation_time_td"></label>
+        <div class="field">
+         <select id="deactivation_time" name="deactivation_time"></select>
+        </div>
+       </fieldset>
+      </div>
+      <b id="periodic_dial_td" style="padding-left:20px"></b>
+      <div class="form-row">
+       <fieldset>
+        <label for="periodic_online_time" id="periodic_online_time_label"></label>
+        <div class="field">
+         <select id="periodic_online_time" name="periodic_online_time"></select>
+        </div>
+       </fieldset>
+      </div>
+      <div class="form-row">
+       <fieldset>
+        <label for="periodic_online_rndtime" id="periodic_online_rndtime_label"></label>
+        <div class="field">
+         <select id="periodic_online_rndtime" name="periodic_online_rndtime"></select>
+        </div>
+       </fieldset>
+      </div>
+      <div style="display:none">
+       <b id="control_td" style="padding-left:20px"></b>
+       <div class="form-row">
+        <fieldset>
+         <label for="power_control" id="power_control_label"></label>
+         <div class="field">
+          <select id="power_control" name="power_control">
+           <option value="0"></option>
+           <option value="1"></option>
+          </select>
+         </div>
+        </fieldset>
+       </div>
+      </div>
+      <div class="hr"></div>
+      <div style="padding-left:20px">
+       <b id="dod_debug_desc"></b>
+      </div>
+      <div class="form-row" id="dod_debug_div">
+       <label id="dod_debug_label"></label>
+       <div class="location-settings">
+        <div class="radio-switch">
+         <input type="radio" id="dod_debug_on" name="dod_debug" class="access" value="1">
+         <label for='dod_debug_on' class='on'><script language=Javascript>document.write("I")</script></label>
+         <input type="radio" id="dod_debug_off" name="dod_debug" class="access" value="0">
+         <label for='dod_debug_off' class='off'><script language=Javascript>document.write("0")</script></label>
+        </div>
+       </div>
+      </div>
+      <div class="hr"></div>
+      <div style="padding-left:20px">
+       <b id="dod_online_desc"></b>
+      </div>
+      <div class="form-row">
+       <label for="dod_online_status" id="online_status_label"></label>
+       <span class="normal-text" id="dod_online_status"></span>
+      </dl>
+      </div>
+      <div class="submit-row" style="padding-bottom:20px">
+       <button type="button" class="secondary" id="dod_connect" style="line-height:12px" value="connect"><script language=Javascript>document.write("Manual connect")</script></button>
+       <button type="button" class="secondary" id="dod_disconnect" style="line-height:12px" value="Disconnect"><script language=Javascript>document.write("Manual disconnect")</script></button>
+      </div>
+     </div>
+    </div>
+   </div>
+<!--- dial on demand feature client side script --->
+<script language="JavaScript" >
+$(function() {
+ /* apply localization and build elements */
+ $.each(
+  {
+   "#dod_online_desc":"Online / Offline control",
+   "#dod_debug_desc":"Verbose logging configuration",
+   "#dod_select_title":"Connect on demand",
+   "#dial_on_traffic":"Data activity triggered connection",
+   "#dod_ignore_icmp_label":"Ignore ICMP",
+   "#dod_ignore_tcp_label":"Ignore TCP",
+   "#dod_ignore_udp_label":"Ignore UDP",
+   "#dod_ignore_ntp_label":"Ignore NTP",
+   "#dod_ignore_dns_label":"Ignore DNS",
+   "#dod_windows7_label":"Ignore Microsoft network awareness (NCSI) traffic",
+   "#min_online_time_td":"After connecting, stay online for at least",
+   "#dial_delay_label":"After hanging up, don't redial for",
+   "#online_time_td":"On data activity, stay online for at least",
+   "#timeout_td":"Connect and disconnect timers",
+   "#control_td":"Manual connect and disconnect control",
+   "#power_control_label":"Module power control",
+   "#power_control option[value='0']":"Power off",
+   "#power_control option[value='1']":"Power on",
+   "#periodic_dial_td":"Periodic connect schedule",
+   "#online_status_label":"Connection status",
+   "#ignore_protocols":"Connect on data activity except when activity matches these IP protocols",
+   "#ignore_apps":"Connect on data activity except when activity matches these applications",
+   "#dial_on_demand_title":"Connect on demand",
+   "#dial_on_demand_desc":"The connect on demand feature keeps the PDP context deactivated by default while making it appear that the router has permanent connection to WWAN and locally connected devices. When interesting packets arrive or an SMS wake-up command is received, the router will attempt to establish a WWAN data connection. The router will monitor traffic once the data connection is established and will terminate it when the link is idle.",
+   "#periodic_online_time_label":"Connect regularly, every",
+   "#periodic_online_rndtime_label":"Randomize connect frequency by up to",
+   "#deactivation_time_td":"Disconnect regardless of traffic after",
+   "#trigger_port":"Connect only when traffic appears to these UDP/TCP destination ports. You can specify multiple ports by separating them with a comma (eg 21, 23, 53).",
+   "#dod_debug_label":"Log all matched activity to the system log",
+  },
+  function(el,str){
+   if($(el).is("input:button"))
+    $(el).val(str);
+   else
+    $(el).html(str);
+  }
+ );
+ $.each(
+  ["#dial_delay"],
+  function(idx,el) {
+  $.each(
+   {
+    "0":"Immediate",
+    "3":"3 "+"seconds",
+    "5":"5 "+"seconds",
+    "10":"10 "+"seconds",
+    "15":"15 "+"seconds",
+    "20":"20 "+"seconds",
+    "25":"25 "+"seconds",
+    "30":"30 "+"seconds",
+    "35":"35 "+"seconds",
+    "45":"45 "+"seconds",
+    "60":"1 "+"minute",
+    "120":"2 "+"minutes",
+    "180":"3 "+"minutes",
+    "300":"5 "+"minutes",
+   },
+   function(val,txt){
+    $(el).append("<option value='"+val+"'>"+txt+"</option>");
+   }
+  );
+ });
+ $.each(
+  ["#min_online_time","#online_time"],
+  function(idx,el) {
+  $.each(
+   {
+    "1":"1 "+"minute",
+    "2":"2 "+"minutes",
+    "3":"3 "+"minutes",
+    "5":"5 "+"minutes",
+    "10":"10 "+"minutes",
+    "15":"15 "+"minutes",
+    "20":"20 "+"minutes",
+    "25":"25"+"minutes",
+    "30":"30 "+"minutes",
+    "35":"35 "+"minutes",
+    "45":"45 "+"minutes",
+    "60":"1 "+"hour",
+   },
+   function(val,txt){
+    $(el).append("<option value='"+val+"'>"+txt+"</option>");
+   }
+  );
+ });
+ $.each(
+  ["#periodic_online_rndtime"],
+  function(idx,el) {
+  $.each(
+   {
+    "0":"never",
+    "1":"1 "+"minute",
+    "2":"2 "+"minutes",
+    "3":"3 "+"minutes",
+    "5":"5 "+"minutes",
+    "10":"10 "+"minutes",
+    "15":"15 "+"minutes",
+    "20":"20 "+"minutes",
+    "25":"25"+"minutes",
+    "30":"30 "+"minutes",
+    "35":"35 "+"minutes",
+    "45":"45 "+"minutes",
+    "60":"1 "+"hour",
+   },
+   function(val,txt){
+    $(el).append("<option value='"+val+"'>"+txt+"</option>");
+   }
+  );
+ });
+ $.each(
+  ["#deactivation_time"],
+  function(idx,el) {
+  $.each(
+   {
+    "0":"never",
+    "1":"1 "+"minute",
+    "2":"2 "+"minutes",
+    "3":"3 "+"minutes",
+    "5":"5 "+"minutes",
+    "10":"10 "+"minutes",
+    "15":"15 "+"minutes",
+    "20":"20 "+"minutes",
+    "25":"25"+"minutes",
+    "30":"30 "+"minutes",
+    "35":"35 "+"minutes",
+    "45":"45 "+"minutes",
+    "60":"1 "+"hour",
+   },
+   function(val,txt){
+    $(el).append("<option value='"+val+"'>"+txt+"</option>");
+   }
+  );
+ });
+ $.each(
+  ["#periodic_online_time"],
+  function(idx,el) {
+  $.each(
+   {
+    "0":"never",
+    "1":"1 "+"minute",
+    "2":"2 "+"minutes",
+    "3":"3 "+"minutes",
+    "5":"5 "+"minutes",
+    "10":"10 "+"minutes",
+    "15":"15 "+"minutes",
+    "20":"20 "+"minutes",
+    "25":"25"+"minutes",
+    "30":"30 "+"minutes",
+    "35":"35 "+"minutes",
+    "45":"45 "+"minutes",
+    "60":"1 "+"hour",
+    "120":"2 "+"hours",
+    "180":"3 "+"hours",
+    "240":"4 "+"hours",
+    "300":"5 "+"hours",
+    "360":"6 "+"hours",
+    "720":"12 "+"hours",
+   },
+   function(val,txt) {
+    $(el).append("<option value='"+val+"'>"+txt+"</option>");
+   }
+  );
+ });
+ $("#dial_delay").change(function() {
+  this_time=parseInt($(this).val());
+  // restore user prefer value
+  $("#periodic_online_time").val(periodic_online);
+  // disable bigger time ontime_time
+  $("#periodic_online_time option").each(function() {
+    $(this).attr("disabled",parseInt($(this).val())*60<this_time);
+   }
+  );
+  if( parseInt($("#periodic_online_time").val())>0 && parseInt($("#periodic_online_time").val())<this_time) {
+   // get first enabled
+   first=$("#periodic_online_time option:enabled:first");
+   // disable if we have no enabled option
+   $("#periodic_online_time").attr("disabled",first.length==0);
+   // change value if disabled
+   if($("#periodic_online_time option:selected").is(":disabled") && (first.length>0)) {
+    $("#periodic_online_time").val( first.val() );
+   }
+  }
+  $("#periodic_online_time option:first").attr("disabled",false);
+ });
+ $("#periodic_online_time").change(function() {
+  var period;
+  var last;
+  period=parseInt($(this).val());
+  // disable bigger time period
+  $("#periodic_online_rndtime option").each(function(){
+    $(this).attr("disabled",parseInt($(this).val())>=period);
+   }
+  );
+  // get last enabled
+  last=$("#periodic_online_rndtime option:enabled:last");
+  // disable if we have no enabled option
+  $("#periodic_online_rndtime").attr("disabled",last.length==0);
+  // change value if disabled
+  if($("#periodic_online_rndtime option:selected").is(":disabled") && (last.length>0)) {
+   $("#periodic_online_rndtime").val( last.val() );
+  }
+ });
+ // ajax setup - 10 second timeout and no cache
+ $.ajaxSetup({
+  timeout:10000,
+  cache:false,
+  error:function(req,stat,err) {
+   switch(stat) {
+    case "timeout":
+     blockUI_alert("The router isn't connected. Please check the connection and refresh the configuration page.");
+     break;
+   }
+  }
+ })
+ var disable_dod_control_buttons=0;
+ var dod_control_command="";
+ // ajax - dod online status
+ function do_poll_dod_status() {
+  $.getJSON("./cgi-bin/3gwwan.cgi",{reqtype:"get_status"},function(res,stat,req) {
+   if(res.dod_enable)
+    $("#dod_online_status").html( (res.status==1)?"Online":"Offline" );
+   else
+    $("#dod_online_status").html( "Disabled" );
+   if(dod_control_command=="connect" && res.status)
+    disable_dod_control_buttons=0;
+   else if (dod_control_command=="disconnect" && !res.status)
+    disable_dod_control_buttons=0;
+   $("#dod_connect").attr( "disabled",(res.status==1) || (res.dod_enable==0) || (disable_dod_control_buttons>0));
+   $("#dod_disconnect").attr( "disabled",(res.status==0) || (res.dod_enable==0) || (disable_dod_control_buttons>0));
+   $("#dod_online_status").attr("disabled",res.dod_enable==0);
+   if(disable_dod_control_buttons>0)
+    disable_dod_control_buttons--;
+   // reschedule next poll
+   setTimeout(do_poll_dod_status,1000);
+  });
+  // if number of default route is 1, then disable selection menu
+  if (document.form.dod_profiles.length < 2) {
+   $("#dod_profiles").attr("disabled", true);
+   $("#dod_profile_select").html("Selected profile");
+  } else {
+   $("#dod_profiles").attr("disabled", false);
+   $("#dod_profile_select").html("Select profile");
+  }
+ }
+ // disable all dod connect and disconnect buttons
+ $("#dod_connect,#dod_disconnect").attr("disabled",true);
+ var min_online;
+ var periodic_online;
+ var deactivation_time;
+ $("#deactivation_time").change(function() {
+  deactivation_time=$(this).val();
+ });
+ function update_deactivation_time() {
+  var first;
+  var cur_min_online;
+  cur_min_online=parseInt($("#min_online_time").val());
+  $("#deactivation_time").val(deactivation_time);
+  $("#deactivation_time option").each(function(){
+   var opt_val=parseInt($(this).val());
+   $(this).attr("disabled",(opt_val!=0) && (opt_val<cur_min_online));
+  });
+  if(deactivation_time<cur_min_online) {
+   // get first enabled
+   first=$("#deactivation_time option:enabled:eq(1)");
+   // disable if we have no enabled option
+   $("#deactivation_time").attr("disabled",first.length==0);
+   // change value if disabled
+   if($("#deactivation_time option:selected").is(":disabled") && (first.length>0)) {
+    $("#deactivation_time").val( first.val() );
+   }
+  }
+ }
+ $("#min_online_time").change(function() {
+  // update user prefer value
+  min_online=$(this).val();
+  update_deactivation_time();
+ });
+ $("#online_time").change(function(){
+  var ontime_time;
+  var first;
+  ontime_time=parseInt($(this).val());
+  // restore user prefer value
+  $("#min_online_time").val(min_online);
+  // disable bigger time ontime_time
+  $("#min_online_time option").each(function(){
+    $(this).attr("disabled",parseInt($(this).val())<ontime_time);
+   }
+  );
+  if(min_online<ontime_time) {
+   // get first enabled
+   first=$("#min_online_time option:enabled:first");
+   // disable if we have no enabled option
+   $("#min_online_time").attr("disabled",first.length==0);
+   // change value if disabled
+   if($("#min_online_time option:selected").is(":disabled") && (first.length>0)) {
+    $("#min_online_time").val( first.val() );
+   }
+  }
+  update_deactivation_time();
+ });
+ $("input:radio.access[name=trigger_port_en]").change(function(){
+  var port_en;
+  port_en=($(this).is(":checked")) && ($(this).val()=="1");
+  $("#trigger_ports").val(dod_profile.ports_list);
+  if(!port_en) {
+   //remove validate empty error
+   $("#portlist").val("23");
+   $("#portlist").valid();
+   $("#portlist").val(dod_profile.ports_list);
+   $("#portlist").attr("disabled", true);
+  }
+  else {
+   $("#portlist").attr("disabled", false);
+   //$("#portlist").valid();
+  }
+  $("#portlist_div").toggle(port_en);
+  // disable or enable ignore settings
+  $("#ignore_protocols_div,#ignore_protocols,#dod_ignore_icmp_div,#dod_ignore_tcp_div,#dod_ignore_udp_div,#dod_ignore_ntp_div,#dod_ignore_dns_div").toggle(!port_en);
+ });
+ $("#portlist").keydown(function(e){
+  // Allow: backspace, delete, tab, escape, and enter
+  if ( e.keyCode == 46 || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 27 || e.keyCode == 13 ||
+   // Allow: Ctrl+A
+   (e.keyCode == 65 && e.ctrlKey === true) ||
+   // Allow: home, end, left, right
+   (e.keyCode >= 35 && e.keyCode <= 39))
+   return true;
+  // Ensure that it is a number and stop the keypress
+  if ( (!e.shiftKey && (e.keyCode>=48 && e.keyCode<=57)) || (e.keyCode>=96 && e.keyCode<=105 ) )
+   return true;
+  if( e.keyCode == 188)
+   return true;
+  return false;
+ });
+ $("#dod_connect,#dod_disconnect").click(function() {
+  var reqtype;
+  reqtype=$(this).attr("id")=="dod_connect"?"connect":"disconnect";
+  $("#dod_connect,#dod_disconnect").attr("disabled",true);
+  disable_dod_control_buttons=30; // 10 times query (about 5 seconds)
+  dod_control_command=reqtype;
+  $.get("./cgi-bin/3gwwan.cgi",{reqtype:reqtype},function(res){
+    if(res.cgiresult) {
+     blockUI_alert("Sorry, we can't control the connect on demand connection. Please check the WWAN configuration.");
+    }
+   }
+  );
+ });
+ $("#pppprofilenum").change(function() {
+  var idx;
+  idx=$(this).val();
+  // use default selected item
+  if( ($.type(stpf[idx].conntype)=="undefined") && (stpf[idx].conntype=="") )
+   stpf[idx].conntype=$("#dod_enable").val();
+  //$("#dod_enable").val(stpf[idx].conntype).trigger("change");
+ });
+ var dod_profile;
+ var wwan_profiles=new Array();
+ $("#save").click(function(){
+  var rdb_vars=new Array();
+  var pr_idx;
+  clear_alert();
+  if(!$("#form").valid()) {
+   return;
+  }
+  // store elements to dod_profile
+  pr_idx=parseInt($("#dod_profiles").val());
+  dod_profile.ignore_icmp=$("input:radio.access[name=dod_ignore_icmp]:checked").val();
+  dod_profile.ignore_tcp=$("input:radio.access[name=dod_ignore_tcp]:checked").val();
+  dod_profile.ignore_udp=$("input:radio.access[name=dod_ignore_udp]:checked").val();
+  dod_profile.ignore_ntp=$("input:radio.access[name=dod_ignore_ntp]:checked").val();
+  dod_profile.ignore_dns=$("input:radio.access[name=dod_ignore_dns]:checked").val();
+  dod_profile.ignore_win7=$("input:radio.access[name=dod_windows7]:checked").val();
+  dod_profile.min_online=$("#min_online_time").val();
+  dod_profile.dial_delay=$("#dial_delay").val();
+  dod_profile.traffic_online=$("#online_time").val();
+  dod_profile.deactivation_timer=$("#deactivation_time").val();
+  dod_profile.periodic_online=$("#periodic_online_time").val();
+  dod_profile.periodic_online_random=$("#periodic_online_rndtime").val();
+  dod_profile.poweron=$("#power_control").val();
+  dod_profile.ports_en=$("input:radio.access[name=trigger_port_en]:checked").val();
+  if($("input:radio.access[name=trigger_port_en][value=1]").is(":checked")) {
+   dod_profile.ports_list=$("#trigger_ports").val();
+  }
+  dod_profile.dod_verbose_logging=$("input:radio.access[name=dod_debug]:checked").val();
+  dod_profile.enable=$("input:radio.access[name=dod_enable]:checked").val();
+  dod_profile.profile=$("#dod_profiles").val();
+  // collect rdb variables
+  $.each(dod_profile,function(rdb,val){
+   rdb_vars.push("dialondemand."+rdb+"="+val);
+  });
+  // set trigger
+  rdb_vars.push("dialondemand.trigger=1");
+  $(".submit-row").css("display", "none");
+  blockUI_wait("Please wait");
+  // sumit the rdb
+  $.get("./cgi-bin/rdb.cgi?"+rdb_vars.join("&"),function() {
+   window.location="dod.html?success";
+  });
+ });
+ function enable_dod_config(en) {
+  $("body").css("cursor", en?"auto":"wait");
+  $("#dod_enable_div").toggle(en);
+  $("#dod_profile_div").toggle(en);
+  $("#save").attr("disabled",!en);
+ };
+ // get dod profiles
+ enable_dod_config(false);
+ 
+ var res = {
+	"cgiresult":0,
+	"dod_profile":{
+		"profile":1,
+		
+		"deactivation_timer":0,
+		"dial_delay":5,
+		"dod_verbose_logging":0,
+		"enable":0,
+		"ignore_dns":0,
+		"ignore_icmp":0,
+		"ignore_ntp":0,
+		"ignore_tcp":0,
+		"ignore_udp":0,
+		"ignore_win7":0,
+		"min_online":20,
+		"periodic_online":0,
+		"periodic_online_random":0,
+		"ports_en":0,
+		"ports_list":"",
+		"poweron":0,
+		"traffic_online":20
+	},
+	"profiles":[1]
+}
+
+ 
+/* $.getJSON( "./cgi-bin/dod.cgi",{cmd:"dod_get"},
+  function(res,stat,req) {*/
+   // store dod profiles as a global variable
+   dod_profile=res.dod_profile;
+   wwan_profiles=res.profiles;
+   /*apply configuration*/
+   min_online=dod_profile.min_online;
+   periodic_online=dod_profile.periodic_online;
+   deactivation_time=dod_profile.deactivation_timer;
+   // add activated wwan profiles to the listbox
+   $.each(wwan_profiles,function(idx,pf){
+    $("#dod_profiles").append("<option value="+pf+">"+"Profile"+" "+pf+"</option>");
+   });
+   load_values_to_elements(
+    {
+     "input:radio.access[name=dod_ignore_icmp]":dod_profile.ignore_icmp == "1",
+     "input:radio.access[name=dod_ignore_tcp]":dod_profile.ignore_tcp == "1",
+     "input:radio.access[name=dod_ignore_udp]":dod_profile.ignore_udp == "1",
+     "input:radio.access[name=dod_ignore_ntp]":dod_profile.ignore_ntp == "1",
+     "input:radio.access[name=dod_ignore_dns]":dod_profile.ignore_dns == "1",
+     "input:radio.access[name=dod_windows7]":dod_profile.ignore_win7 == "1",
+     "#min_online_time":min_online,
+     "#dial_delay":dod_profile.dial_delay,
+     "#online_time":dod_profile.traffic_online,
+     "#deactivation_time":dod_profile.deactivation_timer,
+     "#periodic_online_time":dod_profile.periodic_online,
+     "#periodic_online_rndtime":dod_profile.periodic_online_random,
+     "#power_control":(dod_profile.poweron!="0")?1:0,
+     "input:radio.access[name=trigger_port_en]":dod_profile.ports_en=="1",
+     "#portlist":dod_profile.ports_list,
+     "input:radio.access[name=dod_debug]":dod_profile.dod_verbose_logging=="1",
+     "input:radio.access[name=dod_enable]":dod_profile.enable=="1",
+    }
+   );
+   $("#dod_profiles").val(dod_profile.profile);
+   /* triggering to update */
+   $("#dial_delay").trigger("change");
+   $("#periodic_online_time").trigger("change");
+   $("input:radio.access[name=trigger_port_en]:checked").trigger("change");
+   $("#online_time").trigger("change");
+   if(wwan_profiles.length>0) {
+    // show dod parts
+    enable_dod_config(true);
+    // start poll timer
+    do_poll_dod_status();
+   }
+   else {
+    var pppoe_en="0";
+    if(pppoe_en!="1")
+     blockUI_alert("No profile is available for the Connect on demand configuration"); // No profile is available for the Connect on demand configuration
+    $("body").css("cursor", "auto");
+   }
+  }
+ );
+//});
+</script>
+<!--- dial on demand feature end --->
+    <div class="submit-row">
+     <button id="save" type="button"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='dod.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script ></script>
+<script language='javascript'>
+        set_menu("Internet", "DOD", "root");
+ function is_port_list_valid(a) {
+  // re-arrage port list
+  var ports;
+  ports=a.val().split(",");
+  // convert to numbers
+  $.each(ports,function(idx,port){
+   ports[idx]=parseInt(port,10)||0;
+  });
+  // sort
+  ports.sort(function(a,b){
+   return a-b;
+  });
+  // remove zeros and unique
+  var prev=0;
+  ports=$.grep(ports,function(n,i){
+   var res;
+   res=n!=prev;
+   prev=n;
+   return res;
+  });
+  // convert to numbers
+  var validport=false;
+  $.each(ports,function(idx,portno){
+   validport=(portno>0) && (portno<(1<<16));
+   if(!validport) {
+    return false;
+   }
+  });
+  if(!validport) {
+   return false;
+  }
+  $("#trigger_ports").val(ports.join(","));
+  return true;
+ }
+ /*
+
+	* @param {jqObject} the field where the validation applies
+
+	* @param {Array[String]} validation rules for this field
+
+	* @param {int} rule index
+
+	* @param {Map} form options
+
+	* @return an error string if validation failed
+
+	*/
+ VALIDATOR.config.errors["portlist"]="Port number must have a value between 1 and 65535.";
+ $.validator.addMethod("portlist",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   // check port list validation
+   if($("input:radio.access[name=trigger_port_en][value=1]").is(":checked")) {
+    if(!is_port_list_valid($(a)))
+     return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   if($("input:radio.access[name=trigger_port_en][value=1]").is(":checked"))
+    return false;
+   else
+    return true;
+  }
+  return true;
+ },VALIDATOR.config.errors.portlist);
+ if(""=="success") {
+  success_alert("","Your connect on demand configuration changes were successfully saved and applied.");
+ }
+</script>
+</body>
+</html>

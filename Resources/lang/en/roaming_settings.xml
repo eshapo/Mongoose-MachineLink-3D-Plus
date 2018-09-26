@@ -1,0 +1,127 @@
+<po>
+<message msgid="date" msgstr="Date"/>
+<message msgid="time" msgstr="Time"/>
+<message msgid="machine" msgstr="Machine"/>
+<message msgid="level" msgstr="Level"/>
+<message msgid="process" msgstr="Process"/>
+<message msgid="message" msgstr="Message"/>
+<message msgid="roamingLogEmpty" msgstr="There are no roaming entries in the log"/>
+<message msgid="confirm cleanLog" msgstr="Are you sure you want to clear all logs?"/>
+<message msgid="setman rebooting" msgstr="System rebooting..."/>
+<message msgid="redirectStatus" msgstr="Redirecting you to the Status page"/>
+<message msgid="setman warningMsg7" msgstr="Reboot successful. Redirecting you to the Status page..."/>
+<message msgid="rssiThreshold disclaimer" msgstr="Adjusting the RSSI roaming threshold incorrectly or without proper testing and validation may adversely affect network acquisition. Establishing a value different from the default, 105 (-105 dBm), will eliminate network registration attempts with any network observed to have a signal lower than the established threshold. Selecting a higher threshold may also eliminate available low cost networks resulting in higher data costs. It is recommended to consult your Vodafone technical contact prior to adjusting this parameter."/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+<message msgid="na" msgstr="N/A"/>
+<message msgid="deleteConfirm" msgstr="Are you sure you want to delete the file: "/>
+<message msgid="imsi range" msgstr="IMSI range"/>
+<message msgid="prl version" msgstr="Version"/>
+<message msgid="delete" msgstr="Delete"/>
+<message msgid="default" msgstr="Default"/>
+<message msgid="uppercase warning" msgstr="WARNING"/>
+<message msgid="rssiRiskWarning" msgstr="I have read and understand the risk"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="advancedNetworkSelection" msgstr="Advanced Vodafone network (PLMN) selection"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="validatePDPcontext" msgstr="Validate PDP context activation"/>
+<message msgid="networkRetryPeriod" msgstr="Best network retry period"/>
+<message msgid="tenTo2880" msgstr="(10-2880, 0=disabled) minutes"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="showAdvancedSettings" msgstr="Show advanced settings"/>
+<message msgid="rssiThreshold" msgstr="RSSI threshold"/>
+<message msgid="negativeWarning" msgstr="Enter a positive numeric value between 105 and 95, which will be processed as a negative figure between -105 to -95 dBm."/>
+<message msgid="apply" msgstr="Apply"/>
+<message msgid="prl list" msgstr="PRL list"/>
+<message msgid="prlInUse" msgstr="PRL list in use"/>
+<message msgid="in use" msgstr="In Use"/>
+<message msgid="action" msgstr="Action"/>
+<message msgid="roamingFilteredLog" msgstr="System log filtered for roaming entries"/>
+<message msgid="roamingFilteredIntroduction" msgstr="The system log viewer below shows the standard system log messages as per the System tab, except it is filtered on this page to show only entries relating to the device's network selection and roaming using Vodafone GDSP SIM cards."/>
+<message msgid="select page" msgstr="Select page"/>
+<message msgid="download" msgstr="Download"/>
+<message msgid="clear" msgstr="Clear"/>
+<message msgid="GUI rebooting" msgstr="Rebooting..."/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="telephony profile warningMsg" msgstr="The system needs to reboot in order to make these changes take effect, are you sure you want to continue?"/>
+<message msgid="networkRetryPeriodMsg" msgstr="Best network retry period must have a value between 10 and 2880, or 0 for disable."/>
+<message msgid="rssiThresholdMsg" msgstr="RSSI threshold must have a positive numeric value between 105 and 95 (corresponding to -105 to -95 dBm)."/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

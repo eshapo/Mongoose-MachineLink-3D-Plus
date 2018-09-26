@@ -1,0 +1,120 @@
+<po>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="lowPowerModeIntroduction" msgstr="This device can be configured to enter or return from a low power 'sleep' mode. This may occur automatically after a timer has expired and optionally by being sent a signal on the device's dedicated input line, called the 'ignition' input.&lt;br/&gt;&lt;br/&gt;During the sleep state, the device is effectively powered off. That is, it has no ability to communicate wirelessly or process any information. It will draw approximately 5mA current at 12V  during the sleep state.&lt;br/&gt;&lt;br/&gt;After being triggered, it takes approximately 30  seconds to enter the sleep state, and it takes approximately 2 minutes  to return from the sleep state (which involves a full device boot up sequence).&lt;br/&gt;&lt;br/&gt;Please note there is a period of around 10 seconds after the device is triggered to enter the sleep state where the ignition line cannot be monitored. Please take this into account when designing your ignition power on system."/>
+<message msgid="lpmFunctionality" msgstr="Low power mode functionality"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="sleepSettings" msgstr="Sleep settings"/>
+<message msgid="sleepMode" msgstr="Sleep mode"/>
+<message msgid="sleepByManual" msgstr="Sleep by manual trigger only"/>
+<message msgid="sleepByTimer" msgstr="Sleep after specified duration and ignore ignition pin"/>
+<message msgid="sleepByIgnitionStatus" msgstr="Sleep triggered by ignition pin status"/>
+<message msgid="sleepByTimerOrIgnition" msgstr="Sleep after specified duration or triggered by ignition pin"/>
+<message msgid="sleepByIgnitionCondition" msgstr="Sleep when ignition pin goes"/>
+<message msgid="ioLow" msgstr="Low"/>
+<message msgid="ioHigh" msgstr="High"/>
+<message msgid="sleepAfterBooting" msgstr="Always go to sleep this many seconds after booting"/>
+<message msgid="sleepTimerRange" msgstr="300 - 4294967"/>
+<message msgid="seconds" msgstr="seconds"/>
+<message msgid="triggerSleepNow" msgstr="Trigger sleep mode now"/>
+<message msgid="wakeSettings" msgstr="Wake settings"/>
+<message msgid="wakeMode" msgstr="Wake mode"/>
+<message msgid="wakeByTimerAndIgnition" msgstr="Only wake after specified duration and ignore ignition pin"/>
+<message msgid="wakeByIgnitionStatus" msgstr="Wake triggered by ignition pin status"/>
+<message msgid="AdvancedConfigureBelow" msgstr="Advanced (configure below)"/>
+<message msgid="wakeByIgnitionCondition" msgstr="Wake when ignition pin goes"/>
+<message msgid="advancedWakeSettings" msgstr="Advanced wake settings"/>
+<message msgid="advancedWakeIntroduction" msgstr="In order to wake from sleep, you may choose to create up to 2 ignition pin events which must occur in a row in order to wake. Please choose the two required events below. If you wish to only require a single ignition pin event to occur, then please select Skip for Event 1, and configure Event 2 as desired."/>
+<message msgid="step1Introduction" msgstr="For 'Stable time' fields, choose how long the ignition value must be stable for this Event (in 10ms increments).&lt;br/&gt;Note: 0 is a valid value, meaning instantaneous, 1 means 10ms etc."/>
+<message msgid="event1" msgstr="Event 1"/>
+<message msgid="chooseValueStep1" msgstr="Required ignition line value for Event 1"/>
+<message msgid="skip" msgstr="Skip"/>
+<message msgid="stableTime" msgstr="Stable time"/>
+<message msgid="zTo65535" msgstr="0 - 65535"/>
+<message msgid="event2" msgstr="Event 2"/>
+<message msgid="chooseValueStep2" msgstr="Required ignition line value for Event 2"/>
+<message msgid="wakeUpAfter" msgstr="Always wake up after"/>
+<message msgid="zTo4294967" msgstr="0 - 4294967"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="systemShuttingDown" msgstr="System is shutting down ..."/>
+<message msgid="zTo65535warningMeg" msgstr="This filed must have a value between 1 and 65535"/>
+<message msgid="zTo4294967warningMeg" msgstr="This filed must have a value between 1 and 4294967"/>
+<message msgid="sleepTimerWarningMeg" msgstr="This filed must have a value between 300 and 4294967"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

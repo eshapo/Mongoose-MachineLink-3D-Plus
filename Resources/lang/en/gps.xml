@@ -1,0 +1,117 @@
+<po>
+<message msgid="Previously Stored GPS Data (N/A)" msgstr="Previously Stored GPS Data (N/A)"/>
+<message msgid="Previously Stored GPS Data (Standalone)" msgstr="Previously Stored GPS Data (Standalone)"/>
+<message msgid="Previously Stored GPS Data (Mobile Assisted)" msgstr="Previously Stored GPS Data (Mobile Assisted)"/>
+<message msgid="MS Assisted GPS" msgstr="MS Assisted GPS"/>
+<message msgid="Stand-alone GPS" msgstr="Stand-alone GPS"/>
+<message msgid="feet" msgstr="Feet"/>
+<message msgid="miles" msgstr="Miles"/>
+<message msgid="kilometer" msgstr="Kilometer"/>
+<message msgid="meter" msgstr="Meter"/>
+<message msgid="altitude" msgstr="Altitude"/>
+<message msgid="altitude height" msgstr="Altitude &amp; GEOID height"/>
+<message msgid="gps time sync result" msgstr="System time was set to "/>
+<message msgid="invalidGPSposition" msgstr="Invalid GPS position!"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="gps operation" msgstr="GPS operation"/>
+<message msgid="on" msgstr="I"/>
+<message msgid="off" msgstr="0"/>
+<message msgid="agpsUpdateInterval" msgstr="AGPS update interval"/>
+<message msgid="Msg107" msgstr="(60 - 65534 seconds)"/>
+<message msgid="CSsave" msgstr="Save"/>
+<message msgid="gps applications" msgstr="GPS applications"/>
+<message msgid="googlemap" msgstr="Google maps"/>
+<message msgid="clockSync" msgstr="Clock sync"/>
+<message msgid="gpsStatus" msgstr="GPS status"/>
+<message msgid="positioningDataSource" msgstr="Positioning data source"/>
+<message msgid="date time" msgstr="Date &amp; Time"/>
+<message msgid="latitude longitude" msgstr="Latitude &amp; Longitude"/>
+<message msgid="ground speed" msgstr="Ground speed"/>
+<message msgid="standalone" msgstr="Standalone"/>
+<message msgid="gps device status" msgstr="GPS device status"/>
+<message msgid="mobile assisted" msgstr="Mobile assisted"/>
+<message msgid="number of satellites" msgstr="Number of satellites"/>
+<message msgid="satellites status" msgstr="Satellites status"/>
+<message msgid="index" msgstr="Index"/>
+<message msgid="in use" msgstr="In Use"/>
+<message msgid="elevation" msgstr="Elevation"/>
+<message msgid="azimuth" msgstr="Azimuth"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="Msg106" msgstr="Entered interval value is out of range!"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

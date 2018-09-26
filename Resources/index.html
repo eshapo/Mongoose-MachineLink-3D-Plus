@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js" lang="en" style="height:100%;">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Login</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js"></script>
+
+<script language="JavaScript">setCookie("c_name", "&nbsp;");</script>
+
+<script language='javascript'>
+var fn="index.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+
+function before_submit(form){
+    	if (document.form.username.value == "root" && document.form.password.value == "admin"){
+            	var user = "root";
+            	setCookie("c_name", user);
+            	window.location.href="status.html";
+            	}
+    	else if (document.form.username.value == "admin" && document.form.password.value == "admin"){
+            	var user = "admin";
+            	setCookie("c_name", user);
+            	window.location.href="status.html";
+            	}
+    	else {
+            	document.getElementById("form-error").style.display="";
+            	}
+    	}
+
+function submitEnter(myfield,e){
+    	var keyCode;
+    	if(window.event) keycode = window.event.keyCode;
+    	else if (e) keycode = e.which;
+    	else return true;
+
+    	if(keycode == 13){
+            	before_submit();
+            	return false;
+            	}
+            	else
+            	return true;
+    	}
+
+
+</script>
+<style>body{min-height:400px;}</style>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <div class="grid-9 omega" style="margin:30px 93px;">
+
+<div id="form-error" class="note" style="display:none">
+<div class="wrap failure">
+<h2><span class="access">_('log Error')+' - '</span>Sorry, we couldn't log you in. Please try again.</h2>
+<p>You have entered the wrong username or password. Please check and try again.</p>
+<ul class="list-plain"></ul>
+</div>
+</div>
+
+xxx
+  <form name="form" id="form" method="POST" action="index.html">
+  <input type="hidden" name="src_page" id="src_page">
+  <div class="pad white-box">
+   <h2><script language=Javascript>document.write("Log in")</script></h2>
+   <div class="form-row">
+    <label for="username"><script language=Javascript>document.write("Username")</script></label>
+    <div class="field">
+     <input class="large validate[required] required" type="text" name="username" id="username" value="" onKeyPress="return submitEnter(this,event);">
+    </div>
+   </div>
+   <div class="form-row">
+    <label for="password"><script language=Javascript>document.write("Password")</script></label>
+    <div class="field">
+     <input class="large validate[required] required" type="password" name="password" id="password" value="" onKeyPress="return submitEnter(this,event);">
+    </div>
+   </div>
+   <div class="submit-row">
+    <button type="button" onClick="before_submit();"><script language=Javascript>document.write("Log in")</script></button>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by Mongoose Advanced Technologies")</script></p>
+ </div>
+</footer>
+<script language="JavaScript">
+set_menu("Login", "", "");
+VALIDATOR.config.errors["title"]="Sorry, we couldn't log you in. Please try again.";
+VALIDATOR.config.errors["summary"]="";
+document.form.username.focus();
+$("#logOff").css("display","none");
+$(document).ready(function() {
+ // If the query has the source page set extract it and set the form element so that
+ // the server can redirect back to that page after logging in.
+ var query = "";
+ var start = query.indexOf("src=");
+ if (start != -1) {
+  $("#src_page").val(query.substr(start +4));
+ }
+});
+</script>
+<!-- <%
+useSession();
+if (request['REQUEST_METHOD'] == "POST") {
+ //check username and password
+ user = form['username'];
+ pass = get_single( 'admin.user.'+user );
+ mypassword = form['password'];
+ if( ( pass != 'N/A' ) && ( mypassword == pass) ) { //password ok
+  session["sessionid"] = request["SESSION_ID"];
+  session["user"] = user;
+  if( user == 'root')
+   session["userlevel"] = '0';
+  else
+   session["userlevel"] = '1';
+  model_type=get_single('system.product.model');
+  // Redirect back to the source page if requested, otherwise to the status page.
+  if (form["src_page"] != undefined) {
+   redirect(form["src_page"]);
+  } else {
+   redirect('/status.html?setdate');
+  }
+ }
+ else {
+  form['username']="";
+  form['password']="";
+  %> -->
+ <script language='JavaScript'>
+ //validate_alert("Sorry, we couldn't log you in. Please try again.","You have entered the wrong username or password. Please check and try again.");
+ //$.get('/cgi-bin/event_noti.cgi?CMD=EVTNOTI_WEBUI_LOGIN_FAILURE&USER='+$("#username").val()+'&PASS='+$("#password").val(), function() {;});
+ </script>
+ <!-- <%}
+}
+else {
+ if(request['QUERY_STRING']=='logoff') {
+  session["sessionid"] = '';
+  session["user"] = '&nbsp;';
+  redirect('/index.html');
+ }
+ else if( request["SESSION_ID"]!="" && session["sessionid"]==request["SESSION_ID"] ) {
+  redirect('/status.html?setdate');
+ }
+}
+%> -->
+</body>
+</html>

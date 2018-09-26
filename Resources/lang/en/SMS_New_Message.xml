@@ -1,0 +1,104 @@
+<po>
+<message msgid="willSent" msgstr=" SMS(s) will be sent"/>
+<message msgid="charsPerSMS" msgstr=" characters per SMS"/>
+<message msgid="destination" msgstr="Destination"/>
+<message msgid="number" msgstr="No"/>
+<message msgid="sms warning05" msgstr="is duplicated with"/>
+<message msgid="cancelled" msgstr="cancelled"/>
+<message msgid="sms warning06" msgstr="You haven't entered a message. Please try again."/>
+<message msgid="dstNumberRequired" msgstr="Destination number field required"/>
+<message msgid="sendingMessage" msgstr="Sending message... Please wait."/>
+<message msgid="mustEnterDstNumber" msgstr="You must enter a destination number. Please try again."/>
+<message msgid="smsMaximumExceeded" msgstr="You can send a SMS to a maximum of 9 recipients."/>
+<message msgid="dest number" msgstr="Destination number"/>
+<message msgid="add recipient" msgstr="Append recipient"/>
+<message msgid="del recipient" msgstr="Delete recipient"/>
+<message msgid="smsDisabled" msgstr="SMS messaging is currently disabled."/>
+<message msgid="sim removed warning" msgstr="The SIM is not inserted, please insert a SIM card and make sure the SIM status is okay, then try again."/>
+<message msgid="sim detecting warning" msgstr="The device is detecting SIM card. Please wait for a while, and make sure the SIM status is okay then try again."/>
+<message msgid="sim pinlock warning" msgstr="The SIM is PIN locked, please unlock the SIM card and make sure the SIM status is okay, then try again."/>
+<message msgid="sim puklock warning" msgstr="The SIM is PUK locked, please unlock the SIM card and make sure the SIM status is okay, then try again."/>
+<message msgid="sim try warning" msgstr="Please make sure the SIM status is okay and try again"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="sms msg count desc" msgstr="The maximum character count varies depending on the coding scheme. In GSM 7-bit mode, you can enter 160 characters in one message, but that number drops to 70 if your message includes special characters. In UCS-2 mode, you can include most special characters but up to a maximum 70 in one message."/>
+<message msgid="send msg" msgstr="Send"/>
+<message msgid="clear" msgstr="Clear"/>
+<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="InputFieldRequired" msgstr="Input field(s) required"/>
+<message msgid="status" msgstr="Status"/>
+<message msgid="CSinternet" msgstr="Networking"/>
+<message msgid="services" msgstr="Services"/>
+<message msgid="system" msgstr="System"/>
+<message msgid="help" msgstr="Help"/>
+<message msgid="login" msgstr="Login"/>
+<message msgid="logoff" msgstr="Log out"/>
+<message msgid="wireless WAN" msgstr="Wireless WAN"/>
+<message msgid="dataConnection" msgstr="Data connection"/>
+<message msgid="band bandTitle" msgstr="Operator settings"/>
+<message msgid="roamingsettings" msgstr="Roaming settings"/>
+<message msgid="simSecurity" msgstr="SIM security settings"/>
+<message msgid="dialonDemand" msgstr="Connect on demand"/>
+<message msgid="lan" msgstr="LAN"/>
+<message msgid="DHCP" msgstr="DHCP"/>
+<message msgid="routing" msgstr="Routing"/>
+<message msgid="static" msgstr="Static"/>
+<message msgid="RIP" msgstr="RIP"/>
+<message msgid="VRRP" msgstr="Redundancy (VRRP)"/>
+<message msgid="NAT" msgstr="Port forwarding"/>
+<message msgid="treeapp dmz" msgstr="DMZ"/>
+<message msgid="router firewall" msgstr="Router firewall"/>
+<message msgid="port basic filter" msgstr="MAC / IP / Port filtering"/>
+<message msgid="VPN" msgstr="VPN"/>
+<message msgid="IPsec" msgstr="IPSec"/>
+<message msgid="OpenVPN" msgstr="Open VPN"/>
+<message msgid="pptpClient" msgstr="PPTP client"/>
+<message msgid="GRE" msgstr="GRE tunnelling"/>
+<message msgid="man ddns" msgstr="Dynamic DNS"/>
+<message msgid="NTP" msgstr="Network time (NTP)"/>
+<message msgid="dataStreamSwitch" msgstr="Data stream manager"/>
+<message msgid="endPoints" msgstr="Endpoints"/>
+<message msgid="streams" msgstr="Streams"/>
+<message msgid="legacyDataManagers" msgstr="Legacy data managers"/>
+<message msgid="modemEmulator" msgstr="Modem emulator"/>
+<message msgid="PADD" msgstr="PADD"/>
+<message msgid="SNMP" msgstr="SNMP"/>
+<message msgid="tr069" msgstr="TR-069"/>
+<message msgid="gps" msgstr="GPS"/>
+<message msgid="gps configuration" msgstr="GPS configuration"/>
+<message msgid="agps" msgstr="MSB (A-GPS)"/>
+<message msgid="odometer" msgstr="Odometer"/>
+<message msgid="ioConfiguration" msgstr="IO configuration"/>
+<message msgid="lowPowerMode" msgstr="Low power mode"/>
+<message msgid="event noti" msgstr="Event notification"/>
+<message msgid="eventNotificationConf" msgstr="Notification configuration"/>
+<message msgid="eventDestinationConf" msgstr="Destination configuration"/>
+<message msgid="email server" msgstr="Email server"/>
+<message msgid="sms title" msgstr="SMS messaging"/>
+<message msgid="setup" msgstr="Setup"/>
+<message msgid="newmsg" msgstr="New message"/>
+<message msgid="inbox" msgstr="Inbox"/>
+<message msgid="sentItems" msgstr="Sent items"/>
+<message msgid="diag" msgstr="Diagnostics"/>
+<message msgid="log" msgstr="Log"/>
+<message msgid="systemLog" msgstr="System log"/>
+<message msgid="IPsecLog" msgstr="IPSec log"/>
+<message msgid="event noti log" msgstr="Event notification log"/>
+<message msgid="treeapp sysMonitor" msgstr="Ping watchdog"/>
+<message msgid="systemConfiguration" msgstr="System configuration"/>
+<message msgid="settingsBackupRestore" msgstr="Settings backup and restore"/>
+<message msgid="upload" msgstr="Upload"/>
+<message msgid="pkg manager" msgstr="Software applications manager"/>
+<message msgid="administration" msgstr="Administration"/>
+<message msgid="administrationSettings" msgstr="Administration settings"/>
+<message msgid="httpsManagement" msgstr="HTTPS key management"/>
+<message msgid="sshManagement" msgstr="SSH key management"/>
+<message msgid="led operation mode" msgstr="LED operation mode"/>
+<message msgid="customMenu" msgstr="Custom menu"/>
+<message msgid="setman reboot" msgstr="Reboot"/>
+<message msgid="HTML title" msgstr="MachineLink 3G"/>
+<message msgid="CSok" msgstr="OK"/>
+<message msgid="cancel" msgstr="Cancel"/>
+<message msgid="errorsTitle" msgstr="Oops, something went wrong..."/>
+<message msgid="succCongratulations" msgstr="Success!"/>
+<message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
+</po>

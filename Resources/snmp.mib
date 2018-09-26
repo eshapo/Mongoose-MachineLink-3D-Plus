@@ -1,0 +1,325 @@
+VDF-Router-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	MODULE-IDENTITY,
+	OBJECT-TYPE,
+	OBJECT-IDENTITY,
+	Unsigned32,
+	NOTIFICATION-TYPE,
+	enterprises
+		FROM SNMPv2-SMI
+	NOTIFICATION-GROUP,
+	MODULE-COMPLIANCE
+		FROM SNMPv2-CONF;
+
+-- *******************************************************************
+-- * VDF module
+-- *******************************************************************
+
+DisplayString ::= OCTET STRING
+
+vdf	MODULE-IDENTITY
+	LAST-UPDATED	"201105110000Z"
+	ORGANIZATION	"NetComm Wireless Limited"
+	CONTACT-INFO "
+		 Name: 	NetComm Wireless Limited
+		 Address: 18-20 Orion Road, Lane Cove, NSW 2066, Australia
+		 State:	NSW
+		 Postcode:	2066
+		 City:	Sydney
+		 Country:	Australia
+		 Phone:	+61-2-94242059 
+		 e-mail:	info@netcommwireless.com
+		 This is added by NTC
+		 "
+	DESCRIPTION	"The NetComm SNMP MIB Module for the NTC router"
+	REVISION	"201105110000Z"
+	DESCRIPTION	"Initial version."
+	::= { enterprises 24063 }
+
+router			OBJECT IDENTIFIER ::= { vdf 1 }
+vdfnwl12	OBJECT IDENTIFIER ::= { router 1 }
+
+ver		OBJECT IDENTIFIER ::= { vdfnwl12 1  } 
+
+routerVerHW		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Router Hardware Version"
+    ::= { ver 1 }
+
+routerVerFW		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Router Application Version"
+    ::= { ver 2 } 
+
+routerSerialNo		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Router Serial Number"
+    ::= { ver 3 } 
+
+modem		OBJECT IDENTIFIER ::= { vdfnwl12 2  } 
+
+modemModel		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Modem Model Number"
+    ::= { modem 1 } 
+
+modemVerHW		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Modem Hardware Version"
+    ::= { modem 2 }
+
+modemVerFW		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Modem Application Version"
+    ::= { modem 3 } 
+
+modemTemperature OBJECT-TYPE
+    SYNTAX  	INTEGER 
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Modem current temperature reading in Celsius."
+    ::= { modem 4 }
+modemIMEI OBJECT-TYPE
+    SYNTAX  	OCTET STRING (SIZE(16))
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Modem IMEI."
+    ::= { modem 5 }
+
+
+sim		OBJECT IDENTIFIER ::= { vdfnwl12 3  } 
+
+simICCID OBJECT-TYPE
+    SYNTAX  	OCTET STRING (SIZE(20))
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"SIM ICCID."
+    ::= { sim 1 }
+
+simStatus OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "SIM Status as reported by Radio Module"
+    ::= { sim 2 } 
+radio              OBJECT IDENTIFIER ::= { vdfnwl12 4 }
+
+radioPSC OBJECT-TYPE
+    SYNTAX  	INTEGER (0..65535)
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Radio Primary Scrambling Code."
+    ::= { radio 1 }
+
+radioLAC OBJECT-TYPE
+    SYNTAX  	INTEGER (0..65535)
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Radio Location Area Code."
+    ::= { radio 2 }
+
+radioRAC OBJECT-TYPE
+    SYNTAX  	INTEGER (0..65535)
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Radio Routing Area Code."
+    ::= { radio 3 }
+
+radioChannelNumber OBJECT-TYPE
+    SYNTAX  	INTEGER (0..65535)
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Radio Channel number ((U)ARFCN)."
+    ::= { radio 4 }
+
+radioRSSI 	OBJECT-TYPE
+    SYNTAX	INTEGER (-128..127)
+    MAX-ACCESS  read-only
+    STATUS  	current
+    DESCRIPTION	"Radio reported RSSI (in dBm)."
+    ::= { radio 5 }
+
+radioReportedBand		OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Radio Reported Band"
+    ::= { radio 7 } 
+
+		radioECN00	OBJECT-TYPE
+		SYNTAX  	DisplayString (SIZE(0..80))
+		MAX-ACCESS	read-only
+		STATUS	current
+		DESCRIPTION "energy per bit to noise power spectral density ratio"
+		::= { radio 10 }
+
+		radioECN01	OBJECT-TYPE
+		SYNTAX  	DisplayString (SIZE(0..80))
+		MAX-ACCESS	read-only
+		STATUS	current
+		DESCRIPTION "energy per bit to noise power spectral density ratio"
+		::= { radio 11 } 
+
+		radioRSCP0	OBJECT-TYPE
+		SYNTAX  	DisplayString (SIZE(0..80))
+		MAX-ACCESS	read-only
+		STATUS	current
+		DESCRIPTION "Received Signal Code Power (dBm)"
+		::= { radio 12 } 
+
+		radioRSCP1	OBJECT-TYPE
+		SYNTAX  	DisplayString (SIZE(0..80))
+		MAX-ACCESS	read-only
+		STATUS	current
+		DESCRIPTION "Received Signal Code Power (dBm)"
+		::= { radio 13 } 
+
+link       OBJECT IDENTIFIER ::= { vdfnwl12 5 }
+
+linkPLMN OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Link Public Land Mobile Network Name"
+    ::= { link 1 } 
+
+linkCoverage OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..20))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Link Coverage"
+    ::= { link 2 } 
+
+linkSessionState OBJECT-TYPE
+    SYNTAX     INTEGER
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Link Session State"
+    ::= { link 3 } 
+
+linkCellId OBJECT-TYPE
+    SYNTAX  	INTEGER (0..65535)
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Link Cell Id"
+    ::= { link 5 } 
+
+linkPPPConnection OBJECT-TYPE
+    SYNTAX     INTEGER (0..1)
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Link PPP Connection Up"
+    ::= { link 6 } 
+
+gps       OBJECT IDENTIFIER ::= { vdfnwl12 7 }
+
+latitude OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Latitude"
+    ::= { gps 1 } 
+
+longitude OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Longitude"
+    ::= { gps 2 }
+
+odometer	OBJECT IDENTIFIER ::= { vdfnwl12 8 }
+
+readOdometer OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Odometer reading"
+    ::= { odometer 1 }
+
+odometerStartTime OBJECT-TYPE
+    SYNTAX     INTEGER (0..4294967295)
+    MAX-ACCESS	read-only
+    STATUS	current
+    DESCRIPTION "Odometer start time"
+    ::= { odometer 2 }
+
+startOdometer OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "start-stop the odometer"
+    ::= { odometer 3 }
+
+odometerDispyMiles OBJECT-TYPE
+    SYNTAX     INTEGER (0..1)
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Odometer display unit on UI"
+    ::= { odometer 4 }
+
+resetOdometer OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Reset odometer to zero"
+    ::= { odometer 5 }
+
+odometerThreshold OBJECT-TYPE
+    SYNTAX     INTEGER (0..100)
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Odometer threshold"
+    ::= { odometer 6 }
+ 
+common		OBJECT IDENTIFIER ::= { vdf 100 }
+snmp_traps       OBJECT IDENTIFIER ::= { common 1 }
+
+sendHeartbeat OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Send heartbeat"
+    ::= { snmp_traps 1 }
+
+trapPersistenceTime OBJECT-TYPE
+    SYNTAX 	INTEGER (0..65535)
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Trap persistence time"
+    ::= { snmp_traps 3 }
+
+trapRetransmissionTime OBJECT-TYPE
+    SYNTAX 	INTEGER (0..65535)
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Trap retransmission time"
+    ::= { snmp_traps 4 }
+
+heartbeatInterval OBJECT-TYPE
+    SYNTAX 	INTEGER (0..65535)
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Heartbeat interval"
+    ::= { snmp_traps 5 }
+
+trapDestination OBJECT-TYPE
+    SYNTAX 	DisplayString (SIZE(0..80))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION "Trap destination IP address"
+    ::= { snmp_traps 6 }
+
+END

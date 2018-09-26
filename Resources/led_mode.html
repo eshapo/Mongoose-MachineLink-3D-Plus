@@ -1,0 +1,427 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LED Mode</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="led_mode.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript">
+/*****************net_util.js************************/
+function WinExpIP(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(!isValidIpEntry(field,event))
+   validate_alert( "", "You must enter a value between 0 and 255. Please try again.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_1(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  switch(isValidIpEntry_1(field,event)) {
+  case -1:
+   validate_alert( "", "You must enter a value between 1 and 223. Please try again.");
+  break;
+  case -2:
+   validate_alert( "", "An IP address can't start with 127. Please try another value between 1 and 223.");
+  break;
+  default:
+   clear_alert();
+  break;
+  }
+ }
+}
+function WinExpIP_0(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value))
+   validate_alert( "", "Please specify a value between 0 and 255.");
+  else
+   clear_alert();
+ }
+}
+function WinExpIP_127(field,event) {
+ if( field.value=="") {
+  if($(field).hasClass("required")) {
+   $(field).valid();
+  }
+ }
+ else {
+  if(isNValidIP(field.value) || field.value <1 || field.value >223)
+   validate_alert( "", "dhcp warningMsg1");
+  else
+   clear_alert();
+ }
+}
+function hostMin(ip, mask) {
+ var host_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i]);
+ }
+ host_array[3]++;
+ return host_array.join(".");
+}
+function hostMax(ip, mask) {
+ var host_array=new Array();
+ var wildcard_array=new Array();
+ ip_array = ip.split('.');
+ mask_array = mask.split('.');
+ for (i = 0; i < 4; i++) {
+  wildcard_array[i]=~parseInt(mask_array[i])&255;
+  host_array[i] = parseInt(ip_array[i])&parseInt(mask_array[i])|wildcard_array[i];
+ }
+ host_array[3]--;
+ return host_array.join(".");
+}
+function checkIPrange(ipMin, ipMax, myip) {
+var fromArr = ipMin.split(".");
+var toArr = ipMax.split(".");
+var myipArr = myip.split(".");
+var fromip=0; toip=0; myip=0;
+ for(i=0;i<4;i++) {
+  fromip=fromip*1000+parseInt(fromArr[i]);
+  toip=toip*1000+parseInt(toArr[i]);
+  myip=myip*1000+parseInt(myipArr[i]);
+ }
+ if(myip<fromip || myip>toip) {
+  return false;
+ }
+ return true;
+}
+function isWithinHostIpRange(ip, mask, myip) {
+ return checkIPrange(hostMin(ip, mask), hostMax(ip, mask), myip);
+}
+function checkIpAddr(field, ismask, msg) {
+ if (field.value == "") {
+  if (ismask) {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a netmask. Please try again.":"You must enter a netmask. Please try again.");//The netmask is empty.
+  }
+  else {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"The IP address is empty. Please try again.":"The IP address is empty. Please try again.");//IP address is empty.
+  }
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (isAllNum(field.value) == 0) {
+  validate_alert( "", typeof(msg)!="undefined"?msg+"You must enter a number between [1-9]. Please try again.":"You must enter a number between [1-9]. Please try again.");//'It should be a [0-9] number.'
+  field.value = field.defaultValue;
+  field.focus();
+  return false;
+ }
+ if (ismask) {
+  if ((!checkRange(field.value, 1, 0, 256)) ||
+   (!checkRange(field.value, 2, 0, 256)) ||
+   (!checkRange(field.value, 3, 0, 256)) ||
+   (!checkRange(field.value, 4, 0, 256)))
+  {
+   validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ else {
+  if ((!checkRange(field.value, 1, 0, 255)) ||
+   (!checkRange(field.value, 2, 0, 255)) ||
+   (!checkRange(field.value, 3, 0, 255)) ||
+   (!checkRange(field.value, 4, 1, 254)))
+  {
+   if (ismask) {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the netmask incorrectly. Please try again.":"You have entered the netmask incorrectly. Please try again.");//'The netmask has wrong format.'
+   }
+   else {
+    validate_alert( "", typeof(msg)!="undefined"?msg+"You have entered the IP address incorrectly. Please try again.":"You have entered the IP address incorrectly. Please try again.");//'IP adress format error.'
+   }
+   field.value = field.defaultValue;
+   field.focus();
+   return false;
+  }
+ }
+ clear_alert();
+ return true;
+}
+function parse_ip_into_fields(ipaddr, name) {
+ var i;
+ var ip_array;
+ ip_array=ipaddr.split(".");
+ if(ip_array.length != 4 ) {ip_array[0]=''; ip_array[1]='';ip_array[2]=''; ip_array[3]='';}
+ for(i=0;i<4;i++) {
+  $("input[name="+name+(i+1)+"]").val(ip_array[i]||"");
+ }
+}
+function parse_ip_from_fields(documentItem) {
+ var ip_array=new Array();
+ var val;
+ var j=0;
+ for(var i=0;i<4;i++) {
+  val=$("input[name="+documentItem+(i+1)+"]").val();
+  if(val!="") {
+   ip_array[j++]=val;
+  }
+ /*	else {
+			return "";
+		}*/
+ }
+ return ip_array.join(".");
+}
+function ValidSubnetMask(n, t){
+ NumfieldEntry(t);
+ if(isValidSubnetMask(parse_ip_from_fields(n))<0) {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("success-text").addClass("failure-text");
+  }
+ }
+ else {
+  for(i=0;i<4;i++) {
+   $("input[name="+n+(i+1)+"]").removeClass("failure-text").addClass("success-text");
+  }
+ }
+}
+function htmlGenIpBlocks(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks0(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocks127(name_in) {
+ h="<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_127(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocks(name_in) {
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"1' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"2' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"3' class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='required ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label for='"+name_in+"4' class='input-connect-dot'></label>");
+}
+function htmlGenIpBlocksWithoutRequired(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_1(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenIpBlocksWithoutRequired0(name_in) {
+ h="<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"1' id='"+name_in+"1' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"1' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"2' id='"+name_in+"2' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"2' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"3' id='"+name_in+"3' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"3' class='input-connect-dot'>.</label>	<div class='field'><input type='text' class='ip-adress' maxLength='3' name='"+name_in+"4' id='"+name_in+"4' onkeyup='NumfieldEntry(this);WinExpIP_0(this,event)'></div>	<label for='"+name_in+"4' class='input-connect-dot'></label>";
+ printf(h);
+}
+function htmlGenMaskBlocksWithoutRequired(name_in) {
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s1' id='%s1' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s2' id='%s2' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s3' id='%s3' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'>.</label>");
+ printf("<div class='field'><input type='text' class='ip-adress' maxLength='3' name='%s4' id='%s4' onkeyup='NumfieldEntry(this);WinExpIP(this,event)'></div>",name_in,name_in);
+ printf("<label class='input-connect-dot'></label>");
+}
+/******************End of net_util.js***********************/
+function formF() {
+/*********for vdf validator**********/
+ VALIDATOR.config.errors["summary"]="Please correct these error(s)";//Please correct the following error(s):
+ if(!$("#form").valid()) {
+  return;
+ }
+ if ($("#led_control").val()=="0") {
+  $("#ledPowerOffTimerHidden").val(0);
+ }
+ else {
+  $("#ledPowerOffTimerHidden").val($("#ledPowerOffTimer").val());
+ }
+ document.form.submit();
+}
+function led_control_change(val) {
+ if(val=="0") {
+  $("#led_control").val(0);
+  $("#ledPowerOffTimer_div").css("display", "none");
+ }
+ else {
+  $("#led_control").val(1);
+  if( $("#ledPowerOffTimer").val()==0 ) {
+   $("#ledPowerOffTimer").val(10);
+  }
+  $("#ledPowerOffTimer_div").css("display", "");
+ }
+}
+$(document).ready(function() {
+ $("#ledPowerOffTimer").val($("#ledPowerOffTimerHidden").val())
+ led_control_change($("#ledPowerOffTimerHidden").val());
+});
+</script>
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST") {
+ set_single( 'system.led_off_timer='+form['ledPowerOffTimerHidden'], '-p' );
+ redirect('/led_mode.html?success');
+}
+else { /*GET*/
+ var temp=get_single( 'system.led_off_timer' );
+ if(temp=="" || temp=="N/A")
+  temp=0;
+ form['ledPowerOffTimerHidden']=temp;
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+<aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form name="form" id="form" class="validate" method="POST" action="led_mode.html" novalidate>
+  <input type="hidden" name="ledPowerOffTimerHidden" id="ledPowerOffTimerHidden" value="0"/>
+  <div class="right-column white-box">
+   <div class="pad">
+    <h2><script language=Javascript>document.write("LED operation mode")</script></h2>
+    <div class="form-row no-bg-form">
+     <div class="form-row">
+      <fieldset>
+       <label for="led_control"><script language=Javascript>document.write("Mode")</script></label>
+       <div class="field">
+        <select id="led_control" name="led_control" onChange="led_control_change(this.value)">
+         <option value="0"><script>document.write("Always on")</script></option>
+         <option value="1"><script>document.write("Turn off after timeout")</script></option>
+        </select>
+       </div>
+      </fieldset>
+     </div>
+     <div class="form-row" id="ledPowerOffTimer_div">
+      <label for="ledPowerOffTimer"><script language=Javascript>document.write("LED power off timer")</script></label>
+      <div class="field">
+       <input type="text" class="validate[required,funcCall[validate_ledOffTimer] required med ledPowerOffTimer" name="ledPowerOffTimer" id="ledPowerOffTimer" value="" onkeyup="NumfieldEntry(this)">
+       <span class="normal-text">&nbsp;<script language=Javascript>document.write("(1-65535 minutes)")</script></span>
+      </div>
+     </div>
+    </div>
+    <div class="submit-row">
+     <button name="saveButton" type="button" onClick="javascript:formF()"><script language=Javascript>document.write("Save")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script type="text/javascript">
+        set_menu("System", "LED", "root");
+ if(""=="success") {
+  success_alert("","Your LED operation mode configuration changes were successfully saved and applied.");
+ }
+/********* vdf validator**********/
+ VALIDATOR.config.errors["ledPowerOffTimer"]="The LED power off timer must have a value between 1 and 65535. Please try again.";
+ $.validator.addMethod("ledPowerOffTimer",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( c < 1 || c > 65535 ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.ledPowerOffTimer);
+</script>
+</body>
+</html>

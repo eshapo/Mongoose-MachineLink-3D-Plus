@@ -1,0 +1,295 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>GPS</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="odometer.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript">
+var ajaxerror = 0;
+var xmlHttp = 0;
+var temp_val;
+var meter_to_miles=0.000621371192;
+var metre_to_feet=3.2808399;
+var mile_to_feet=5280;
+var disp_miles="";
+var odo_threshold="";
+var odometer="";
+function switch_k_m() {
+ if(disp_miles=="1") {
+  $("#switch-KM").html("Display imperial");
+  disp_miles="0"
+ } else {
+  $("#switch-KM").html("Display metric");
+  disp_miles="1"
+ }
+ $("#odometerReading").html(translate_unit(odometer));
+ $("#threshold").html(threshold_unit($("#slider-range-max" ).slider("value")));
+}
+function translate_unit(val) {
+ if (isNaN(val)==true) {
+  val = 0;
+ }
+ if (disp_miles=="1") {
+  val*=meter_to_miles;
+  if( val<1 ) {
+   return parseInt(val*mile_to_feet+0.5)+"&nbsp;&nbsp;"+"Feet";
+  }
+  return val.toFixed(1)+"&nbsp;&nbsp;"+"Miles";
+ } else {
+  if(val>1000) {
+   return (val/1000).toFixed(1)+"&nbsp;&nbsp;"+"Kilometer";
+  }
+  return parseInt(val)+"&nbsp;&nbsp;"+"Meter";
+ }
+}
+function ajaxFunction() {
+ var i;
+ var datear = new Array();
+ var xmlHttp = $.ajax({
+  url: "/cgi-bin/gps.cgi",
+  success: function(responseText) {
+   ajaxerror = 0;
+   eval( responseText );
+   $("#odometerReading").html(translate_unit(odometer));
+   $("#odometerStartTime").html(odometer_starttime);
+   xmlHttp.responseText.clear;
+   xmlHttp.close;
+   xmlHttp=0;
+  }
+ });
+}
+function reset_odometer() {
+ clear_alert();
+ rdbCmd="/cgi-bin/rdb.cgi?sensors.gps.0.odometer_reset=reset -p";
+ $.get(rdbCmd, function() { setTimeout("window.location.href='odometer.html'", 2000) });
+}
+function submit_odometer() {
+/*********for vdf validator**********/
+ if(!$("#odometer_form").valid()) {
+  return;
+ }
+ clear_alert();
+ odo_threshold=$("#slider-range-max" ).slider("value");
+ en=$("#odometer_enable_0").is(":checked")?"start":"stop";
+ rdbCmd="/cgi-bin/rdb.cgi?sensors.gps.0.odometer_enable="+en+" -p&sensors.gps.0.odometer_control="+$("#ignitionControl").val()+" -p&sensors.gps.0.odometer_threshold="+odo_threshold+" -p&sensors.gps.0.odometer_miles="+disp_miles+" -p";
+ $.get(rdbCmd, function() {
+  window.location="/odometer.html?success";
+ });
+}
+function threshold_unit(v) {
+ if(disp_miles=="1") {
+  return parseInt(v*metre_to_feet)+"&nbsp;&nbsp;"+"Feet";
+ }
+ return v+"&nbsp;&nbsp;"+"Meter";;
+}
+$(document).ready(function() {
+//var gps_enable="1";
+var gps_enable=getCookie("rhyangps");
+ if ( gps_enable != '1') {
+  h="<table><tr><th style='text-align:center'>"+"You should enable GPS first before you can use this functionality."+"</th></tr></table>";
+  $("#warning-messages").html(h);
+  $("#odometer-div").css("display", "none");
+  return;
+ }
+ $("#ignitionControl").val("-1");
+ load_value_to_element("input:radio.access[name=odometer_enable]","stop"=="start");
+ if(odo_threshold=="" || odo_threshold=="N/A" || odo_threshold=="NaN") {
+  odo_threshold=35;
+ }
+ disp_miles=disp_miles=="1"?"0":"1";
+ $( "#slider-range-max" ).slider({
+  range: "max",
+  min: 0,
+  max: 100,
+  value: odo_threshold,
+  slide: function( event, ui ) {
+   $("#threshold").html( threshold_unit(ui.value) );
+  }
+ });
+ $("#threshold").html( $( "#slider-range-max" ).slider("value") );
+ switch_k_m();
+ setInterval("ajaxFunction()", 1000);
+ /* get gps one */
+ var gpsone_cap="1"=="1";
+ var gps_en="0"=="1";
+ $("input:radio.access[name=odometer_enable]").change(function() {
+  $("#odometer-toggle-div").css("display", $("#odometer_enable_0").is(":checked")?"":"none");
+ });
+ $("input:radio.access[name=odometer_enable]").trigger("change");
+})
+</script>
+<!-- ================================================================================================ -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+ <div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box">
+   <form name="odometer_form" id="odometer_form" class="validate" novalidate>
+    <div class="pad">
+     <h2><script language=Javascript>document.write("Odometer")</script></h2>
+     <table id="warning-messages" class="border-top"></table>
+     <div id="odometer-div">
+      <div class="form-row no-bg-form">
+       <label for="field-0"><script language=Javascript>document.write("Odometer")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div class="radio-switch">
+          <input type="radio" id="odometer_enable_0" name="odometer_enable" class="access" value="1">
+          <label for="odometer_enable_0" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="odometer_enable_1" name="odometer_enable" class="access" value="0">
+          <label for="odometer_enable_1" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="odometer-toggle-div">
+       <div class="form-row no-bg-form">
+        <label for="odometerReading"><script language=Javascript>document.write("Odometer reading")</script></label>
+        <div class="field" style="margin:6px 0 0 3px;">
+         <span id="odometerReading"></span>
+        </div>
+        <span>
+         <button type="button" class="secondary sml fr" onClick="switch_k_m()" style="margin:-2px 40px 0 0"><div id="switch-KM"></div></button>
+        </span>
+       </div>
+       <div class="form-row no-bg-form">
+        <label for="odometerStartTime"><script language=Javascript>document.write("Odometer start time")</script></label>
+        <div class="field" style="margin:6px 0 0 3px;">
+         <span id="odometerStartTime"></span>
+        </div>
+       </div>
+       <div class="submit-row" style="padding-bottom:60px">
+        <button type="button" id="resetkey" class="secondary" onClick="reset_odometer()" style="width:auto"><script language=Javascript>document.write("Reset odometer")</script></button>
+       </div>
+       <div class="form-row" style="display:none">
+        <label for="timezone"><script language=Javascript>document.write("Ignition control")</script></label>
+        <div class="field">
+         <select name="ignitionControl" id="ignitionControl">
+         <option value="-1"><script language="JavaScript">document.write("Disable")</script></option>
+         <option value="0"><script language="JavaScript">document.write("State low")</script></option>
+         <option value="1"><script language="JavaScript">document.write("State high")</script></option>
+         </select>
+        </div>
+       </div>
+       <div class="form-row no-bg-form">
+        <div class="slider-label">
+         <div class="slider-min"><script language=Javascript>document.write("Min")</script></div>
+         <div class="slider-max"><script language=Javascript>document.write("Max")</script></div>
+        </div>
+        <label for="threshold"><script language=Javascript>document.write("Threshold")</script></label>
+        <div class="slider1-bar">
+         <div id="slider-range-max"></div>
+        </div>
+        <div id="threshold" class="slider1-val"></div>
+       </div>
+      </div>
+      <div class="submit-row">
+       <button type="button" id="saveOdometer" onClick="submit_odometer()"><script language=Javascript>document.write("Save")</script></button>
+      </div>
+     </div>
+    </div>
+   </form>
+  </div> <!-- div class="right-column white-box -->
+ </div> <!-- div class="grid-9 omega" -->
+ </div> <!-- div class="container" -->
+</div> <!-- div id="content" -->
+<!-- ================================================================================================ -->
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Services", "ODOMETER", "root");
+ if(""=="success") {
+  success_alert("","Your odometer configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

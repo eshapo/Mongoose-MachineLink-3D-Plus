@@ -1,0 +1,428 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>System Monitor</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="ltph.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST") {
+ tempval = form['pingdst'];
+ retval = set_single( 'service.systemmonitor.destaddress='+tempval );
+ tempval = form['pingdst2'];
+ retval = set_single( 'service.systemmonitor.destaddress2='+tempval );
+ tempval = form['pingtimer'];
+ retval = set_single( 'service.systemmonitor.periodicpingtimer='+tempval );
+ tempval = form['pingacctmr'];
+ retval = set_single( 'service.systemmonitor.pingacceleratedtimer='+tempval );
+ tempval = form['pingfailcnt'];
+ retval = set_single( 'service.systemmonitor.failcount='+tempval );
+ tempval = form['resetAnyway'];
+ retval = set_single( 'service.systemmonitor.forcereset='+tempval );
+ redirect('/ltph.html?success');
+}
+else { /*GET*/
+ temp = get_single( 'service.systemmonitor.destaddress' );
+ form['pingdst'] = temp;
+ temp = get_single( 'service.systemmonitor.destaddress2' );
+ form['pingdst2'] = temp;
+ temp = get_single( 'service.systemmonitor.periodicpingtimer' );
+ if(temp=="") temp=0;
+ form['pingtimer'] = temp;
+ temp = get_single( 'service.systemmonitor.pingacceleratedtimer' );
+ if(temp=="") temp=0;
+ form['pingacctmr'] = temp;
+ if(temp=="") temp=0;
+ temp = get_single( 'service.systemmonitor.failcount' );
+ if(temp=="") temp=0;
+ form['pingfailcnt'] = temp;
+ temp = get_single( 'service.systemmonitor.forcereset' );
+ if(temp=="")
+  temp="0";
+ form['resetAnyway'] = temp;
+}
+%> -->
+<script language="JavaScript">
+function switchItem( action ) {
+ if( action ) {
+  document.getElementById("introduction0").innerHTML="Periodic Ping settings"+'<a href=javascript:switchItem(0); style="margin-left:60px">&nbsp;&nbsp;&nbsp;&nbsp;'+"Close introduction"+'</a>';
+  document.getElementById( "introduction1" ).style['display']='';
+ }
+ else {
+  document.getElementById("introduction0").innerHTML="Periodic Ping settings"+'<a href=javascript:switchItem(1); style="margin-left:60px">&nbsp;&nbsp;&nbsp;&nbsp;'+"Display introduction"+'</a>';
+  document.getElementById( "introduction1" ).style['display']='none';
+ }
+}
+// jquery body
+$(function() {
+ var ping_info=[
+  {pinging:false,server:""},
+  {pinging:false,server:""},
+ ];
+ // set element activation
+ $("#pingdst,#pingdst2").keyup(function(e) {
+  var len1;
+  var len2;
+  len1=$("#pingdst").val().length>0;
+  len2=$("#pingdst2").val().length>0;
+  if(!len1) {
+   $("#pingdst2").val("");
+   $("#pingdst2").attr("disabled",true);
+  }
+  if(($("#pingdst2").is(":disabled") && len1) || (!$("#pingdst2").is(":disabled") && !len1)) {
+   $("#pingdst2").attr("disabled",!len1 && !len2);
+  }
+  $("#pingtimer").attr("disabled",!len1 && !len2);
+  $("#pingacctmr").attr("disabled",!len1 && !len2);
+  $("#pingfailcnt").attr("disabled",!len1 && !len2);
+  var el;
+  var el_array=["pingdst","pingdst2"];
+  var idx;
+  var server;
+  var el_id;
+  // get current el info
+  el=$(this);
+  el_id=el.attr("id");
+  idx=$.inArray(el_id,el_array);
+  // get peripheral elements
+  var el_wait=$("#"+el_id+"_wait");
+  var el_stat=$("#"+el_id+"_stat");
+  server=el.val();
+  // bypass if no server is available
+  if(server.length==0) {
+   // hide pinging icon
+   el_wait.hide();
+   el_stat.hide();
+   return;
+  }
+  // bypass if we have no change in the server
+  if(ping_info[idx].server==server)
+   return;
+  // when the server changed from blank to something while pinging
+  el_wait.toggle(ping_info[idx].pinging);
+  // bypass if currently pinging or already pinged
+  if(ping_info[idx].pinging)
+   return;
+  // update ping info
+  ping_info[idx].pinging=true;
+  ping_info[idx].server=server;
+  // show pinging icon
+  el_wait.toggle(ping_info[idx].pinging);
+  el_stat.toggle(!ping_info[idx].pinging);
+  $.getJSON (
+   "./cgi-bin/ltph.cgi",
+   {reqtype:"ping",reqparam:server},
+   function(res){
+    el_stat.html( (res.cgiresult==0)?"Success":"Fail");
+    // udpate ping info
+    ping_info[idx].pinging=false;
+    // hide pinging icon
+    el_wait.toggle(ping_info[idx].pinging);
+    el_stat.toggle(!ping_info[idx].pinging);
+    // trigger keyup if we have a new server
+    if(ping_info[idx].server!=el.val()) {
+     el.trigger("keyup");
+    }
+   }
+  );
+  return;
+ });
+ // trigger events
+ $("#pingdst,#pingdst2").trigger("keyup");
+ $.each(
+  ["#reboot_rnd_min"],
+  function(idx,el) {
+   $.each(
+    {
+     "1":"1 "+"minute",
+     "2":"2 "+"minutes",
+     "3":"3 "+"minutes",
+     "5":"5 "+"minutes",
+     "5":"5 "+"minutes",
+     "10":"10 "+"minutes",
+     "15":"15 "+"minutes",
+     "20":"20 "+"minutes",
+     "25":"25"+"minutes",
+     "30":"30 "+"minutes",
+     "35":"35 "+"minutes",
+     "45":"45 "+"minutes",
+     "60":"1 "+"hour",
+    },
+     function(val,txt) {
+     $(el).append("<option value=\""+val+"\""+">"+txt+"</option>");
+    }
+    );
+  }
+ );
+ $("input[name=resetAnyway]").keyup(function() {
+  var periodic_ping;
+  var val=$(this).val();
+  periodic_ping=(parseInt(val)||0);
+  $("#reboot_rnd_min option").each(function() {
+   $(this).attr("disabled",parseInt($(this).val())>=periodic_ping);
+  });
+  var last=$("#reboot_rnd_min option:enabled:last");
+  $("#reboot_rnd_min").attr("disabled",last.length==0);
+  if( $("#reboot_rnd_min option:selected").is(":disabled") && (last.length>0) )
+   $("#reboot_rnd_min").val(last.val());
+ });
+ <!-- <%
+ /* var rdnmin;
+  if(rdb_exists("service.systemmonitor.forcereset.rndmin"))
+   rdnmin=get_single("service.systemmonitor.forcereset.rndmin");
+  else
+   rdnmin="";
+ %> -->*/
+ $("#reboot_rnd_min").val("value of rdb service.systemmonitor.forcereset.rndmin here");
+ $("input[name=resetAnyway]").trigger("keyup");
+});
+</script>
+<!-- <%
+if (request["REQUEST_METHOD"] == "POST") {
+ if(form["reboot_rnd_min"]!=undefined) {
+  set_single_direct("-p","service.systemmonitor.forcereset.rndmin",form["reboot_rnd_min"]);
+ }
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+   <div class="note-lrg">
+    <div class="wrap alert clearfix">
+     <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+     <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+    </div>
+   </div>
+  </div>
+  <form name="form" id="form" class="validate" method="POST" action="ltph.html" nonvalidate="novalidate">
+  <div class="right-column hide_for_pppoe_en white-box">
+   <div class="pad">
+    <h2><script language=Javascript>document.write("Watchdogs settings")</script></h2>
+    <div class="p-des-full-width">
+     <p><script language=Javascript>document.write("When configured, the watchdog feature transmits controlled ping packets to 1 or 2 user specified IP addresses. Should the watchdog not receive responses to the pings, it will reboot the device in a last resort attempt to restore connectivity.")</script></p>
+     <p><script language=Javascript>document.write("Please be very careful when considering using this feature in situations where the device is intentionally offline for a particular reason (e.g user configured PDP session disconnect, or the connect on demand feature enabled). This is because the watchdog feature expects to be able to access the internet at all times, and will always eventually reboot the router if access isn't restored by the time the various timers and retries expire.")</script></p>
+     <p><script language=Javascript>document.write("It is due to the nature of the watchdog being a last resort standalone backup mechanism that it will continue to do its job and reboot the device even when the connect on demand session is idle, or the PDP context is disabled by the user. Therefore, it is recommended to disable this feature if connect on demand is configured, or if the PDP context is intentionally disconnected on occasion. ")</script></p>
+     <p><script language=Javascript>document.write("This feature operates as follows:")</script></p>
+     <table class="no-border" style="margin-bottom:10px">
+      <tr><td>A.</td><td><script language=Javascript>document.write("After every &quot;Periodic Ping timer&quot; configured interval, the router sends 3 consecutive pings to the &quot;First destination address&quot;.")</script></td></tr>
+      <tr><td>B.</td><td><script language=Javascript>document.write("If all 3 pings fail the router sends 3 consecutive pings to the &quot;Second destination address&quot;.")</script></td></tr>
+      <tr><td>C.</td><td><script language=Javascript>document.write("The router then sends 3 consecutive pings to the &quot;First destination address&quot; and 3 consecutive pings to the &quot;Second destination address&quot; every &quot;Periodic Ping accelerated timer&quot; configured interval.")</script></td></tr>
+      <tr><td>D.</td><td><script language=Javascript>document.write("If all accelerated pings in step C above fail the number of times configured in &quot;Fail count&quot;, the router reboots.")</script></td></tr>
+      <tr><td>E.</td><td><script language=Javascript>document.write("If any ping succeeds the router returns to step A and does not reboot.")</script></td></tr>
+     </table>
+     <p><script language=Javascript>document.write("Note: The &quot;Periodic Ping timer&quot; should never be set to a value less than 300 seconds- this is to allow the router time to reconnect to the cellular network following a reboot.")</script></p>
+     <p><script language=Javascript>document.write("To disable the Watchdog, simply set &quot;Fail count&quot; to 0")</script></p>
+    </div>
+    <div class="form-row">
+     <label for="pingdst"><script language=Javascript>document.write("First destination address")</script></label>
+     <div class="field" style="inline">
+      <input type="text" class="large" name="pingdst" id="pingdst" value="">
+     </div>
+     <div style="inline">
+      &nbsp;
+      <i style="display:none" id="pingdst_wait" class="progress-sml"></i>
+      <label id="pingdst_stat" style="width:40px"></label>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="pingdst2"><script language=Javascript>document.write("Second destination address")</script></label>
+     <div class="field">
+     <input type="text" class="large" name="pingdst2" id="pingdst2" value="">
+     </div>
+     <div style="inline">
+      &nbsp;
+      <i style="display:none" id="pingdst2_wait" class="progress-sml"></i>
+      <label id="pingdst2_stat" style="width:40px"></label>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="pingtimer"><script language=Javascript>document.write("Periodic Ping timer")</script></label>
+     <div class="field">
+      <input type="text" name="pingtimer" id="pingtimer" class="validate[required,funcCall[validate_pingtimer]] required pingtimer large" maxlength=5 value="0" onkeyup="NumfieldEntry(this)">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("(0=disable, 300-65535) secs")</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="pingacctmr"><script language=Javascript>document.write("Periodic Ping accelerated timer")</script></label>
+     <div class="field">
+      <input type="text" name="pingacctmr" id="pingacctmr" class="validate[required,funcCall[validate_pingacctmr]] required pingacctmr large" maxlength=5 value="0" onkeyup="NumfieldEntry(this)">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("(0=disable, 60-65535) secs")</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="pingfailcnt"><script language=Javascript>document.write("Fail count")</script></label>
+     <div class="field">
+      <input type="text" name="pingfailcnt" id="pingfailcnt" class="validate[required,funcCall[validate_pingfailcnt]] required pingfailcnt large" maxlength=5 value="0" onkeyup="NumfieldEntry(this)">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("(0=disable, 1-65535) times")</script></span>
+     </div>
+    </div>
+    <h2><script language=Javascript>document.write("Periodic reboot")</script></h2>
+    <div class="form-row">
+     <label for="resetanyway"><script language=Javascript>document.write("Force reboot every")</script></label>
+     <div class="field">
+      <input type="text" name="resetAnyway" class="validate[required,funcCall[validate_resetAnyway]] required resetAnyway large" maxLength=5 value="0" onkeyup="NumfieldEntry(this)">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("(0=disable, 5-65535) mins ")</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="reboot_rnd_min"><script language=Javascript>document.write("Randomize reboot time")</script></label>
+     <div class="field">
+      <select id="reboot_rnd_min" name="reboot_rnd_min"></select>
+     </div>
+    </div>
+    <div class="submit-row">
+     <button type="submit" id="bottomButton"><script language=Javascript>document.write("Save")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("System", "Sys_Monitor", "root");
+/********* vdf validator**********/
+ VALIDATOR.config.errors["pingtimer"]="The Periodic Ping timer must have a value between 300 and 65535. Please try again.";
+ $.validator.addMethod("pingtimer",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c!=0 && c < 300) || (c > 65535) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.pingtimer);
+ VALIDATOR.config.errors["pingacctmr"]="Error"+": "+"The periodic ping accelerated timer must have a value between 60 and 65535. Please try again.";
+ $.validator.addMethod("pingacctmr",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c!=0 && c < 60) || (c > 65535) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.pingacctmr);
+ VALIDATOR.config.errors["pingfailcnt"]="The periodic Ping fail count must have a value between 1 and 65535. Please try again.";
+ $.validator.addMethod("pingfailcnt",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c!=0 && c < 1) || (c > 65535) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.pingfailcnt);
+ VALIDATOR.config.errors["resetAnyway"]="The force reboot timeout must have a value between 5 and 65535. Please try again.";
+ $.validator.addMethod("resetAnyway",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( (c < 0) || (c!=0 && c < 5) || (c > 65535) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.resetAnyway);
+ if(""=="success") {
+  success_alert("","Your Ping Watchdog configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

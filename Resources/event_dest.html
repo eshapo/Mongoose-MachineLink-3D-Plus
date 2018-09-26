@@ -1,0 +1,436 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Event Destination</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="event_dest.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<script language="JavaScript">
+var evtnoti_list=["Event #1 : Unit powered up", "Event #2 : Unit rebooted", "Event #3 : Link status change", "Event #4 : WWAN IP address change", "Event #5 : WWAN Registration change", "Event #6 : WWAN Cell ID change", "Event #7 : WWAN technology change", "Event #8 : Number of connected Ethernet interfaces change", "Event #9 : Power source change", "Event #10 : Web UI login failure"];
+var EventNotiEnabledClients = new Array();
+var EventNotiEventText = new Array();
+var EventNotiDestIdx = new Array();
+var EventNotiDestName = new Array();
+var EventNotiDestClients = new Array();
+var EventNotiDestSmsAddr = new Array();
+var EventNotiDestEmailAddr = new Array();
+var EventNotiDestTcpAddr = new Array();
+var EventNotiDestTcpPort = new Array();
+var EventNotiDestUdpAddr = new Array();
+var EventNotiDestUdpPort = new Array();
+var current_edit_idx=-1
+function EventDestConfigSet() {
+ var idx;
+ cmd_line="/cgi-bin/event_noti.cgi?CMD=EVTNOTI_DEST_SET&";
+ contents_body=""
+ for (idx=1; idx < EventNotiDestName.length; idx++) {
+  contents_body += "new_name"+idx+"=\""+EventNotiDestName[idx]+"\"&";
+  contents_body += "new_sms_address"+idx+"=\""+EventNotiDestSmsAddr[idx]+"\"&";
+  contents_body += "new_email_address"+idx+"=\""+EventNotiDestEmailAddr[idx]+"\"&";
+  contents_body += "new_tcp_address"+idx+"=\""+EventNotiDestTcpAddr[idx]+"\"&";
+  contents_body += "new_tcp_port"+idx+"=\""+EventNotiDestTcpPort[idx]+"\"&";
+  contents_body += "new_udp_address"+idx+"=\""+EventNotiDestUdpAddr[idx]+"\"&";
+  contents_body += "new_udp_port"+idx+"=\""+EventNotiDestUdpPort[idx]+"\"&";
+ }
+ for (idx=1; idx<=evtnoti_list.length; idx++) {
+  contents_body += "new_dest_idx"+idx+"=\""+EventNotiDestIdx[idx]+"\"&";
+ }
+ //alert(contents_body);
+ clear_alert();
+ blockUI_wait("Please wait");
+ $.post(cmd_line, contents_body, function(){window.location.href="event_dest.html?success";});
+}
+function edit_dest_save() {
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ tport=$("#TCPportnumber").val();
+ uport=$("#UDPportnumber").val();
+ if ((tport != '' && (tport == 0 || tport > 65535)) ||
+  (uport != '' && (uport == 0 || uport > 65535))) {
+  validate_alert("", "You have entered an invalid port range setting. Please try again.");
+  return;
+ }
+ if ((($("#destTCP").val() == '' && tport != '') || ($("#destTCP").val() != '' && tport == '')) ||
+  (($("#destUDP").val() == '' && uport != '') || ($("#destUDP").val() != '' && uport == ''))) {
+  validate_alert("", "Both of destination address and port shoule be set or empty.");
+  return;
+ }
+ if($("#destEmail").val()!="" && /\S+@\S+\.\S+/.test($("#destEmail").val())==false) {
+  validate_alert("", "Invalid email address.");
+  return;
+ }
+ EventNotiDestName[current_edit_idx]=$("#destName").val();
+ EventNotiDestEmailAddr[current_edit_idx]=$("#destEmail").val();
+ EventNotiDestTcpAddr[current_edit_idx]=$("#destTCP").val();
+ EventNotiDestTcpPort[current_edit_idx]=$("#TCPportnumber").val();
+ EventNotiDestUdpAddr[current_edit_idx]=$("#destUDP").val();
+ EventNotiDestUdpPort[current_edit_idx]=$("#UDPportnumber").val();
+ EventNotiDestSmsAddr[current_edit_idx]=$("#destSMS").val();
+ EventDestConfigSet();
+}
+function edit_dest(idx) {
+ $("#dest_edit").css("display", "");
+ $("#dest_list").css("display", "none");
+ clear_alert();
+ if(idx<0 || idx>EventNotiDestName.length ) { //add
+  if(EventNotiDestName.length==0) {
+   idx=1;
+  }
+  else {
+   idx=EventNotiDestName.length;
+  }
+  $("#destName").val("");
+  $("#destEmail").val("");
+  $("#destTCP").val("");
+  $("#TCPportnumber").val("");
+  $("#destUDP").val("");
+  $("#UDPportnumber").val("");
+  $("#destSMS").val("");
+ }
+ else {
+  $("#destName").val(EventNotiDestName[idx]);
+  $("#destEmail").val(EventNotiDestEmailAddr[idx]);
+  $("#destTCP").val(EventNotiDestTcpAddr[idx]);
+  $("#TCPportnumber").val(EventNotiDestTcpPort[idx]);
+  $("#destUDP").val(EventNotiDestUdpAddr[idx]);
+  $("#UDPportnumber").val(EventNotiDestUdpPort[idx]);
+  $("#destSMS").val(EventNotiDestSmsAddr[idx]);
+ }
+ current_edit_idx=idx;
+}
+function delentry(idx) {
+ EventNotiDestName.splice(idx, 1);
+ EventNotiDestClients.splice(idx, 1);
+ EventNotiDestSmsAddr.splice(idx, 1);
+ EventNotiDestEmailAddr.splice(idx, 1);
+ EventNotiDestTcpAddr.splice(idx, 1);
+ EventNotiDestTcpPort.splice(idx, 1);
+ EventNotiDestUdpAddr.splice(idx, 1);
+ EventNotiDestUdpPort.splice(idx, 1);
+ /* rectify EventNotiDestIdx[] for the RDB service.eventnoti.conf.type.X.dest_idx */
+ for (var i=1; i<=evtnoti_list.length; i++) {
+  if(EventNotiDestIdx[i]>idx) {
+   EventNotiDestIdx[i]--;
+  }
+ }
+ BuildEventDestFields();
+}
+function showInfo(idx) {
+ clear_alert();
+ var msg="<div class='message_box' style='text-align:left;'>"+"Linked event(s) to this destination"+" ("+EventNotiDestName[idx]+"):"+"<br/>";
+ for (var i=1; i<=evtnoti_list.length; i++) {
+  if(EventNotiDestIdx[i]==idx) {
+   msg+="<br/>"+evtnoti_list[i-1];
+  }
+ }
+ msg+="<br/></div><div style='margin-left:180px'><button class='secondary mini' onClick='$.unblockUI();'>"+"OK"+"</button><div/>";
+ $.blockUI({message:msg});
+ return;
+}
+function check_usage(idx) {
+ for (var i=1; i<=evtnoti_list.length; i++) {
+  if(EventNotiDestIdx[i]==idx) {
+   return true;
+  }
+ }
+ return false;
+}
+function BuildEventDestFields() {
+var h="";
+var ntc_offset=0;
+ /*if (EventNotiDestName.length == 0) {
+  h="<tr><th colspan='7'><div align='center'>"+"Event destination list is empty"+"</div></th></tr>";
+  $("#title-head").css("display", "none");
+  $("#submit-div").css("display", "none");
+  $("#evtnotiList").html(h);
+  return;
+ }*/
+ for (var i=1; i<EventNotiDestName.length; i++) {
+  var tcp_addr=EventNotiDestTcpAddr[i];
+  tcp_addr+=EventNotiDestTcpPort[i]==""?"":(":"+EventNotiDestTcpPort[i]);
+  var udp_addr=EventNotiDestUdpAddr[i];
+  udp_addr+=EventNotiDestUdpPort[i]==""?"":(":"+EventNotiDestUdpPort[i]);
+  h+="<tr>		<td>"+breakWord(EventNotiDestName[i],(11+ntc_offset))+"</td>		<td>"+breakWord(EventNotiDestEmailAddr[i],(12+ntc_offset))+"</td>		<td>"+breakWord(tcp_addr,(13+ntc_offset))+"</td>		<td>"+breakWord(udp_addr,(13+ntc_offset))+"</td>		<td>"+breakWord(EventNotiDestSmsAddr[i],(12+ntc_offset))+"</td>";
+  h+="<td class='last'><a class='secondary sml' href='javascript:clear_alert();edit_dest("+i+");'><i class='icon edit'>"+"Edit"+"</i></a></td>";
+  if(check_usage(i)) {
+   h+="<td class='last' style='padding-top:4px'><a href='javascript:showInfo("+i+");' id='info' title='"+"Show linked event(s)"+"' style='background-color:transparent;'><i id='net-info' style='margin:3px'></i></a></td></tr>";
+  }
+  else {
+   h+="<td class='last'><a href='javascript:delentry("+i+")' class='secondary sml' style='padding:0;border:0;' title='"+"Delete"+"'><i class='icon close'></i></a></td></tr>";
+  }
+ }
+// $("#evtnotiList").html(h);
+}
+var smsDestRegEx = /[^(\d+\+)]/g;
+function check_sms_addrs(addrs) {
+ var addr_ar = new Array();
+ var new_val='';
+ addr_ar = addrs.value.split(",");
+ for (i = 0; i < addr_ar.length; i++) {
+  if (i > 0) new_val+=',';
+  new_val+=addr_ar[i].replace(smsDestRegEx,'');
+ }
+ addrs.value=new_val;
+}
+$(document).ready( function() {
+ blockUI_wait("Please wait");
+ BuildEventDestFields();
+ $.unblockUI();
+});
+</script>
+<!--<script language="JavaScript" src="cgi-bin/event_noti.cgi?CMD=EVTNOTI_CONF_GET"></script>
+<script language="JavaScript" src="cgi-bin/event_noti.cgi?CMD=EVTNOTI_DEST_GET"></script>-->
+<script language="javascript">
+var EventNotiEn="0";
+var MaxEventNotiBufSize="100";
+var MaxEventNotiRetryCount="5";
+var WriteEventNotiToFile="1";
+var EventNotiLogFile="/var/log/event.log";
+var EventNotiPrefixText="CE82C8";
+EventNotiEnabledClients[1]="";
+EventNotiDestIdx[1]="1";
+EventNotiEnabledClients[2]="";
+EventNotiDestIdx[2]="1";
+EventNotiEnabledClients[3]="";
+EventNotiDestIdx[3]="1";
+EventNotiEnabledClients[4]="";
+EventNotiDestIdx[4]="1";
+EventNotiEnabledClients[5]="";
+EventNotiDestIdx[5]="1";
+EventNotiEnabledClients[6]="";
+EventNotiDestIdx[6]="1";
+EventNotiEnabledClients[7]="";
+EventNotiDestIdx[7]="1";
+EventNotiEnabledClients[8]="";
+EventNotiDestIdx[8]="1";
+EventNotiEnabledClients[9]="";
+EventNotiDestIdx[9]="1";
+EventNotiEnabledClients[10]="";
+EventNotiDestIdx[10]="1";
+
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form><!--place holder for validation--></form>
+  <div class="right-column white-box">
+  <form name="form" id="form">
+   <div class="pad" id="dest_list">
+    <div class="grid-50">
+     <div class="pad alpha">
+      <h2><script language=Javascript>document.write("Event destination profile list")</script></h2>
+     </div>
+    </div>
+    <div class="grid-50">
+     <div class="pad omega">
+      <div class="submit-row-condensed">
+       <button type="button" class="secondary sml fr" onClick="edit_dest(-1)"><i class="icon plus"></i><script language=Javascript>document.write("Add")</script></button>
+      </div>
+     </div>
+    </div>
+    <!--<table class="above-5-column name-list">
+    <colgroup>
+     <col width="150px">
+     <col width="150px">
+     <col width="160px">
+     <col width="160px">
+     <col width="150px">
+     <col width="50px">
+     <col width="auto">
+    </colgroup>
+    <thead id="title-head">
+    <tr>
+     <th class="align10"><script language=Javascript>document.write("Destination name")</script></th>
+     <th class="align10"><script language=Javascript>document.write("Email address")</script></th>
+     <th class="align10"><script language=Javascript>document.write("TCP address")</script></th>
+     <th class="align10"><script language=Javascript>document.write("UDP address")</script></th>
+     <th class="align10"><script language=Javascript>document.write("SMS number")</script></th>
+     <th class="align10">&nbsp;</th>
+     <th class="align10">&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody id="evtnotiList"></tbody>
+    </table>-->
+    
+    <table class="above-5-column name-list">
+    <colgroup>
+     <col width="150px">
+     <col width="150px">
+     <col width="160px">
+     <col width="160px">
+     <col width="150px">
+     <col width="50px">
+     <col width="auto">
+    </colgroup>
+    <thead id="title-head">
+    <tr>
+     <th class="align10"><script language="Javascript">//document.write(_("destinationName"))</script>Destination name</th>
+     <th class="align10"><script language="Javascript">//document.write(_("email address"))</script>Email address</th>
+     <th class="align10"><script language="Javascript">//document.write(_("tcpAddress"))</script>TCP address</th>
+     <th class="align10"><script language="Javascript">//document.write(_("udpAddress"))</script>UDP address</th>
+     <th class="align10"><script language="Javascript">//document.write(_("smsNumber"))</script>SMS number</th>
+     <th class="align10">&nbsp;</th>
+     <th class="align10">&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody id="evtnotiList"><tr>		<td>Default </td>		<td></td>		<td></td>		<td></td>		<td></td><td class="last"><a href="javascript:clear_alert();edit_dest(1);" class="secondary sml"><i class="icon edit">Edit</i></a></td><td style="padding-top:4px" class="last"><a style="background-color:transparent;" title="Show linked event(s)" id="info" href="javascript:showInfo(1);"><i style="margin:3px" id="net-info"></i></a></td></tr></tbody>
+    </table>
+    
+    <div class="submit-row" id="submit-div">
+     <button type="button" id="wtSave" onClick="EventDestConfigSet()"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='event_dest.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+   <div class="pad" id="dest_edit" style="display:none">
+    <h2><script language=Javascript>document.write("Event destination profile edit")</script></h2>
+    <div class="form-row">
+     <label for="destName"><script language=Javascript>document.write("Destination name")</script></label>
+     <input type=text name='destName' id='destName' class="required validate[required] large" maxlength=64 >
+    </div>
+    <div class="form-row">
+     <label for="destEmail"><script language=Javascript>document.write("Email address")</script></label>
+     <div class="field">
+      <input type=text name='destEmail' id='destEmail' class="large" maxlength=64>
+      <span class="normal-text">&nbsp;<script language=Javascript>//document.write("Requires &lt;a href='/email_client.html' style='color:BLUE'&gt;Email server&lt;/a&gt; configuration")</script>Requires <a style="color:BLUE" href="email_client.html">Outbound email</a> configuration</span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="destTCP"><script language=Javascript>document.write("TCP address")</script></label>
+     <input type=text name='destTCP' id='destTCP' class="large" maxlength=64>
+    </div>
+    <div class="form-row">
+     <label for="TCPportnumber"><script language=Javascript>document.write("TCP port")</script></label>
+     <div class="field">
+      <input type="text" name="TCPportnumber" id="TCPportnumber" class="large" value="" onkeyup="NumfieldEntry(this);">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="destUDP"><script language=Javascript>document.write("UDP address")</script></label>
+     <input type=text name='destUDP' id='destUDP' class="large" maxlength=64>
+    </div>
+    <div class="form-row">
+     <label for="UDPportnumber"><script language=Javascript>document.write("UDP port")</script></label>
+     <div class="field">
+      <input type="text" name="UDPportnumber" id="UDPportnumber" class="large" value="" onkeyup="NumfieldEntry(this);">
+      <span class="normal-text">&nbsp;<script language=Javascript>document.write("( "+_("1-65535")+" )")</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="destSMS"><script language=Javascript>document.write("SMS number")</script></label>
+     <input type=text name='destSMS' id='destSMS' class="large" maxlength=64 onkeyup='check_sms_addrs(this);'>
+    </div>
+    <div class="form-row">
+     <p style="font-size:8pt;"><script language=Javascript>document.write("Note: The SMS messages sent by the Event notification feature are regarded as Diagnostic messages. This should be taken into consideration when configuring the maximum number of Diagnostic text messages that the router may send over a specified period. See the ")</script>
+     <a href='SMS_Diagnostics.html' style="color:BLUE;"><script language=Javascript>document.write("Diagnostics")</script></a>
+     <script language=Javascript>document.write(" section for details on limiting the number of sent text messages.")</script></p>
+    </div>
+    <div class="submit-row">
+     <button type="button" onClick="edit_dest_save()"><script language=Javascript>document.write("Save")</script></button>
+     <button type="button" class="secondary" onClick="window.location='event_dest.html'"><script language=Javascript>document.write("Cancel")</script></button>
+    </div>
+   </div>
+  </form>
+  </div>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+ set_menu("Services", "EVENT_DEST", "root");
+ if(""=="success") {
+  success_alert("","Your Event notification configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

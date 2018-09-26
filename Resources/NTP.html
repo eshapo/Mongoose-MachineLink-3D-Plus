@@ -1,0 +1,385 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>NTP</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="NTP.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<!--<script type="text/javascript" src="cgi-bin/timezoneList.cgi"></script>-->
+<script language="javascript">var zoneinfo=[{ "FL":"Pacific/Samoa","TZ":"MDY11","NAME":"(GMT-11:00) Midway Island, Samoa","DST":""},{"FL":"US/Hawaii","TZ":"HAW10","NAME":"(GMT-10:00) Hawaii","DST":""},{"FL":"US/Alaska","TZ":"AKST9","NAME":"(GMT-09:00) Alaska","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"US/Pacific","TZ":"PST08","NAME":"(GMT-08:00) Pacific Time","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"US/Mountain","TZ":"MST7","NAME":"(GMT-07:00) Mountain Time","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"US/Arizona","TZ":"MST07","NAME":"(GMT-07:00) Arizona","DST":""},{"FL":"US/Central","TZ":"CST06","NAME":"(GMT-06:00) Central Time","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"America/Belize","TZ":"MDA06","NAME":"(GMT-06:00) Middle America","DST":""},{"FL":"America/Indiana/Marengo","TZ":"COL05","NAME":"(GMT-05:00) Indiana East, Colombia","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"US/Eastern","TZ":"EST05","NAME":"(GMT-05:00) Eastern Time","DST":"EDT,M3.2.0,M11.1.0"},{"FL":"Brazil/West","TZ":"AMT04","NAME":"(GMT-04:00) Atlantic Time, Brazil West","DST":""},{"FL":"America/Guyana","TZ":"GYT04","NAME":"(GMT-04:00) Guyana","DST":""},{"FL":"Brazil/East","TZ":"BRT03","NAME":"(GMT-03:00) Brazil East, Greenland","DST":"BRST,M10.3.0/0,M2.3.0/0"},{"FL":"Atlantic/South_Georgia","TZ":"NOR02","NAME":"(GMT-02:00) Mid-Atlantic","DST":""},{"FL":"Atlantic/Azores","TZ":"AZOT1","NAME":"(GMT-01:00) Azores Islands","DST":"AZOST,M3.5.0/0,M10.5.0/1"},{"FL":"Etc/UTC0","TZ":"UCT0","NAME":"(GMT) Gambia, Liberia, Morocco","DST":""},{"FL":"Europe/London","TZ":"GMT0","NAME":"(GMT) England","DST":"BST,M3.5.0/1,M10.5.0"},{"FL":"Europe/Berlin","TZ":"CET-1","NAME":"(GMT+01:00) Germany","DST":"CEST,M3.5.0,M10.5.0/3"},{"FL":"Turkey","TZ":"EET-2","NAME":"(GMT+02:00) Greece, Ukraine, Turkey","DST":"EEST,M3.5.0/3,M10.5.0/4"},{"FL":"Africa/Bujumbura","TZ":"SAS-02","NAME":"(GMT+02:00) South Africa","DST":""},{"FL":"Etc/GMT-2","TZ":"EGP-2","NAME":"(GMT+02:00) Egypt","DST":""},{"FL":"Asia/Baghdad","TZ":"IST-03","NAME":"(GMT+03:00) Iraq","DST":""},{"FL":"Asia/Kuwait","TZ":"KUW-03","NAME":"(GMT+03:00) Kuwait, Riyadh","DST":""},{"FL":"Europe/Moscow","TZ":"MSK-04","NAME":"(GMT+04:00) Moscow","DST":""},{"FL":"Asia/Dubai","TZ":"DHA-04","NAME":"(GMT+04:00) Abu Dhabi","DST":""},{"FL":"Asia/Calcutta","TZ":"IST-5:30","NAME":"(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi","DST":""},{"FL":"Etc/GMT-5","TZ":"PAK-05","NAME":"(GMT+05:00) Pakistan, Russia","DST":""},{"FL":"Etc/GMT-6","TZ":"BAN-06","NAME":"(GMT+06:00) Bangladesh, Russia","DST":""},{"FL":"Etc/GMT-7","TZ":"TLD-07","NAME":"(GMT+07:00) Thailand, Russia","DST":""},{"FL":"Asia/Shanghai","TZ":"CST-08","NAME":"(GMT+08:00) China Coast, Hong Kong","DST":""},{"FL":"Asia/Taipei","TZ":"CCT-08","NAME":"(GMT+08:00) Taipei","DST":""},{"FL":"Asia/Singapore","TZ":"SGT-08","NAME":"(GMT+08:00) Singapore","DST":""},{"FL":"Australia/West","TZ":"WST-08","NAME":"(GMT+08:00) Australia (WA)","DST":""},{"FL":"Asia/Tokyo","TZ":"JST-09","NAME":"(GMT+09:00) Japan","DST":""},{"FL":"Asia/Seoul","TZ":"KST-09","NAME":"(GMT+09:00) Korea","DST":""},{"FL":"Pacific/Guam","TZ":"GUA-10","NAME":"(GMT+10:00) Guam, Russia","DST":""},{"FL":"Australia/Adelaide","TZ":"CST-9:30","NAME":"(GMT+09:30) Australia (Adelaide)","DST":"EDT,M10.1.0,M4.1.0/3"},{"FL":"Australia/Darwin","TZ":"AUD-9:30","NAME":"(GMT+09:30) Australia (Darwin)","DST":""},{"FL":"Australia/Queensland","TZ":"AUQ-10","NAME":"(GMT+10:00) Australia (Queensland)","DST":""},{"FL":"Australia/Sydney","TZ":"EST-10","NAME":"(GMT+10:00) Australia (Canberra, Melbourne, Sydney)","DST":"EDT,M10.1.0,M4.1.0/3"},{"FL":"Pacific/Efate","TZ":"SOL-11","NAME":"(GMT+11:00) Solomon Islands","DST":""},{"FL":"Pacific/Fiji","TZ":"FJT-12","NAME":"(GMT+12:00) Fiji","DST":"FJST,M10.5.0/2,M1.3.0/3"},{"FL":"Pacific/Auckland","TZ":"NZST-12","NAME":"(GMT+12:00) New Zealand","DST":"NZDT,M9.5.0,M4.1.0/3"}]; </script>
+<script language="JavaScript">
+function tzChange(idx) {
+ document.form.TZ.value=zoneinfo[idx].FL;
+ if(zoneinfo[idx].DST=="")
+  document.getElementById("div_dst").style["display"]="none"
+ else
+  document.getElementById("div_dst").style["display"]=""
+}
+function show_DST_details(idx) {
+var dst = new Array();
+ dst = zoneinfo[idx].DST.split(",");
+//EDT,M10.1.0,M4.1.0/3
+ if(dst.length<3) {
+  blockUI_alert("Sorry, daylight saving time details aren't available at the moment. Please try again later.");//Daylight Saving Time details are not available. ( Error "+dst.length+" )
+ }
+ else {
+  var start = new Array();
+  var end = new Array();
+  start = dst[1].split(".");
+  end = dst[2].split(".");
+  if(start.length!=3 || end.length!=3) {
+   blockUI_alert("DST format error "+start.length+":"+end.length);
+  }
+  else {
+   var start_month=parseInt(start[0].substring(1));
+   var start_week=parseInt(start[1]);
+   var start_day=parseInt(start[2]);
+   var idx_start_hour=start[2].indexOf("/");
+   var start_hour=idx_start_hour==-1?"2:00 AM":parseInt(start[2].substring(idx_start_hour+1)).toString()+":00 AM";
+   var end_month=parseInt(end[0].substring(1));
+   var end_week=parseInt(end[1]);
+   var end_day=parseInt(end[2]);
+   var idx_end_hour=end[2].indexOf("/");
+   var end_hour=idx_end_hour==-1?"2:00 AM":parseInt(end[2].substring(idx_end_hour+1)).toString()+":00 AM";
+   if(start_month>=1 && start_month<=12 && start_week>=1 && start_week<=5 && start_day>=0 && start_day<=6) {
+    month = new Array("", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    weeknumbers = new Array("", "first", "second", "third", "fourth", "last");
+    parameter=new Array(weeknumbers[start_week],weekdays[start_day],month[start_month],start_hour,weeknumbers[end_week],weekdays[end_day],month[end_month],end_hour);
+    msg=lang_sentence("Daylight Saving Time begins on the %%0 %%1 in %%2 at %%3, and ends on the %%4 %%5 in %%6 at %%7", parameter);
+    blockUI_alert_l(msg);
+   }
+   else {
+    blockUI_alert("DST format error-2");
+   }
+  }
+ }
+}
+<!-- <%
+/*if (request['REQUEST_METHOD'] == "POST") {
+ tempval = form['ntpServerAddress'];
+ set_single( 'service.ntp.server_address='+tempval );
+ tempval = form['TZ'];
+ set_single( 'system.config.tz='+tempval, '-p' );
+ syslog(0,"ntp_wwan_connection='" + form["ntp_wwan_connection"] + "'");
+ set_single_direct("-p","service.ntp.enable",form["ntpenable"]);
+ set_single_direct("-p","service.ntp.onconnect",form["ntp_wwan_connection"]);
+ set_single_direct("-p","service.ntp.dailysync",form["ntp_daily_sync"]);
+ redirect('/NTP.html?success');
+}
+else { /*GET*/
+/* form['ntpServerAddress'] = get_single( 'service.ntp.server_address' );
+ form['TZ'] = get_single( 'system.config.tz' );
+ form['DST'] = get_single( 'system.config.dst' );
+}
+%> */-->
+function submitF() {
+var f=document.form;
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ /* check if timezone is changed */
+ var tz_chg=$("input:hidden[name=TZ]").val() != "";
+ /* alert if timezone is changed */
+ if(tz_chg) {
+  blockUI_alert_l("The new timezone settings have been saved. You need to reboot the router for the settings to take effect.",function(){f.submit();});
+  return;
+ }
+ f.submit();
+}
+$(document).ready(function() {
+ var f = document.form;
+ if(document.form.TZ.value=="" || document.form.TZ.value=="N/A") {
+  document.form.TZ.value="Australia/Sydney";
+ }
+ for (i=0; i<zoneinfo.length; i++) {
+  document.form.timezone.options[i] = new Option(zoneinfo[i].NAME), zoneinfo[i].FL;
+  if(document.form.TZ.value==zoneinfo[i].FL) {
+   document.form.timezone.options[i].selected=true;
+  }
+ }
+ tzChange(document.form.timezone.options.selectedIndex);
+ var startPoll = function() {
+  $.get('/cgi-bin/setdate.cgi', function(d){eval(d);$("#currenttime").html(date)} );
+ }
+ setInterval(startPoll, 1000);
+ // load configuration
+ load_values_to_elements(
+  {
+   "input:radio.access[name=ntpenable]":"0"=="1",
+   "input:radio.access[name=ntp_wwan_connection]":"1"!="0",
+   "input:radio.access[name=ntp_daily_sync]":"1"!="0",
+  }
+ );
+ $("input:radio.access[name=ntp_wwan_connection],input:radio.access[name=ntp_daily_sync]").click(function(){
+  // bypass if ntp is not enabled
+  if(!$("input:radio.access[name=ntpenable][value=1]").is(":checked")) {
+   return;
+  }
+  // bypass if self is not off-checked
+  if( ($(this).val()!="0") || !$(this).is(":checked") ) {
+   return;
+  }
+  var el;
+  if( $(this).attr("name")=="ntp_wwan_connection" ) {
+   el="input:radio.access[name=ntp_daily_sync]";
+  }
+  else {
+   el="input:radio.access[name=ntp_wwan_connection]";
+  }
+  load_value_to_element(el,true);
+ });
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <form name="form" id="form" class="validate" method="POST" action="NTP.html" novalidate>
+  <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+   <div class="note-lrg">
+    <div class="wrap alert clearfix">
+     <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+     <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+    </div>
+   </div>
+  </div>
+  <div class="right-column hide_for_pppoe_en white-box">
+   <div class="pad">
+    <h2><script language=Javascript>document.write("Timezone settings")</script></h2>
+    <input type="hidden" name="zone" value="">
+    <input type="hidden" name="ntpaddr" value="">
+    <input type="hidden" name="TZ" value=""/>
+    <input type="hidden" name="DST" value=""/>
+    <div class="form-row no-bg-form">
+     <label for="current_time"><script language=Javascript>document.write("Current time")</script></label>
+     <!--<div class="field" style="margin:6px 0 0 3px;">
+      <span id=currenttime></span>
+     </div>-->
+     <div class="field" style="margin:6px 0 0 3px;">
+      <span id=currenttime><script language="javascript">
+	  
+	  
+	  var currentTime = new Date();
+	  
+	  var currentYear = currentTime.getFullYear();
+
+	  var month = new Array();
+ 	  month[0]="Jan";month[1]="Feb";month[2]="Mar";month[3]="Apr";month[4]="May";month[5]="Jun";month[6]="Jul";month[7]="Aug";month[8]="Sep";month[9]="Oct";month[10]="Nov";month[11]="Dec";
+	  var currentMonth = month[currentTime.getMonth()];
+ 
+ 	  var day = new Array();
+ 	  day[0]="Sun";day[1]="Mon";day[2]="Tue";day[3]="Wed";day[4]="Thu";day[5]="Fri";day[6]="Sat";
+ 	  var currentDay = day[currentTime.getDay()];
+ 
+   	  var hour = currentTime.getHours()
+ 	  if (hour < 10)
+	  	{
+		var hour = new Array();
+ 		hour[0]="00";hour[1]="01";hour[2]="02";hour[3]="03";hour[4]="04";hour[5]="05";hour[6]="06";hour[7]="07";hour[8]="08";hour[9]="09" 
+		var currentHour = hour[currentTime.getHours()]
+	 	}
+	  else
+	  	{
+		var currentHour = currentTime.getHours()
+		}	  
+ 
+	  //var currentMinute = currentTime.getMinutes(); 
+  	  var minute = currentTime.getMinutes()
+ 	  if (minute < 10)
+	  	{
+		var minute = new Array();
+ 		minute[0]="00";minute[1]="01";minute[2]="02";minute[3]="03";minute[4]="04";minute[5]="05";minute[6]="06";minute[7]="07";minute[8]="08";minute[9]="09" 
+		var currentMinute = minute[currentTime.getMinutes()]
+	 	}
+	  else
+	  	{
+		var currentMinute = currentTime.getMinutes()
+		}
+
+  	  var currentDate = currentTime.getDate();
+	  
+ 	  //var currentHour = currentTime.getHours();
+
+ 	  
+ 	  var currentSecond = currentTime.getSeconds();
+  	  var second = currentTime.getSeconds()
+ 	  if (second < 10)
+	  	{
+		var second = new Array();
+ 		second[0]="00";second[1]="01";second[2]="02";second[3]="03";second[4]="04";second[5]="05";second[6]="06";second[7]="07";second[8]="08";second[9]="09" 
+		var currentSecond = second[currentTime.getSeconds()]
+	 	}
+	  else
+	  	{
+		var currentSecond = currentTime.getSeconds()
+		}	  	  
+ 	    
+	  	  
+	  document.write(currentDay + " " + currentMonth + " " + currentDate + ", " + currentHour + ":" + currentMinute + ":" + currentSecond + " " + currentYear)</script></span>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="timezone"><script language=Javascript>document.write("Timezone")</script></label>
+     <div class="field">
+      <select name="timezone" id="timezone" onChange="tzChange(this.selectedIndex)" style="width:auto;">
+      </select>
+     </div>
+    </div>
+    <div class="form-row no-bg-form" id="div_dst">
+     <label for="dst_details"></label>
+     <div class="field">
+      <a id="dst_details" href="javascript:show_DST_details(document.form.timezone.options.selectedIndex);"><script language=Javascript>document.write("Daylight savings time schedule")</script></a>
+     </div>
+    </div>
+    <h2><script language=Javascript>document.write("NTP settings")</script></h2>
+    <div class="form-row no-bg-form">
+     <label for="field-1"><script language=Javascript>document.write("Network time (NTP)")</script></label>
+     <div class="field">
+      <div class="location-settings">
+       <div id="ntp_enable" class="radio-switch" data-toggle-element="box_2144_pin">
+        <input type="radio" id="radio-1" name="ntpenable" class="access" value=1>
+        <label for="radio-1" class="on"><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="radio-2" name="ntpenable" class="access" value=0>
+        <label for="radio-2" class="off"><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="grey-box" id="box_2144_pin">
+     <div class="form-row">
+      <label for="ntpServerAddress"><script language=Javascript>document.write("NTP service")</script></label>
+      <div class="field">
+       <input type="text" class="validate[required] required large" name="ntpServerAddress" id="ntpServerAddress" value="0.netcomm.pool.ntp.org">
+      </div>
+     </div>
+     <div class="form-row no-bg-form">
+      <label id="ntp_wwan_connection_label"><script language=Javascript>document.write("Synchronisation on WWAN connection")</script></label>
+      <div class="location-settings">
+       <div class="radio-switch">
+        <input type="radio" id="ntp_wwan_connection_on" name="ntp_wwan_connection" class="access" value="1">
+        <label for='ntp_wwan_connection_on' class='on'><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="ntp_wwan_connection_off" name="ntp_wwan_connection" class="access" value="0">
+        <label for='ntp_wwan_connection_off' class='off'><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+     <div class="form-row no-bg-form">
+      <label id="ntp_daily_synclabel"><script language=Javascript>document.write("Daily synchronisation")</script></label>
+      <div class="location-settings">
+       <div class="radio-switch">
+        <input type="radio" id="ntp_daily_sync_on" name="ntp_daily_sync" class="access" value="1">
+        <label for='ntp_daily_sync_on' class='on'><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="ntp_daily_sync_off" name="ntp_daily_sync" class="access" value="0">
+        <label for='ntp_daily_sync_off' class='off'><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="submit-row">
+     <button name="saveButton" type="button" onClick="javascript:submitF()"><script language=Javascript>document.write("Save")</script></button>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script ></script>
+<script language='javascript'>
+        set_menu("Services", "NTP", "root");
+ if(""=="success") {
+  success_alert("","Your NTP configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

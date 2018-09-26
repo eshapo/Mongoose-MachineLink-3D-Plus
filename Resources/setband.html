@@ -1,0 +1,1059 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Operator settings</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="setband.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/ajax.cgi?getProfiles"></script>
+<!-- <%
+module_type=get_single("wwan.0.module_type");
+if (request['REQUEST_METHOD'] == "POST") { // preBand could be number or string so we have to compare both
+ tempval = form['paramBand'];
+ retval=set_single( 'wwan.0.currentband.cmd.status=' );
+ retval=set_single( 'wwan.0.currentband.cmd.param.band='+tempval );
+ retval=set_single( 'wwan.0.currentband.backup_config='+tempval );
+ retval=set_single( 'wwan.0.currentband.cmd.command=set' );
+ // we do not automatically change PLMN as the Quanta module has module-based linkage between PLMN and band selection.
+ // otherwise, the last band selection will be changed by the following PLMN change
+ if(module_type!="quanta") {
+  // change plmn
+  if( form['resetPLMN'] == "1" ) {
+   set_single( 'wwan.0.PLMN_select=0,0,0' );
+   set_single( 'wwan.0.PLMN_command_state=5' );
+  }
+ }
+ tempval='';
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ if (tempval=='') { esp_sleep(1000); tempval=get_single( 'wwan.0.currentband.cmd.status' ); }
+ form['status'] = tempval;
+ set_single( 'wwan.0.currentband.cmd.command=get' );
+ esp_sleep(3000);
+}
+_paramBand = get_single( 'wwan.0.currentband.current_selband' );
+if(_paramBand=="") {
+ set_single( 'wwan.0.currentband.cmd.command=get' );
+ if (_paramBand=='') { esp_sleep(1000); _paramBand=get_single( 'wwan.0.currentband.current_selband' );}
+ if (_paramBand=='') { esp_sleep(1000); _paramBand=get_single( 'wwan.0.currentband.current_selband' );}
+ if (_paramBand=='') { esp_sleep(1000); _paramBand=get_single( 'wwan.0.currentband.current_selband' );}
+ if (_paramBand=='') { esp_sleep(1000); _paramBand=get_single( 'wwan.0.currentband.current_selband' );}
+ if (_paramBand=='') { esp_sleep(1000); _paramBand=get_single( 'wwan.0.currentband.current_selband' );}
+}
+form['prevBand'] = _paramBand;
+form['prevBand2'] = _paramBand;
+%> -->
+<script language="JavaScript" type="text/javascript">
+var system_network_plmn_list="";
+var frequency="WCDMA850";
+var atcns_if="atqmi";
+var cmd_status="[DONE]";
+if(cmd_status!="[done]")
+ system_network_plmn_list="";
+var PLMN_select = "0";
+//var wwan_0_system_network_plmn_selectionMode = "0";
+var wwan_0_PLMN_selectionMode = "Automatic";
+var system_network_status_network = "%76%6f%64%61%66%6f%6e%65%20%41%55";
+var wwan_0_sim_status_status = "SIM OK";
+var restoreCmd="";
+var pf_enabled=0;
+var pppoe_en="0";
+var gps_en="0";
+function hideObjectById(id) {
+ if (document.getElementById) {
+  obj = document.getElementById(id);
+  obj.style.display = "none";
+ }
+}
+function showObjectById(id) {
+ if (document.getElementById) {
+  obj = document.getElementById(id);
+  obj.style.display = "inline";
+ }
+}
+function UrlDecode(str) {
+ var output = "";
+ for (var i = 0; i < str.length; i+=3) {
+  var val = parseInt("0x" + str.substring(i + 1, i + 3));
+  output += String.fromCharCode(val);
+ }
+ return output;
+}
+/****************************************************/
+var secs=0;
+var timerID = null;
+var timerRunning = false;
+var timeout = 2;
+var delay = 3000;
+var rdbCmd = "";
+var provideAction = "";
+var currentBandSel ="";
+var reg_err_counter=0;
+var reg_secc_counter=0;
+function InitializeTimer() {
+ // Set the length of the timer, in seconds
+ secs = 0;//timeout
+ StopTheClock();
+ StartTheTimer();
+}
+function StopTheClock() {
+ if(timerRunning)
+  clearTimeout(timerID);
+ timerRunning = false;
+}
+function StartTheTimer() {
+ if( rdbCmd ) {
+  if (secs==0) {
+   StopTheClock();
+   $.get(rdbCmd, alertContents);
+   rdbCmd="/cgi-bin/rdb.cgi?wwan.0.PLMN.cmd.status&wwan.0.PLMN_selectionMode&wwan.0.system_network_status.network&wwan.0.sim.status.status&wwan.0.currentband.current_selband&wwan.0.system_network_status.service_type&wwan.0.system_network_status.reg_stat";
+   secs = timeout;
+   StartTheTimer();
+  }
+  else {
+   self.status = secs;
+   secs = secs - 1;
+   timerRunning = true;
+   timerID = self.setTimeout("StartTheTimer()", delay);
+  }
+ }
+}
+function restoreConnections(success_action) {
+ if(restoreCmd!="") {
+  $.get("/cgi-bin/rdb.cgi?"+restoreCmd, function(){
+   setTimeout(success_action, 3000);
+  });
+ }
+ else {
+  setTimeout(success_action, 3000);
+ }
+}
+var delayCounter=0;
+var delayTime=10;
+function delayForConnectionDown(callback_func) {
+ setTimeout(function() {
+  if(++delayCounter>delayTime) {
+   callback_func();
+   return;
+  }
+  delayForConnectionDown(callback_func);
+ },1000);
+}
+function disableConnections(callback_func) {
+ $.blockUI({message:"Deactivating network connection (PDP context), please wait..."});
+ $("#restoreCmd").val(restoreCmd);
+ rdbCmd="";
+ if(pppoe_en=="1") {
+  rdbCmd="service.pppoe.server.0.enable=0&";
+ }
+ if(gps_en=="1") {
+  rdbCmd+="sensors.gps.0.enable=0&";
+ }
+ rdbCmd="/cgi-bin/rdb.cgi?"+rdbCmd;
+ for( i=1; i<=stpf.length; i++ ) {
+  if(i>1) {
+   rdbCmd+="&";
+  }
+  rdbCmd+="link.profile."+i+".enable=0";
+ }
+ $("#nameText").html("");
+ delayCounter=0;
+ $.get(rdbCmd, function(){delayForConnectionDown(callback_func)});
+}
+var registrationStr=["Not registered, searching stopped", "Registered, home network", "Not registered, searching...", "Registration denied", "Unknown", "Registered, roaming", "Registered for SMS&lt;br/&gt;(home network)", "Rregistered for SMS&lt;br/&gt;(roaming)", "Emergency", "N/A"];
+function alertContents(responseText) {
+ var wwan_0_PLMN_cmd_status="";
+ var wwan_0_system_network_status_reg_stat="";
+ eval(responseText);
+ if(wwan_0_PLMN_cmd_status=="")
+  return;
+ if(provideAction == "netScan") {
+  if(wwan_0_PLMN_cmd_status=="[done]") {
+   StopTheClock();
+   restoreConnections(function(){location.href="setband.html";});
+  }
+  else if(wwan_0_PLMN_cmd_status.indexOf("error")!= -1 ) {
+   rdbCmd = "";
+   StopTheClock();
+   if(restoreCmd!="") {
+    $.get("/cgi-bin/rdb.cgi?"+restoreCmd);
+   }
+   blockUI_alert( "Sorry, the network scan was unsuccessful. Please try again." );//Network scan unsuccessful, please try again.
+   //restoreConnections(function(){location.href="setband.html";});
+  }
+  else {
+   ;
+  }
+ }
+ else if(provideAction == "changeMode") {
+  if((wwan_0_PLMN_cmd_status=="[DONE]") || (wwan_0_PLMN_cmd_status=="[done]")) {
+   switch (wwan_0_system_network_status_reg_stat) {
+    case "0":
+    case "3":
+     if( ++reg_err_counter>10 || reg_secc_counter>1) {
+      validate_alert("", registrationStr[parseInt(wwan_0_system_network_status_reg_stat)]);
+      StopTheClock();
+      function my_func() {
+       document.form.scanNetwork.disabled=false;
+       document.form.saveBand.disabled=false;
+       document.form.saveMode.disabled=false;
+       document.form.btnCancel.disabled=false;
+      }
+      restoreConnections(my_func);
+      return;
+     }
+    break;
+    case "":
+    break;
+    default:
+     if( ++reg_secc_counter>5 || reg_err_counter>1 ) {
+      StopTheClock();
+      restoreConnections(function(){location.href="setband.html";});
+      return;
+     }
+    break;
+   }
+  }
+  else if(wwan_0_PLMN_cmd_status=="error" ) {
+   rdbCmd = "";
+   StopTheClock();
+   blockUI_alert("Please try again");//"Error! Please try again"
+   restoreConnections(function(){location.href="setband.html";});
+   //location.href="setband.html";
+  }
+ }
+ if((typeof(wwan_0_system_network_status_network) != "undefined")) {
+  if (wwan_0_system_network_status_network.charAt(0) == "%")
+   provider=UrlDecode(wwan_0_system_network_status_network);
+  else
+   provider=wwan_0_system_network_status_network;
+  //provider=provider.replace("3Telstra", "Telstra");
+  if(provider=="Limited Service")
+   provider="Limited service";
+  else if(provider=="N/A")
+   provider="N/A";
+  else if(provider!="") {
+   switch(wwan_0_system_network_status_service_type) {
+    case "GSM":"GUI pleaseWait"
+    case "UMTS":
+     provider+=" / "+ wwan_0_system_network_status_service_type;
+    break;
+    case "E-UMTS":
+     provider+=" / LTE";
+    break;
+   }
+  }
+  $("#nameText").html(provider);
+ }
+}
+function apply_func_step2() {
+ blockUI_wait("Saving settings, please wait...");
+ if( radioscount==1 ) {
+  i=0;
+ }
+ else {
+  for( i=0; i<list_name.length; i++)
+   if( document.form.rdlist[i].checked==true ) break;
+ }
+ if (i>=list_name.length) i=0;
+ if(document.form.PLMN_Selection_Mode[1].checked) {
+  if (atcns_if == 'cns') {
+   if((parseInt(list_type[i])>0)&&(parseInt(list_type[i])<4))
+    cmd = "2,"+list_mcc[i]+","+list_mnc[i];//2g
+   else
+    cmd = "1,"+list_mcc[i]+","+list_mnc[i];//3g
+  }
+  else {
+   cmd = list_type[i]+","+list_mcc[i]+","+list_mnc[i];
+  }
+ }
+ else {
+  cmd = "0";
+ }
+ plmn_preference=$("input:radio.access[name=plmn_preference]:checked").val();
+ if(plmn_preference===undefined) {
+  plmn_preference="1";
+ }
+ costeffective=$("input:radio.access[name=costeffective]:checked").val();
+ if(costeffective===undefined) {
+  costeffective="0";
+ }
+ reg_err_counter=0;
+ reg_secc_counter=0;
+ rdbCmd="/cgi-bin/rdb.cgi?wwan.0.PLMN_select="+cmd+"&manualroam.2g3gpreference="+plmn_preference+"&manualroam.costeffectivemode="+costeffective+"&wwan.0.PLMN_command_state=5&wwan.0.system_network_status.reg_stat=";
+ delay = 1000;
+ InitializeTimer();
+ document.form.scanNetwork.disabled=true;
+ document.form.saveBand.disabled=true;
+ document.form.saveMode.disabled=true;
+ document.form.btnCancel.disabled=true;
+}
+function apply_func_step1() {
+ restoreCmd="";
+ if( pppoe_en=="1" ) {
+  restoreCmd="service.pppoe.server.0.enable=1";
+ }
+ if( gps_en=="1" ) {
+  if(restoreCmd!="") {
+   restoreCmd+="&";
+  }
+  restoreCmd+="sensors.gps.0.enable=1";
+ }
+ $.get("/cgi-bin/ajax.cgi?getProfiles",function(v){
+  eval(v)
+  for( i=0; i<stpf.length; i++ ) {
+   if(stpf[i].enable == 1) {
+    if(restoreCmd!="") {
+     restoreCmd+="&";
+    }
+    restoreCmd+="link.profile."+(i+1)+".enable=1";
+    pf_enabled++;
+   }
+  }
+  if( pppoe_en=="1" || pf_enabled || gps_en=="1") {
+   disableConnections(apply_func_step2);
+   return;
+  }
+  apply_func_step2();
+ });
+}
+function changeMode() {
+ clear_alert();
+ //$(".submit-row").css("display", "none");
+ provideAction = "changeMode";
+ apply_func_step1();
+}
+function pre_netScan() {
+ clear_alert();
+ if( typeof(wwan_0_sim_status_status) == "undefined") {
+  blockUI_alert("SIM not detected");
+  return;
+ }
+ restoreCmd="";
+ if( pppoe_en=="1" ) {
+  restoreCmd="service.pppoe.server.0.enable=1";
+ }
+ if( gps_en=="1" ) {
+  if(restoreCmd!="") {
+   restoreCmd+="&";
+  }
+  restoreCmd+="sensors.gps.0.enable=1";
+ }
+ $.get("/cgi-bin/ajax.cgi?getProfiles",function(v){
+  eval(v)
+  for( i=0; i<stpf.length; i++ ) {
+   if(stpf[i].enable == 1) {
+    if(restoreCmd!="") {
+     restoreCmd+="&";
+    }
+    restoreCmd+="link.profile."+(i+1)+".enable=1";
+    pf_enabled++;
+   }
+  }
+  if( pppoe_en=="1" || pf_enabled || gps_en=="1") {
+   function netScan_func() {
+    disableConnections(netScan);
+   }
+   blockUI_confirm_l("An active network connection (PDP context) can hinder manual band selection and must be disabled temporarily in order to continue. Are you sure you want to proceed? Click on 'OK' to continue, or click on 'Cancel' to abort.", netScan_func);
+  }
+  else {
+   netScan();
+  }
+ });
+}
+function netScan() {
+ provideAction = "netScan";
+ blockUI_wait("Scanning, please wait...");
+ rdbCmd = "/cgi-bin/rdb.cgi?wwan.0.PLMN_command_state=1&wwan.0.PLMN.cmd.status=";
+ delay = 5000;
+ InitializeTimer();
+ $("#nameText").html("");
+}
+function submitF() {
+ clear_alert();
+ f=document.form;
+ f.saveBand.disabled=true;
+ if(f.paramBand.value=="") {
+  f.paramBand.value="All bands";
+ }
+ f.submit();
+}
+function submitRoaming() {
+ clear_alert();
+ f=document.form;
+ if(f.menuRoamingEn.value=="1") {
+  rdbCmd = "/cgi-bin/rdb.cgi?roaming.data.en=1&roaming.data.blocked==";
+ } else {
+  rdbCmd = "/cgi-bin/rdb.cgi?roaming.data.en=0";
+ }
+ blockUI_wait("Please wait");
+ $.get(rdbCmd, function(){window.location.href="setband.html?successRoaming";});
+}
+function initTableBand() {
+var module_band_list = "511,All";
+var module_band_list2 = "value of rdb wwan.0.currentband.current_band here";
+ // hide band-selection page if band list is not available for dongles
+ if( (module_band_list.length>0) || (module_band_list2!="N/A") ){
+  document.getElementById("BandSetDiv").style['display'] = '';
+  document.getElementById("BandNotAvailDiv").style['display'] = 'none';
+ }
+ else {
+  document.getElementById("BandSetDiv").style['display'] = 'none';
+  document.getElementById("BandNotAvailDiv").style['display'] = '';
+ }
+ if(module_band_list=="" || module_band_list=="N/A") {
+  var bands_list = new Array();
+  bands_list = module_band_list2.split(";");
+  if(bands_list.length==0)
+   return;
+  for(i=0; i<bands_list.length; i++) {
+   if((bands_list[i]=="All") ) {
+    //document.getElementById("currentBand").innerHTML=bands_list[i];
+    document.form.bandList.options[i]=new Option(bands_list[i], bands_list[i], false, true);
+   }
+   else {
+    document.form.bandList.options[i]=new Option(bands_list[i], bands_list[i], false, false);
+   }
+  }
+ }
+ else {
+  var all_str = new Array();
+  all_str = module_band_list.split("&");
+  //document.getElementById("currentBand").innerHTML="All";
+  if( all_str.length <= 0) {
+   return;
+  }
+  for(i=0; i<all_str.length; i++) {
+   var band_array = new Array();
+   band_array = all_str[i].split(",");
+   if(band_array.length != 2) break;
+   while(band_array[1].substring(0,1)==" ") {
+    band_array[1]=band_array[1].substring(1,band_array[1].length);
+   }
+   if((band_array[0]=="All")||(band_array[1]=="All")) {
+    currentBandSel=band_array[1];
+    document.form.prevBand.value=band_array[0];
+    document.form.bandList.options[i]=new Option(band_array[1], band_array[0], false, true);
+    document.form.prevBand2.value=band_array[1];
+   }
+   else {
+    document.form.bandList.options[i]=new Option(band_array[1], band_array[0], false, false);
+   }
+  }
+ }
+}
+var bandList_value;
+function bandChange() {
+ document.form.paramBand.value = document.form.bandList.options[document.form.bandList.selectedIndex].value;
+}
+function bandChangeprompt() {
+ if(bandList_value==document.form.bandList.value) {
+  return;
+ }
+ document.form.resetPLMN.value="0";
+ // change the select mode to automatic first
+ if( wwan_0_PLMN_selectionMode == "Manual" ) {
+  function confirmed_func() {
+   document.form.resetPLMN.value="1";
+   blockUI_wait("Saving settings, please wait...");
+   submitF();
+  }
+  blockUI_confirm_l("Changing band frequency also changes the current operator selection mode from manual to automatic (though it can be manually reconfigured afterwards). Are you sure you want to continue?", confirmed_func);
+  return;
+ }
+ blockUI_wait("Saving settings, please wait...");
+ submitF();
+}
+/******************************************/
+var radioscount = 0;
+var list = new Array();
+var ischecked = 0;
+var list_name = new Array();
+var list_mcc = new Array();
+var list_mnc = new Array();
+var list_status = new Array();
+var list_type = new Array();
+var list_decodestr = new Array();
+function hasSubStr(str, substr) {
+ return str.search(substr) >= 0;
+}
+function set_provider_list() {
+var ii = 0;
+var h="";
+ if( typeof(system_network_plmn_list) != "undefined") {
+  //system_network_plmn_list='AT\\&T,310,410,1,1&,310,410,4,7&310 2,310,26,1,1&T-Mobile USA,310,260,1,7&T-Mobile USA,310,260,4,7';
+  // split by a single ampersand
+  var cooked = system_network_plmn_list.replace(/\\&/g,"^impossible^");
+  list = cooked.split("&");
+  $.each(list,function(i,v){
+   list[i]=v.replace(/\^impossible\^/g,'&');
+  });
+  for( var i=0; i<list.length; i++) {
+   ray = list[i].split(",");
+   if(ray.length == 5 ) {
+    list_name[ii]=ray[0];
+    //list_name[ii]=ray[0].replace("3Telstra", "Telstra");
+    list_name[ii]=list_name[ii].replace("Telstra Mobile", "Telstra");
+    list_mcc[ii]=ray[1];
+    list_mnc[ii]=ray[2];
+    list_status[ii]=parseInt(ray[3]);
+    list_type[ii]=ray[4];
+    ii++;
+   }
+  }
+  /* 
+
+			PHS-8P blank operator name workaround - PHS8-P occationally returns blank names
+
+		*/
+  var i;
+  $.each(list_name,function(i,v){
+   /* bypass if not a blank operator */
+   if(v!="")
+    return;
+   for(var j=0;j<list_name.length;j++) {
+    /* bypass if a blank operator */
+    if(list_name[j]=="")
+     continue;
+    /* use the operator name if mcc and mnc are matching */
+    if(list_mcc[i]==list_mcc[j] && list_mnc[i]==list_mnc[j])
+     list_name[i]=list_name[j];
+   }
+  });
+  for( var i=0; i<list_name.length; i++) {
+   h+="<tr><td class='radio-box'>";
+   if ( (list_status[i] &3)!=3) {
+    radioscount++;
+    h+="<input type='radio' class='access' name='rdlist' id='rdlist"+i+"'";
+    if( (atcns_if == 'cns' && ( list_status[i] &1 ) && !ischecked) || //Registered
+     (atcns_if != 'cns' && ( list_status[i] &4 ) && !ischecked)) { //Current
+     ischecked++;
+     h+=" checked='checked'";
+    }
+    h+="><label for='rdlist"+i+"' style='margin-left:10px;'>&nbsp;</label>";
+   }
+   else {
+    h+="&nbsp;&nbsp;";
+   }
+   h+="</td><td>"+list_name[i]+"</td>";
+   h+="<td>"+list_mcc[i]+"</td>";
+   h+="<td>"+list_mnc[i]+"</td>";
+   decodestr = "";
+   if (atcns_if == 'cns') {
+    if (list_status[i] &1)
+     decodestr += (decodestr=="")?"Registered ":"/ Registered ";
+    if( list_status[i] &4 )
+     decodestr += (decodestr=="")?"Home ":"/ Home ";
+    if (list_status[i] &2)
+     decodestr += (decodestr=="")?"Forbidden ":"/ Forbidden ";
+    decodestr += (decodestr=="")?"Available":"";
+   }
+   else {
+    if ((list_status[i]&3) ==1)
+     decodestr += (decodestr=="")?"Available ":"/ Available ";
+    if (list_status[i] &4)
+     decodestr += (decodestr=="")?"Current ":"/ Current ";
+    if ((list_status[i]&3) ==2)
+     decodestr += (decodestr=="")?"Forbidden ":"/ Forbidden ";
+    decodestr += (decodestr=="")?"Unknown":"";
+   }
+   h+="<td>"+decodestr+"</td>";
+   pos = -1;
+   decodestr = "";
+   mystring=list_type[i];
+   do {
+    mystring=mystring.substring(pos+1);
+    mytype=parseInt(mystring);
+    if (atcns_if == 'cns') {
+     switch(mytype)
+     {
+      case 0:
+       decodestr += (decodestr.indexOf("Unknown")==-1 && pos==-1)?"Unknown ":"/ Unknown";
+      break;
+      case 1:
+       decodestr += (decodestr.indexOf("GSM")==-1 && pos==-1)?"GSM ":"/ GSM ";
+      break;
+      case 2:
+       decodestr += (decodestr.indexOf("DCS")==-1 && pos==-1)?"DCS ":"/ DCS ";
+      break;
+      case 3:
+       decodestr += (decodestr.indexOf("GSM DCS")==-1 && pos==-1)?"GSM DCS ":"/ GSM DCS ";
+      break;
+      case 4:
+       decodestr += (decodestr.indexOf("PCS")==-1 && pos==-1)?"PCS ":"/ PCS ";
+      break;
+      case 5:
+       decodestr += (decodestr.indexOf("GSM PCS")==-1 && pos==-1)?"GSM PCS ":"/ GSM PCS ";
+      break;
+      case 6:
+       decodestr += (decodestr.indexOf("ICO")==-1 && pos==-1)?"ICO ":"/ ICO ";
+      break;
+      case 7:
+       decodestr += (decodestr.indexOf("UMTS")==-1 && pos==-1)?"UMTS ":"/ UMTS ";
+      break;
+      default:
+       decodestr += (decodestr.indexOf("Reserved")==-1 && pos==-1)?"Reserved ":"/ Reserved ";
+      break;
+     }
+    }
+    else {
+     var networkTypeStr = ["Unknown", "GSM (2G)", "GSM (2G)", "UMTS (3G)", "UMTS/HSDPA (3G)", "UMTS/HSUPA (3G)", "HSDPA+HSUPA (3G)" , "UMTS (3G)", "DC-HSPA+", "LTE (4G)"];
+     if (decodestr == "")
+      decodestr = networkTypeStr[mytype];
+     else if (!hasSubStr(decodestr,new RegExp(networkTypeStr[mytype],"i")))
+      decodestr += " / " + networkTypeStr[mytype];
+    }
+   } while( (pos = mystring.indexOf("/"))!= -1 );
+   list_decodestr[i]=decodestr;
+   h+="<td>"+decodestr+"</td></tr>";
+  }
+  if(h.length) {
+   document.write(h);
+   $("#list-table").css("display","");
+  }
+  if (atcns_if == 'cns') {
+   for( var i=0; i<list_name.length; i++) {
+    if(list_name[i].indexOf(system_network_status_network)==0 ) {
+     if( ( (PLMN_select.substring(0,1)=="2")&&(frequency.indexOf("GSM")!=-1)) || ((PLMN_select.substring(0,1)=="1")&&(frequency.indexOf("GSM")==-1)) ) {//XOR based on last opration
+      document.form.rdlist[i].checked=true;
+      break;
+     }
+    }
+   }
+  }
+  if(wwan_0_PLMN_selectionMode == "Automatic" || wwan_0_PLMN_selectionMode == "Manual") {
+   if(wwan_0_PLMN_selectionMode=="Automatic"){
+    //$("#ModeText").html("Automatic");
+    document.form.PLMN_Selection_Mode[0].checked=true;
+   }
+   else{
+    //$("#ModeText").html("Manual");
+    document.form.PLMN_Selection_Mode[1].checked=true;
+   }
+  }
+  else if(PLMN_select.length>0 && PLMN_select != "N/A") {
+   if(PLMN_select.substring(0,1)=="0"){
+    //$("#ModeText").html("Automatic");
+    document.form.PLMN_Selection_Mode[0].checked=true;
+   }
+   else {
+    //$("#ModeText").html("Manual");
+    document.form.PLMN_Selection_Mode[1].checked=true;
+   }
+  }
+ }
+ if(system_network_status_network=="Limited Service")
+  system_network_status_network="Limited service"
+ else if(system_network_status_network=="N/A")
+  system_network_status_network="N/A";
+ var provider=system_network_status_network;
+ if (provider.charAt(0) == "%") {
+  provider=UrlDecode(provider).replace("&","&#38");
+ }
+ $("#nameText").html(provider.replace("Telstra Mobile", "Telstra"));
+ provideAction = "";
+ rdbCmd="/cgi-bin/rdb.cgi?wwan.0.PLMN.cmd.status="; //!!!only load the list once
+ InitializeTimer();
+}
+function plmnModeOnChange() {
+ if(document.form.PLMN_Selection_Mode[0].checked==true) {
+  document.form.saveMode.disabled=false;
+  document.form.scanNetwork.disabled=true;
+  greyOutRadio(true,0);
+ }
+ else {
+  if(list.length<=1) {
+   document.form.saveMode.disabled=true;
+  }
+  else {
+   document.form.saveMode.disabled=false;
+   greyOutRadio(false,0);
+  }
+  document.form.scanNetwork.disabled=false;
+ }
+}
+function greyOutRadio( action, value ) {
+ if( radioscount==1 ) {
+  document.form.rdlist.disabled=action;
+ }
+ else {
+  for(i = 0; i<radioscount; i++) {
+   if(action==false) {
+    /* TT#5956 :Manual roaming list of operators provents users from choosing forbidden network
+
+				if ((list_status[i]&3) ==2) { //Forbidden
+
+					document.form.rdlist[i].disabled=true;
+
+				}
+
+				else*/ {
+     if(value==1) {
+      if(list_decodestr[i].indexOf("UMTS")!= -1 || list_decodestr[i].indexOf("HSPA")!= -1) {
+       document.form.rdlist[i].disabled=false;
+       document.form.rdlist[i].checked=true;
+      }
+      else
+       document.form.rdlist[i].disabled=true;
+     }
+     else if(value==2 ) {
+      if(list_decodestr[i].indexOf("GSM")!= -1) {
+       document.form.rdlist[i].disabled=false;
+       document.form.rdlist[i].checked=true;
+      }
+      else
+       document.form.rdlist[i].disabled=true;
+     }
+     else {
+      document.form.rdlist[i].disabled=action;
+     }
+    }
+   }
+   else {
+    document.form.rdlist[i].disabled=action;
+   }
+  }
+ }
+}
+$(document).ready( function() {
+ load_values_to_elements(
+  {"input:radio.access[name=dataRoam]":"1"==1}
+ );
+ if( wwan_0_sim_status_status!="SIM OK" ) {
+  switch(wwan_0_sim_status_status) {
+   case "SIM removed":
+   case "SIM not inserted":
+    validate_alert("", "The SIM is not inserted, please insert a SIM card and make sure the SIM status is okay, then try again.");
+   break;
+   case "":
+   case "N/A":
+    validate_alert("", "The device is detecting SIM card. Please wait for a while, and make sure the SIM status is okay then try again.");
+   break;
+   case "SIM PIN":
+    validate_alert("", "The SIM is PIN locked, please unlock the SIM card and make sure the SIM status is okay, then try again.");
+   break;
+   case "SIM PUK":
+    validate_alert("", "The SIM is PUK locked, please unlock the SIM card and make sure the SIM status is okay, then try again.");
+   break;
+   default:
+    validate_alert("", "Please make sure the SIM status is okay and try again");
+   break;
+  }
+  $("#band-div").css("display","none")
+  return;
+ }
+ if(document.form.status.value=="[done]") {
+  if($("#restoreCmd").val()!="") {
+   $.get("/cgi-bin/rdb.cgi?"+$("#restoreCmd").val(), function(){
+    $.get("/cgi-bin/ajax.cgi?getProfiles", function(responseText){eval(responseText);});
+   });
+  }
+  success_alert("","The cellular band configuration changes were successfully saved and applied.");
+ }
+ plmnModeOnChange();
+ if(list_name.length > 0) {
+  document.getElementById("btn1").style['display'] = 'none';
+  document.getElementById("btn2").style['display'] = '';
+  document.form.PLMN_Selection_Mode[1].checked=true;
+  greyOutRadio(false,0);
+ }
+ initTableBand();
+ bandList_value=$("#bandList").val();
+ // load configuration
+ var band_text="All";
+ if(band_text.indexOf("GSM")!=-1) {
+  $("#plmn_preference_0").attr("checked","checked");
+  $("#plmn_preference_1").attr("disabled", true);
+ }
+ else if(band_text.indexOf("WCDMA")!=-1){
+  $("#plmn_preference_1").attr("checked","checked");
+  $("#plmn_preference_0").attr("disabled", true);
+ }
+ else {
+  load_values_to_elements({
+   "input:radio.access[name=plmn_preference]":"",
+   }
+  );
+ }
+ // toggle network reference based on "operator mode"
+ $("input:radio.access[name=PLMN_Selection_Mode]").change(function(){
+  roaming_sim=""=="1";
+  if($(this).is(":checked")) {
+   if(roaming_sim && ($(this).val()==0)) {
+    $(".show_plmn_preference").css("display","");
+    $("input:radio.access[name=costeffective]").change();
+   }
+   else {
+    $(".show_plmn_preference").css("display","none");
+   }
+  }
+ });
+ // trigger change event
+ $("input:radio.access[name=PLMN_Selection_Mode]").trigger("change");
+ load_values_to_elements({
+   "input:radio.access[name=costeffective]":"",
+  }
+ );
+ $("input:radio.access[name=costeffective]").change(function(){
+  roaming_sim=""=="1";
+  if(!roaming_sim)
+   $("#plmn_preference_div").hide();
+  else if($(this).is(":checked") && $(this).val()==1) {
+   $("#plmn_preference_div").hide();
+  }
+  else if($(this).is(":checked") && $(this).val()==0) {
+   if(document.form.PLMN_Selection_Mode[0].checked == true)
+    $("#plmn_preference_div").show();
+   else
+    $("#plmn_preference_div").hide();
+  }
+ });
+ // trigger change event
+ $("input:radio.access[name=costeffective]").trigger("change");
+});
+</script>
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+ <div class="container">
+  <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+  <div class="grid-9 omega">
+ <form name="form" class="validate" novalidate="novalidate" method="POST" action="setband.html">
+ <div class="right-column white-box">
+  <div class="pad">
+   <h2><script language=Javascript>document.write("Band settings")</script></h2>
+   <input type="hidden" name="status" value=""/>
+   <input type="hidden" name="prevBand" value=""/>
+   <input type="hidden" name="prevBand2" value=""/>
+   <input type="hidden" name="paramBand" value=""/>
+   <input type="hidden" name="restoreCmd" id="restoreCmd" value=""/>
+   <input type="hidden" name="resetPLMN" value="0"/>
+   <div id="band-div">
+    <div id="BandSetDiv" style="display:none">
+     <!--div class="form-row">
+      <label for="currentBand"><script language=Javascript>document.write("Current band")</script></label>
+      <span class="normal-text" id="currentBand"></span>
+     </div-->
+     <div class="form-row">
+      <fieldset>
+       <label for="bandList"><script language=Javascript>document.write("Change band")</script></label>
+       <div class="field">
+        <!--<select id="bandList" name="bandList" size="1" onChange="javascript:bandChange()"></select>-->
+        <select onchange="javascript:bandChange()" size="1" name="bandList" id="bandList" class="valid"><option value="511">All bands</option><option value="15">GSM All</option><option value="496">WCDMA All</option><option value="4">GSM 850</option><option value="1">GSM 900</option><option value="2">GSM 1800</option><option value="8">GSM 1900</option><option value="64">WCDMA 850</option><option value="128">WCDMA 900</option><option value="256">WCDMA 800</option><option value="32">WCDMA 1900</option><option value="16">WCDMA 2100</option></select>
+       </div>
+      </fieldset>
+     </div>
+     <div class="submit-row">
+      <button type="button" value="Apply" name='saveBand' id='btnApplyFormBand' onClick="bandChangeprompt()"><script language=Javascript>document.write("Save")</script></button>
+     </div>
+    </div>
+    <div id="BandNotAvailDiv" style="display:none">
+     <td width="100%" id="bandNotAvailableTxt"><script language=Javascript>document.write("Sorry, the band setting isn't available.")</script></td>
+    </div>
+    <br/><h2 id="operatorSettings"><script language=Javascript>document.write("Operator settings")</script>
+<!-- &nbsp;&nbsp;<i class='progress-sml' id="scanwait" style="padding-bottom:2px; display:none"></i> -->
+    </h2>
+    <div class="form-row">
+     <label for="PLMN_Selection_Mode"><script language=Javascript>document.write("Select operator mode")</script></label>
+     <div class="radio-box-group">
+      <div class="radio-box">
+       <input type="radio" class="access" name="PLMN_Selection_Mode" id="PLMN_Selection_Mode-0" value=0 onclick="plmnModeOnChange();$('#table-div').css('display', 'none');" checked="checked">
+       <label for="PLMN_Selection_Mode-0"><div class="radioText"><script language=Javascript>document.write("Automatic")</script></div></label>
+      </div>
+      <div class="radio-box">
+       <input type="radio" class="access" name="PLMN_Selection_Mode" id="PLMN_Selection_Mode-1" value=1 onClick="plmnModeOnChange();$('#table-div').css('display', '');">
+       <label for="PLMN_Selection_Mode-1"><div class="radioText"><script language=Javascript>document.write("Manual")</script></div></label>
+      </div>
+     </div>
+    </div>
+    <div class="form-row show_plmn_preference">
+     <label><script language=Javascript>document.write("Cost effective mode")</script></label>
+     <div class="field">
+      <div class="location-settings">
+       <div class="radio-switch">
+        <input type="radio" id="costeffective-0" name="costeffective" class="access" value=1>
+        <label for="costeffective-0" class="on"><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="costeffective-1" name="costeffective" class="access" value=0>
+        <label for="costeffective-1" class="off"><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="form-row show_plmn_preference" id="plmn_preference_div">
+     <label><script language=Javascript>document.write("Network access technology preference")</script></label>
+     <div class="radio-box-group">
+      <div class="radio-box">
+       <input type="radio" class="access" name="plmn_preference" id="plmn_preference_1" value=1>
+       <label for="plmn_preference_1"><script language=Javascript>document.write("3G")</script></label>
+      </div>
+      <div class="radio-box">
+       <input type="radio" class="access" name="plmn_preference" id="plmn_preference_0" value=0>
+       <label for="plmn_preference_0"><script language=Javascript>document.write("2G")</script></label>
+      </div>
+     </div>
+    </div>
+    <div class="form-row">
+     <label for="nameText"><script language=Javascript>document.write("Current operator registration")</script></label>
+     <span class="normal-text" id="nameText"></span>
+    </div>
+    <div id="table-div">
+    <table class="form-row" id="list-table" style="display:none">
+     <colgroup>
+      <col width="50px">
+      <col width="240px">
+      <col width="100px">
+      <col width="100px">
+      <col width="180px">
+      <col width="180px">
+     </colgroup>
+     <thead>
+      <tr>
+       <th>&nbsp;</th>
+       <th class="align10"><script language=Javascript>document.write("Operator name list")</script></th>
+       <th class="align10"><script language=Javascript>document.write("MCC")</script></th>
+       <th class="align10"><script language=Javascript>document.write("MNC")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Operator status")</script></th>
+       <th class="align10"><script language=Javascript>document.write("Network type")</script></th>
+      </tr>
+     </thead>
+     <tbody id="provider_list"><script language="JavaScript">set_provider_list();</script></tbody>
+    </table>
+    </div>
+    <div class="submit-row">
+     <div id="btn1">
+      <button type="button" class="secondary" name='scanNetwork' id='btnScan' onClick="pre_netScan()"><script language=Javascript>document.write("Scan")</script></button>
+     </div>
+     <button type="button" name='saveMode' id='saveMode' onClick="changeMode()"><script language=Javascript>document.write("Apply")</script></button>
+     <div id="btn2" style="display:none">
+      <button type="button" class="secondary" name="btnCancel" id="btnCancel" onClick="location.reload();"><script language=Javascript>document.write("Cancel")</script></button>
+      &nbsp;&nbsp;
+     </div>
+    </div>
+   </div>
+   <div id="roamingsettings-div">
+    <input type="hidden" name="menuRoamingEn" id="menuRoamingEn" value=""/>
+    <div class="form-row">
+     <h2><script language=Javascript>document.write("Roaming settings")</script></h2>
+     <label for="field-1"><script language=Javascript>document.write("Allow data roaming")</script></label>
+     <div class="field">
+      <div class="location-settings">
+       <div class="radio-switch">
+        <input type="radio" id="dataroamingradio-1" name="dataRoam" class="access" value=1 onClick="javascript:document.form.menuRoamingEn.value='1';">
+        <label for="dataroamingradio-1" class="on"><script language=Javascript>document.write("I")</script></label>
+        <input type="radio" id="dataroamingradio-2" name="dataRoam" class="access" value=0 onClick="javascript:document.form.menuRoamingEn.value='0';">
+        <label for="dataroamingradio-2" class="off"><script language=Javascript>document.write("0")</script></label>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="submit-row">
+     <button type="button" value="Apply" name='saveRoaming' id='btnApplyFormRoaming' onClick="submitRoaming()"><script language=Javascript>document.write("Save")</script></button>
+    </div>
+   </div>
+  </div>
+ </div>
+ </form>
+</div>
+ </div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+    set_menu("Internet", "BAND", "root");
+ if(""=="successRoaming") {
+  success_alert("","Your roaming  configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>

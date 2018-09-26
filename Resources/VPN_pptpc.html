@@ -1,0 +1,675 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!--
+  Common include to check the session is current and if not redirect to the
+  login page, then after logging in redirect back to the referring page.
+  Note a redirect on a non-root user can be effected by defining the
+  pre-processor symbol "CHECK_ROOT_USER" before including this file.
+-->
+<!-- <%
+// Check the session, if timed out redirect, and pass the referring page as
+// an argument. This allows index.html to redirect back to the referring page.
+useSession();
+if (
+    request["SESSION_ID"] != session["sessionid"]) {
+  redirect('/index.html?src=' + request["SCRIPT_NAME"]);
+  exit(403);
+}
+%> -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>PPTP Client</title>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ html.className = html.className.replace('no-js','') + ' js';
+})();
+var modules = [];
+</script>
+<!--[if lt IE 9]>
+<script src="vdf-lib/js/lib/selectivizr.min.js"></script>
+<script src="js/libs/html5-shiv.min.js"></script>
+<noscript>
+ <link rel="stylesheet" href="vdf-lib/css/ie/ie.min.css">
+</noscript>
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" href="css/ie6.css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="css/ie7.css">
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="css/ie6-ie7.css">
+<![endif]-->
+<link rel="stylesheet" href="vdf-lib/css/main.min.css?2.0.18.9">
+<link rel="stylesheet" href="css/style.css?2.0.18.9">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcun icon" type="image/x-icon" href="favicon.ico">
+</head>
+<!--[if IE 6]>
+ <body class="ie ie6">
+<![endif]-->
+<!--[if IE 7]>
+ <body class="ie ie7">
+<![endif]-->
+<!--[if IE 8]>
+ <body class="ie ie8">
+<![endif]-->
+<!--[if IE 9]>
+ <body class="ie ie9">
+<![endif]-->
+<!--[if gt IE 9]>
+ <body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+<script src="js/jquery.min.js?2.0.18.9" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js?2.0.18.9" type="text/javascript" charset="utf-8"></script>
+<script src="js/script.js?2.0.18.9"></script>
+<script src="vdf-lib/js/main.min.js?2.0.18.9"></script>
+<!--**********************************************************-->
+<script type="text/javascript" src="lang/b28n.js?2.0.18.9"></script>
+<script language="JavaScript" src="js/jquery.blockUI.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="util.js?2.0.18.9"></script>
+<script language='javascript'>
+var fn="VPN_pptpc.html".replace(".html", "");
+if(fn=="" || fn=="/") {
+ fn="index";
+}
+Butterlate.setTextDomain(fn.replace("/", ""));
+$.blockUI.defaults.css.padding="20px 0 20px 0";
+var roam_simcard="0";
+if(!is_touch_device()) {$("head").append("<style type='text/css'>.footer {position:fixed;}</style>");}
+</script>
+<script language="JavaScript" src="cgi-bin/pptp.cgi"></script>
+<script language="JavaScript">
+var actTunnelNum=0;
+var pptpTunnelMap=new Array();
+function exitHandler() {
+ clear_alert();
+ if(document.form.curindex.value >= 0)
+  window.location="/VPN_pptpc.html#"
+ else
+  showedit( 'edit', false, st.length );
+}
+function hasSubStr(str, substr) {
+ return str.search(substr) >= 0;
+}
+function checkPptpForm() {
+ var f=document.form;
+ if (f.username.value == "") {
+  validate_alert("", "Please enter a username");
+  return false;
+ }
+ if (f.pass.value == "") {
+  validate_alert("", "Please enter a password");
+  return false;
+ }
+ if (f.vpnserver.value == "" ) {
+  validate_alert("", "Error: You have entered the server IP address incorrectly. Please try again.");//Error: No server IP address entered or not entered correctly
+  return false;
+ }
+ return true;
+}
+function isValidIpAddress(str) {
+ regaddr=/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/
+ return regaddr.exec(str)!=null;
+}
+function submitPptpForm() {
+ var f=document.form;
+ var header = "link.profile."+i+".";
+ var opts=[
+  header+"dev=pptp.0",
+  header+"name="+f.newname.value,
+  header+"user="+f.username.value,
+  header+"pass="+f.pass.value,
+  header+"enable="+f.vpnenable.value,
+  header+"defaultroutemetric="+f.metric.value,
+  header+"default.dnstopptp="+f.dnstopptp.value,
+  header+"serveraddress="+f.vpnserver.value,
+  header+"snat="+f.snatEnable.value,
+  header+"default.defaultroutemetric="+f.sdefGwEnable.value,
+  header+"reconnect_delay="+f.reconnectDelay.value,
+  header+"reconnect_retries="+f.reconnectRetries.value,
+  header+"authtype="+f.authType.value,
+  header+"verbose_logging="+f.pppdebug.value,
+  "service.vpn.pptp.profile="+i,
+  header+"delflag=0",
+  /* mppe and ext option */
+  header+"mppe_en="+$("input:radio.access[name=radio_mppe_en]:checked").val(),
+  header+"opt="+$("#extra_ppp_option").val(),
+   ];
+ f.rdbCmd.value=opts.join("&");
+ f.submit();
+}
+function submitForm() {
+ var f=document.form;
+/*********for vdf validator**********/
+ if(!$("#form").valid()) {
+  return;
+ }
+ try {
+  document.form.rdbCmd.value = "";
+  if (f.vpnenable.value == '1') {
+   if(!checkPptpForm())
+    return;
+  }
+  value = parseInt(f.editindex.value);
+  if( st.length==0 || isNaN(value)==true || value < 0 || value >= st.length ) {
+   i = newprofilenum; //add new
+  }
+  else if( isNaN(st[value].profilenum)==true ) {
+   validate_alert("", "Error: You have entered the profile number incorrectly. Please try again."); //Error: Profile number incorrectly
+   return;
+  }
+  else {
+   i=st[value].profilenum;
+  }
+  submitPptpForm();
+ }
+ catch(e) {
+  alert(e.message);
+ }
+}
+function delentry( index ) {
+ try {
+  i=st[index].profilenum;
+  document.form.rdbCmd.value = "link.profile."+i+".name=&link.profile."+i+".enable=0&link.profile."+i+".delflag=1";
+  document.form.submit();
+ }
+ catch(e) {
+  alert(e.message);
+ }
+}
+function PPTPlist() {
+ var tunnel_num = 0;
+ var st=[ ]; newprofilenum =7; 
+ actTunnelNum=0;
+ /* Go through tunnel list and work out how many are PPTP */
+ for (var i = 0; i < st.length; i++) {
+  if ((st[i].type=="pptp.0")) {
+   tunnel_num++;
+   if(st[i].enable=="1") {
+    pptpTunnelMap[actTunnelNum] = i;
+    actTunnelNum ++;
+   }
+  }
+ }
+ /* If the list is empty don't setup the columns, just return */
+ if (tunnel_num == 0) {
+  document.write("<br/><table class='empty above-5-column'>");
+  document.write("<thead><tr><th>" + "The PPTP client list is empty"+ "</th></tr></thead>");
+  document.write("</table>");
+  return;
+ }
+ /* Display the headings for the table here */
+ document.write("<br/><table class='above-5-column'>");
+ document.write("<thead>");
+ document.write("<tr>");
+ document.write("<th class='align10'>#</th>");
+ document.write("<th class='align10'>"+"Name"+"</th>");
+ document.write("<th class='align10'>"+"Remote PPTP server"+"</th>");
+ document.write("<th class='align10'>"+"Username"+"</th>");
+ document.write("<th class='align10'>"+"Enable"+"</th>");
+ document.write("<th class='align10'>"+"Edit"+"</th>");
+ document.write("<th></th>");
+ document.write("<tbody>");
+ //document.form2.stlength.value = st.length;
+ for (i = 0; i < st.length; i++) {
+  if((st[i].type=="pptp.0")) {
+   document.write("<tr>");
+   document.write("<td>"+tunnel_num+"</td>");
+   document.write("<td>"+st[i].name+"</td>");
+   document.write("<td>"+st[i].serveraddress+"</td>");
+   document.write("<td>"+st[i].user+"</td>");
+   document.write("<td>"+(st[i].enable=='1'?'enabled':'disabled')+"</td>");
+   document.write("<td><a class='secondary sml' href=\"javascript:clear_alert();showedit('edit',true,"+i+");\"><i class='icon edit'>"+"Edit"+"</i></a></td>");
+   document.write("<td class='last'><a class='secondary sml' style='padding:0;border:0;' href='javascript:delentry("+i+");' title='"+"Delete"+"'><i class='icon close'></i></a></td>");
+   document.write("</tr>");
+  }
+ }
+ document.write("</tbody>");
+ document.write("</table>");
+}
+function initPptpForm(idx) {
+ var f=document.form;
+ f.vpnenable.value=st[idx].enable;
+ f.metric.value=st[idx].metric;
+ f.dnstopptp.value=st[idx].dnstopptp;
+ f.newname.value=st[idx].name;
+ f.username.value=st[idx].user;
+ f.pass.value=st[idx].pass;
+ f.vpnserver.value=st[idx].serveraddress;
+ f.reconnectDelay.value = st[idx].reconnect_delay;
+ f.reconnectRetries.value = st[idx].reconnect_retries;
+ f.snatEnable.value = st[idx].snat;
+ f.sdefGwEnable.value = st[idx].sdefgw;
+ f.pppdebug.value = st[idx].pppdebug;
+// 	arragePptpForm(idx);
+ var f = document.form;
+ /* Initialise the vpn enable button */
+ load_value_to_element("input:radio.access[name=radio_enable]", f.vpnenable.value);
+ /* Setup the drop-down box displayed value based on RDB */
+ f.authType.value=st[idx].authtype;
+ $("#auth_type").val(f.authType.value);
+ /* Initialise the "Peer DNS" button */
+ if (f.dnstopptp.value=='1') {
+  $('#radio-3').attr("checked","checked");
+ } else {
+  $('#radio-4').attr("checked","checked");
+ }
+ /* Initialise the "NAT Masquerading" button */
+ if (f.snatEnable.value=='1') {
+  $('#radio-5').attr("checked","checked");
+ } else {
+  $('#radio-6').attr("checked","checked");
+ }
+ /* Initialise the "PPTP Default Route */
+ if (f.sdefGwEnable.value=='1') {
+  $('#radio-7').attr("checked","checked");
+ } else {
+  $('#radio-8').attr("checked","checked");
+ }
+ /* Initialise the "Verbose Logging" button */
+ if (f.pppdebug.value=='1') {
+  $('#radio-9').attr("checked","checked");
+ } else {
+  $('#radio-10').attr("checked","checked");
+ }
+ /* mppe and extra option */
+ load_values_to_elements({
+  "input:radio.access[name=radio_mppe_en]":st[idx].mppe_en == "" || st[idx].mppe_en=="1",
+  "#extra_ppp_option":st[idx].opt||"",
+    "input:radio.access[name=radio-2]":st[idx].dnstopptp=="1",
+      "input:radio.access[name=radio-3]":st[idx].snat=="1",
+           "input:radio.access[name=radio-4]":st[idx].sdefgw=="1",
+           "input:radio.access[name=radio-5]":st[idx].pppdebug=="1",
+ });
+}
+function initEmptyForm(idx) {
+ var f=document.form;
+ // init pptp & gre variables
+ f.vpnenable.value='1';
+ f.metric.value='10';
+ f.dnstopptp.value='0';
+ f.newname.value='';
+ f.username.value='';
+ f.pass.value='';
+ f.vpnserver.value='';
+ f.reconnectDelay.value = "30";
+ f.reconnectRetries.value = "0";
+ f.snatEnable.value = '0';
+ f.sdefGwEnable.value = '0';
+ f.pppdebug.value='0';
+ load_values_to_elements({
+  "input:radio.access[name=radio_enable]":f.vpnenable.value=="1",
+  "input:radio.access[name=radio-2]":f.dnstopptp.value=="1",
+  "input:radio.access[name=radio-3]":f.snatEnable.value=="1",
+  "input:radio.access[name=radio-4]":f.sdefGwEnable.value=="1",
+  "input:radio.access[name=radio-5]":f.pppdebug.value=="1",
+  "input:radio.access[name=radio_mppe_en]":true,
+  "#extra_ppp_option":"",
+ });
+}
+// This routine translates an IP address (i.e in 192.168,etc form) to the individual
+// segments needed to fill in the form in the web browser
+function transformIPtoFormInfo(ipAddress, documentItem) {
+ var ip=ipAddress.split(".");
+ document.getElementById(documentItem+"1").value = ip[0];
+ document.getElementById(documentItem+"2").value = ip[1];
+ document.getElementById(documentItem+"3").value = ip[2];
+ document.getElementById(documentItem+"4").value = ip[3];
+}
+function showedit( myid, action, idx ) {
+ document.form.editindex.value=idx;
+ document.getElementById( myid+"Div" ).style['display']=action?"":"none";
+ document.getElementById( "listDiv" ).style['display']=action?"none":"";
+ document.getElementById( "saveDiv" ).style['display']=action?"":"none";
+ if( action ) {
+  initEmptyForm(idx);
+  if( idx < st.length ) {
+   if(st[idx].type=="pptp.0") {
+    initPptpForm(idx);
+   }
+  }
+ }
+ else {
+  document.form.editindex.value=-1;
+ }
+}
+function readElement(elementName) {
+ var element;
+ element=document.getElementById(elementName);
+ if( (typeof(element)=="undefined") || (element==null) ) {
+  alert("not found - " + elementName);
+  return "";
+ }
+ return document.getElementById(elementName).value;
+}
+function enableElement(elementName,ena) {
+ document.getElementById(elementName).disabled=!ena;
+}
+function checkElement(elementName,check) {
+ document.getElementById(elementName).checked=check;
+}
+function showElement(elementName,show) {
+ document.getElementById(elementName).style['display']=show?"":"none";
+}
+function getCheckedValue(radioObj) {
+ if(!radioObj)
+  return "";
+ var radioLength = radioObj.length;
+ if(radioLength == undefined)
+  if(radioObj.checked)
+   return radioObj.value;
+  else
+   return "";
+ for(var i = 0; i < radioLength; i++) {
+  if(radioObj[i].checked) {
+   return radioObj[i].value;
+  }
+ }
+ return "";
+}
+function parse_ip(ip_addr, f1, f2, f3, f4) {
+ /* Parse the IP address for display */
+ var ip_array = new Array();
+ ip_array = ip_addr.value.split(".");
+ if(ip_array.length != 4 ){ip_array[0]='0';ip_array[1]='0';ip_array[2]='0';ip_array[3]='0';}
+ document.getElementById(f1).value=ip_array[0];
+ document.getElementById(f2).value=ip_array[1];
+ document.getElementById(f3).value=ip_array[2];
+ document.getElementById(f4).value=ip_array[3];
+}
+$(document).ready( function() {
+ var f = document.form;
+ /* Initialise which sections of the page to display */
+ var editIndex = f.editindex.value;
+ var curIndex = f.curindex.value;
+ if( curIndex != "" && curIndex >= 0) {
+  showedit("edit",true, curIndex);
+ }
+ else if( editIndex == "") {
+  showedit("edit",false, 0);
+ }
+ else if( editIndex >=0 ) {
+  showedit("edit",true, editIndex);
+ }
+ else {
+  showedit("edit",false, 0);
+ }
+});
+</script>
+<!-- <%
+if (request['REQUEST_METHOD'] == "POST") {
+ tempval = form['rdbCmd'];
+ if( tempval != "" )
+  set_list( tempval, '-p' );
+ set_single('openvpn.0.restart=1');
+ redirect('/VPN_pptpc.html?success');
+}
+else { /*GET*/
+ //form['editindex'] = -1;
+}
+if(request['QUERY_STRING']!="") {
+ form['curindex'] = request['QUERY_STRING'];
+}
+else {
+ form['curindex'] = -1;
+}
+%> -->
+<div class="header-wrap" id="main-menu"><!--Top Menu--></div>
+<div id="content" class="site-content">
+<div class="container">
+ <aside class="grid-3 alpha sidemenu" id="side-menu"><!--Side Menu--></aside>
+ <div class="grid-9 omega">
+  <div class="grid-9 alpha pppoeEnablesMsg" style="display:none">
+   <div class="note-lrg">
+    <div class="wrap alert clearfix">
+     <h2><script language=Javascript>document.write("Transparent bridge mode (PPPoE) is enabled")</script></h2>
+     <p><script language=Javascript>document.write("This function isn't available while you're using transparent bridge mode")</script></p>
+    </div>
+   </div>
+  </div>
+  <form name="form" id="form" class="validate hide_for_pppoe_en" method="POST" action="VPN_pptpc.html">
+  <div class="right-column white-box">
+   <div class="pad">
+    <input type="hidden" name="editindex" value="">
+    <input type="hidden" name="curindex" value="">
+    <input type="hidden" name="snatEnable">
+    <input type="hidden" name="sdefGwEnable">
+    <input type="hidden" name="pppdebug">
+    <div id="listDiv">
+<!-- <div class="row"> -->
+     <div class="grid-33">
+      <div class="pad alpha" style="width:300px">
+       <h2><script language=Javascript>document.write("PPTP client list")</script></h2>
+      </div>
+     </div>
+     <div class="grid-66">
+      <div class="pad omega">
+       <div class="submit-row-condensed">
+       <script language="javascript">var st=[ ]; newprofilenum =7; </script>
+        <button type="button" class="secondary sml fr" onClick="clear_alert();showedit( 'edit', true, st.length )"><i class="icon plus"></i><script language=Javascript>document.write("Add")</script></button>
+       </div>
+      </div>
+     </div>
+<!-- </div> -->
+    <!-- Display a table of PPTP Clients -->
+    <script language="JavaScript">PPTPlist();</script>
+    </div>
+    <div id="editDiv" style="display:none">
+     <input type="hidden" name="vpnenable" id="vpnenable"/>
+     <input type="hidden" name="dnstopptp">
+     <input type="hidden" name="authType">
+     <input type="hidden" name="rdbCmd"/>
+     <h2><script language=Javascript>document.write("VPN PPTP client edit")</script></h2>
+     <div class="grey-box" id="box_2144_pin">
+      <div class="form-row no-bg-form">
+       <label for="field-1"><script language=Javascript>document.write("Enable PPTP client")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="vpnEnable" class="radio-switch">
+          <input type="radio" id="radio-1" name="radio_enable" class="access" value=1 onClick="javascript:document.form.vpnenable.value=1">
+          <label for="radio-1" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio-2" name="radio_enable" class="access" value=0 onClick="javascript:document.form.vpnenable.value=0">
+          <label for="radio-2" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="newname"><script language=Javascript>document.write("Profile name")</script></label>
+       <div class="field">
+        <input id="newname" type="text" name="newname" class="large" maxlength="64" onKeyUp="nameFilter(this);">
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="username"><script language=Javascript>document.write("Username")</script></label>
+       <div class="field">
+        <input id="username" type="text" name="username" class="validate[required] large required" maxlength=64>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="pass"><script language=Javascript>document.write("Password")</script></label>
+       <div class="field">
+        <input id="pass" type="password" name="pass" class="validate[required] large required" maxlength=64>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="vpnserver"><script language=Javascript>document.write("PPTP server")</script></label>
+       <input type="text" class="validate[required] large required" maxlength="64" name="vpnserver" id="vpnserver"/>
+      </div>
+      <div class="form-row">
+       <label for="auth_type"><script language=Javascript>document.write("Authentication type")</script></label>
+       <div class="field">
+        <select name="auth_type" id="auth_type">
+         <option value="any" onClick="javascript:document.form.authType.value='any'">any</option>
+         <option value="ms-chap-v2" onClick="javascript:document.form.authType.value='ms-chap-v2'">ms-chap-v2</option>
+         <option value="ms-chap" onClick="javascript:document.form.authType.value='ms-chap'">ms-chap</option>
+         <option value="chap" onClick="javascript:document.form.authType.value='chap'">chap</option>
+         <option value="eap" onClick="javascript:document.form.authType.value='eap'">eap</option>
+         <option value="pap" onClick="javascript:document.form.authType.value='pap'">pap</option>
+        </select>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="metric"><script language=Javascript>document.write("Metric")</script></label>
+       <div class="field">
+        <input id="metric" type="text" name="metric" class="validate[required,funcCall[validate_metric]] sml required metric" maxlength=5 onkeyup=NumfieldEntry(this);>
+        <span class="normal-text">&nbsp;(0-65535)</span>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label for="radio-2"><script language=Javascript>document.write("Use peer DNS")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="logging_enable" class="radio-switch">
+          <input type="radio" id="radio-3" name="radio-2" value=1 class="access" onClick="javascript:document.form.dnstopptp.value=1">
+          <label for="radio-3" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio-4" name="radio-2" value=0 class="access" onClick="javascript:document.form.dnstopptp.value=0">
+          <label for="radio-4" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label for="radio-3"><script language=Javascript>document.write("NAT masquerading")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="logging_enable" class="radio-switch">
+          <input type="radio" id="radio-5" name="radio-3" class="access" value=1 onClick="javascript:document.form.snatEnable.value=1">
+          <label for="radio-5" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio-6" name="radio-3" class="access" value=0 onClick="javascript:document.form.snatEnable.value=0">
+          <label for="radio-6" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label for="radio-4"><script language=Javascript>document.write("Set PPTP server as default gateway")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="logging_enable" class="radio-switch">
+          <input type="radio" id="radio-7" name="radio-4" class="access" value=1 onClick="javascript:document.form.sdefGwEnable.value=1">
+          <label for="radio-7" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio-8" name="radio-4" class="access" value=0 onClick="javascript:document.form.sdefGwEnable.value=0">
+          <label for="radio-8" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label><script language=Javascript>document.write("MPPE")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="mppe_en" class="radio-switch">
+          <input type="radio" id="radio_mppe_en_1" name="radio_mppe_en" class="access" value="1">
+          <label for="radio_mppe_en_1" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio_mppe_en_0" name="radio_mppe_en" class="access" value="0">
+          <label for="radio_mppe_en_0" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row">
+       <label><script language=Javascript>document.write("Extra PPP option")</script></label>
+       <div class="field">
+        <input id="extra_ppp_option" type="text" name="extra_ppp_option" class="large" maxlength=64>
+       </div>
+      </div>
+      <div class="form-row no-bg-form">
+       <label for="radio-5"><script language=Javascript>document.write("Verbose logging")</script></label>
+       <div class="field">
+        <div class="location-settings">
+         <div id="logging_enable" class="radio-switch">
+          <input type="radio" id="radio-9" name="radio-5" class="access" value=1 onClick="javascript:document.form.pppdebug.value=1">
+          <label for="radio-9" class="on"><script language=Javascript>document.write("I")</script></label>
+          <input type="radio" id="radio-10" name="radio-5" class="access" value=0 onClick="javascript:document.form.pppdebug.value=0">
+          <label for="radio-10" class="off"><script language=Javascript>document.write("0")</script></label>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="reconnectDelay"><script language=Javascript>document.write("Reconnect delay")</script></label>
+       <div class="field">
+        <input id="reconnectDelay" type="text" name="reconnectDelay" class="validate[required,funcCall[validate_reconnectDelay]] sml required reconnectDelay" maxlength=5 onkeyup=NumfieldEntry(this);>
+        <span class="normal-text">&nbsp;<script language=Javascript>document.write("(30-65535) seconds")</script></span>
+       </div>
+      </div>
+      <div class="form-row">
+       <label for="reconnectRetries"><script language=Javascript>document.write("Reconnect retries")</script></label>
+       <div class="field">
+        <input id="reconnectRetries" type="text" name="reconnectRetries" class="validate[required,funcCall[validate_reconnectRetries]] sml required reconnectRetries" maxlength=5 onkeyup=NumfieldEntry(this);>
+        <span class="normal-text">&nbsp;<script language=Javascript>document.write("(0-65535, 0=Unlimited)")</script></span>
+       </div>
+      </div>
+     </div>
+     <div id="saveDiv" class="submit-row" style="display:none">
+      <button name="saveButton" type="button" onClick="javascript:submitForm()"><script language=Javascript>document.write("Save")</script></button>
+      <button name="exitButton" class="secondary" type="button" onClick="javascript:exitHandler()"><script language=Javascript>document.write("Exit")</script></button>
+     </div>
+    </div>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+ </div>
+</footer>
+<script language='javascript'>
+        set_menu("Internet", "pptpClient", "root");
+/********* vdf validator**********/
+ VALIDATOR.config.errors["metric"]="Metric values must be between 0 and 65535. Please try again.";
+ $.validator.addMethod("metric",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( c < 0 || c > 65535 || !isAllNum(c) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.metric);
+ VALIDATOR.config.errors["reconnectDelay"]="The reconnect delay must have a value between 30 and 65535. Please try again.";
+ $.validator.addMethod("reconnectDelay",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( c < 30 || c > 65535 || !isAllNum(c) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.reconnectDelay);
+ VALIDATOR.config.errors["reconnectRetries"]="The reconnect retries must have a value between 0 and 65535. Please try again.";
+ $.validator.addMethod("reconnectRetries",function(c,a) {
+  if(c!==$(a).attr("data-watermark")) {
+   if( c < 0 || c > 65535 || !isAllNum(c) ) {
+    return false;
+   }
+  }
+  else if($(a).hasClass("required")) {
+   return false;
+  }
+  return true;
+ },VALIDATOR.config.errors.reconnectRetries);
+ if(""=="success") {
+  success_alert("","Your PPTP client configuration changes were successfully saved and applied");
+ }
+</script>
+</body>
+</html>
