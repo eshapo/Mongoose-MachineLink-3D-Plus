@@ -856,14 +856,14 @@ var c=new Array();
  $.each(top_menu_list, function(i,j) {c[j]="";});
  c[top]=" class='active'";
  c["Help"]=" class='help' "
-/*var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='Profile_Name_List.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='ddns.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='logfile.html'>"+"System"+"</a></li>			<li"+c["Help"]+"><a href='help.html' style='border-right:1px solid #E6EBED;'>"+"Help"+"</a></li>		</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
+/*var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='Profile_Name_List.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='ddns.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='logfile.html'>"+"System"+"</a></li>				</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
    if(typeof(user)=="undefined" || user=="&nbsp;" || user=="") {
     h_top+="<a href='index.html' class='power-btn' id='log-off'><span class='btn-text'>"+"Login"+"</span></a>";
    }*/
    //else {
    if (user == "root" || user == "admin") {
 
-	var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='Profile_Name_List.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='ddns.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='logfile.html'>"+"System"+"</a></li>				</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
+	var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='Profile_Name_List.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='ddns.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='logfile.html' style='border-right:1px solid #E6EBED;'>"+"System"+"</a></li>				</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
 
     h_top+="<a href='index.html?logoff' class='power-btn' id='log-off'><span class='btn-text'>"+"Log out"+"</span></a>";
    //}
