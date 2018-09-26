@@ -1045,7 +1045,7 @@ var c=new Array();
  $(this).attr("title", "MachineLink 3G");
 }else {
 
-	   var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='index.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='index.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='index.html'>"+"System"+"</a></li>					</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
+	   var h_top="<div class='container'><header class='site-header'>	<nav class='top-right grid-9 omega'>		<ul class='main-menu list-inline'>			<li"+c["Status"]+"><a href='status.html' style='border-left:none;'>"+"Status"+"</a></li>			<li"+c["Internet"]+"><a href='index.html'>"+"Networking"+"</a></li>			<li"+c["Services"]+"><a href='index.html'>"+"Services"+"</a></li>			<li"+c["System"]+"><a href='index.html' style='border-right:1px solid #E6EBED;'>"+"System"+"</a></li>					</ul>		<div class='top-right-btn'>		<div class='power-btn'>";
 
     h_top+="<a href='index.html' class='power-btn' id='log-off'><span class='btn-text'>"+"Login"+"</span></a>";
 
