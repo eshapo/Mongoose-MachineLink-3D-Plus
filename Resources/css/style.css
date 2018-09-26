@@ -3,11 +3,11 @@ html {position:relative;min-height:100%;}
 body {position:relative;margin:0 auto;width:100%;min-height:1000px;font-family: 'Open Sans', sans-serif, !important}
 ul,ol {list-style:none;}
 ol li, ul li {margin-bottom:10px;}
-label {width:220px;color:#888;}
+label {width:220px;color:#9AACB6; font-weight: 400;}
 select {width:184px;}
 a {font-family: 'Open Sans', sans-serif;}
 p {font-family: 'Open Sans', sans-serif;}
-h2 {font-family: 'Open Sans', sans-serif;}
+h2 {font-family: 'Open Sans', sans-serif; margin: 0 0 20px 0px;}
 ffn {font-family: 'Open Sans', sans-serif;}
 div {font-family: 'Open Sans', sans-serif;}
 h1, h2, h3, h4, h5, h6 {font-weight: 400;}
@@ -140,7 +140,7 @@ i.closed{background:url(../img/dashboard_arrow_pod_open.png) no-repeat 10px cent
 .container {width:940px;margin:0 auto;padding: 16px 20px 56px 100px;position: relative;}
 .site-content {padding:0 0 110px !important;overflow:hidden;}
 h2 {line-height:40px;font-family: 'Open Sans', sans-serif;}
-.wrap h2 {font-weight:bold;line-height:1.5em;}
+.wrap h2 {font-weight:400;line-height:1.5em;}
 .wrap .row {padding-top:10px;}
 .note .wrap p {font-size:1em;line-height:1em;}
 
@@ -163,7 +163,7 @@ table .form-row {margin:0;padding:0;}
 th.sml {font-size:1em;}
 th:first-child {border-radius:4px 0px 0px 0px;}
 th:last-child {border-radius:0px 4px 0px 0px;}
-/* table.name-list tr td:first-child {font-size:1.231em;line-height:1em;font-weight:bold;} */
+/* table.name-list tr td:first-child {font-size:1.231em;line-height:1em;font-weight:400;} */
 table td.last a.sml,table td.last button.sml,table td.last button.minimum {float:right;display:inline;}
 table td {font-weight:normal;padding:12px 10px;vertical-align:middle;}
 table.valign-top td{vertical-align: top;}
@@ -258,16 +258,16 @@ p.help { padding-left: 35px; }
 .box .box-content {padding:25px 20px;overflow:hidden;}
 .box .box-content .each-box {margin:0 12px;padding:0 19px 0 14px;float:left;width:180px;border-right:1px solid #e5e5e5;}
 .box .box-content .each-box:last-child {border:none;}
-.box .box-content .each-box .time {display:inline-block;margin:16px 0 0 -25px;font-size:1.538em;font-weight:bold;}
+.box .box-content .each-box .time {display:inline-block;margin:16px 0 0 -25px;font-size:1.538em;font-weight:400;}
 .box .box-content .omega {margin-right:0;}
 .box .box-content dl {padding:0 0 8px;}
 .box .box-content dl:last-child {padding-bottom:0;}
-.box .box-content dl dt {color:#9BACB7;font-weight:bold;}
-.box .box-content dl dd {font-weight:bold;}
+.box .box-content dl dt {color:#9BACB7;font-weight:400;}
+.box .box-content dl dd {font-weight:400;}
 dl.inline dt,dl.inline dd {float:left;}
-dl.inline dd { padding-left: 5px; font-weight: bold; }
+dl.inline dd { padding-left: 5px; font-weight: 400; }
 dl.inline {padding:10px 0;overflow:hidden;}
-.show-option {clear:both;text-align:right;margin:6px 0 10px;font-weight:bold;}
+.show-option {clear:both;text-align:right;margin:6px 0 10px;font-weight:400;}
 .show-option button {padding:0 3px 6px !important;float:right;margin:0 0 0 10px;}
 button.inline-right-button { float: right; margin-right: 0px; }
 table#data_usage_table { margin-bottom: 0px; }
@@ -360,7 +360,7 @@ table#data_usage_table { margin-bottom: 0px; }
 }
 
 .success-text{font-weight:normal;color:GREEN}
-.failure-text{font-weight:bold;color:RED}
+.failure-text{font-weight:400;color:RED}
 
 button.file-upload{margin:-50px 0 0 560px;}
 .longbutton, .submit-row .longbutton, .row .longbutton, .file-wrapper.button.longbutton{width:135px;font-size:1.154em;}

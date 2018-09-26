@@ -780,7 +780,7 @@ function ReadInBoxMsgHandler()
     document.SMS.file_name[i].value = FileName[i];
     document.getElementById( "smsbox_msg"+i ).style['display']='';
     if (FileName[i].search("unread") >= 0)
-     ChangeMsgFontWeight(i, 'bold');
+     ChangeMsgFontWeight(i, '400');
     else
      ChangeMsgFontWeight(i, 'normal');
    }

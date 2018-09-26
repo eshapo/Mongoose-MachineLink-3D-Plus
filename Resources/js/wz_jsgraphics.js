@@ -611,10 +611,10 @@ function _mkRectDott(x, y, w, h)
 function jsgFont()
 {
 	this.PLAIN = 'font-weight:normal;';
-	this.BOLD = 'font-weight:bold;';
+	this.400 = 'font-weight:400;';
 	this.ITALIC = 'font-style:italic;';
-	this.ITALIC_BOLD = this.ITALIC + this.BOLD;
-	this.BOLD_ITALIC = this.ITALIC_BOLD;
+	this.ITALIC_400 = this.ITALIC + this.400;
+	this.400_ITALIC = this.ITALIC_400;
 }
 var Font = new jsgFont();
 
