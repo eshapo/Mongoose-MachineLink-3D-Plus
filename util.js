@@ -850,7 +850,7 @@ function setCookie(c_name, value) {
 //------------- functions for V2 UI-------------------------------
 function set_menu(top, side, user) {
 var user=getCookie("c_name");
-var top_menu_list = ["Status", "Internet", "Services", "System", "Help"];
+var top_menu_list = ["Status", "Internet", "Services", "System"];
 // if(typeof(user)=="undefined"){user="";}
 var c=new Array();
  $.each(top_menu_list, function(i,j) {c[j]="";});
