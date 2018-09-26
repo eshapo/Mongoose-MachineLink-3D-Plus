@@ -36,21 +36,21 @@ else { /*GET*/
 	form['powerprofile4triggerH'] = get_single( 'power.profile.4.trigger' );
 	form['powerprofile5triggerH'] = get_single( 'power.profile.5.trigger' );
 	form['powerprofile6triggerH'] = get_single( 'power.profile.6.trigger' );
-	
+
 	form['sleepM1H'] = get_single( 'power.profile.1.sleepmode' );
 	form['sleepM2H'] = get_single( 'power.profile.2.sleepmode' );
 	form['sleepM3H'] = get_single( 'power.profile.3.sleepmode' );
 	form['sleepM4H'] = get_single( 'power.profile.4.sleepmode' );
 	form['sleepM5H'] = get_single( 'power.profile.5.sleepmode' );
 	form['sleepM6H'] = get_single( 'power.profile.6.sleepmode' );
-	
+
 	form['wakeM1H'] = get_single( 'power.profile.1.wakemode' );
 	form['wakeM2H'] = get_single( 'power.profile.2.wakemode' );
 	form['wakeM3H'] = get_single( 'power.profile.3.wakemode' );
 	form['wakeM4H'] = get_single( 'power.profile.4.wakemode' );
 	form['wakeM5H'] = get_single( 'power.profile.5.wakemode' );
 	form['wakeM6H'] = get_single( 'power.profile.6.wakemode' );
-	
+
 }
 %> -->
 <script language="JavaScript">
@@ -267,17 +267,17 @@ var h="";
 
 function init_list() {
 var h="";
- var a=[                                                                        
- <!-- <%                                                                             
-   var pname;                                                                   
-   for (var i = 1; i < 6; i++) {                                                
-      pname=get_single("power.profile."+i+".profilename")                       
- %> -->                                                                             
- "",                                                                     
- <!-- <%                                                                             
- }                                                                              
- %> -->                                                                             
- ];   
+ var a=[
+ <!-- <%
+   var pname;
+   for (var i = 1; i < 6; i++) {
+      pname=get_single("power.profile."+i+".profilename")
+ %> -->
+ "",
+ <!-- <%
+ }
+ %> -->
+ ];
  for( i=1; i<6; i++ ) {
   h+= "<tr id='powerProfile"+i+"'><td class='first'>"+a[i-1]+"</td>";
   h+= "<td>"
@@ -290,7 +290,7 @@ var h="";
   h+= "</td>"
   h+= "<td><span class='normal-text' id='sleepM"+i+"'></span></td>"
   h+= "<td><span class='normal-text' id='wakeM"+i+"'></span></td>"
-  
+
   h+="<td class='last'><a class='secondary sml' style='padding:0;border:0;' href='Power_Profile_Settings.html?profileidx="+i+"' title='"+"Edit"+"'><i class='icon edit'></i></a></td>";
   //h+= '<td><button type="button" class="secondary sml" onclick="DecreaseWlMaxTxDstIdx("+i+")"><i class="icon close"></i></button></td></tr>';
   //h+= "</td><td class='last'><a class='secondary sml' style='padding:0;border:0;' href='low_power_standby.html?profileidx="+i+"' title='"+"close"+"'><i class='icon close'></i></a></td>";
@@ -314,7 +314,7 @@ $(document).ready( function() {
     else if($("#sleepM"+i+"H").val()=='4') {
       $("#sleepM"+i).html("Ignition");
     }
-  
+
     if($("#wakeM"+i+"H").val()=='2') {
       $("#wakeM"+i).html("Ignition");
     }
@@ -349,14 +349,14 @@ $(document).ready( function() {
      <input type="hidden" name="powerprofile4triggerH" id="powerprofile4triggerH" value=""/>
      <input type="hidden" name="powerprofile5triggerH" id="powerprofile5triggerH" value=""/>
      <input type="hidden" name="powerprofile6triggerH" id="powerprofile6triggerH" value=""/>
-     
+
      <input type="hidden" name="sleepM1H" id="sleepM1H" value=""/>
      <input type="hidden" name="sleepM2H" id="sleepM2H" value=""/>
      <input type="hidden" name="sleepM3H" id="sleepM3H" value=""/>
      <input type="hidden" name="sleepM4H" id="sleepM4H" value=""/>
      <input type="hidden" name="sleepM5H" id="sleepM5H" value=""/>
      <input type="hidden" name="sleepM6H" id="sleepM6H" value=""/>
-     
+
      <input type="hidden" name="wakeM1H" id="wakeM1H" value=""/>
      <input type="hidden" name="wakeM2H" id="wakeM2H" value=""/>
      <input type="hidden" name="wakeM3H" id="wakeM3H" value=""/>
@@ -440,7 +440,7 @@ $(document).ready( function() {
 
 <footer class="footer">
  <div class="container">
-  <p class="copy-right"><script language=Javascript>document.write("Powered by NetComm Wireless Limited")</script></p>
+  <p class="copy-right"><script language=Javascript>document.write("Powered by Mongoose Advanced Technologies")</script></p>
  </div>
 </footer>
 

@@ -37,7 +37,7 @@
 .ajaxSubmit {
 	padding: 20px;
 	background: #55ea55;
-	border: 1px solid #999;
+	border: 1px solid #9BACB7;
 	display: none;
 }
 
@@ -48,7 +48,7 @@
 	color: #fff;
 	min-width: 120px;
 	font-size: 11px;
-	border: 2px solid #ddd;
+	border: 2px solid #E6EBED;
 	box-shadow: 0 0 6px #000;
 	-moz-box-shadow: 0 0 6px #000;
 	-webkit-box-shadow: 0 0 6px #000;
@@ -101,8 +101,8 @@ body.rtl .formError .formErrorArrow {
 }
 
 .formError .formErrorArrow div {
-	border-left: 2px solid #ddd;
-	border-right: 2px solid #ddd;
+	border-left: 2px solid #E6EBED;
+	border-right: 2px solid #E6EBED;
 	box-shadow: 0 2px 3px #444;
 	-moz-box-shadow: 0 2px 3px #444;
 	-webkit-box-shadow: 0 2px 3px #444;
@@ -164,19 +164,19 @@ body.rtl .formError .formErrorArrow {
 
 .formError .formErrorArrow .line3 {
 	width: 1px;
-	border-left: 2px solid #ddd;
-	border-right: 2px solid #ddd;
-	border-bottom: 0 solid #ddd;
+	border-left: 2px solid #E6EBED;
+	border-right: 2px solid #E6EBED;
+	border-bottom: 0 solid #E6EBED;
 }
 
 .formError .formErrorArrow .line2 {
 	width: 3px;
 	border: none;
-	background: #ddd;
+	background: #E6EBED;
 }
 
 .formError .formErrorArrow .line1 {
 	width: 1px;
 	border: none;
-	background: #ddd;
+	background: #E6EBED;
 }
