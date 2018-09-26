@@ -36,7 +36,7 @@
 <message msgid="network mask" msgstr="Network mask"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="cancel" msgstr="Cancel"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg51" msgstr="Please disable transparent bridge mode before configuring this connection"/>
 <message msgid="warningMsg05" msgstr="Invalid ip address."/>
 <message msgid="invalidSubnetMask" msgstr="You have entered an invalid subnet mask. Please try again."/>

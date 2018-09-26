@@ -47,7 +47,7 @@
 <message msgid="enable" msgstr="Enable"/>
 <message msgid="dynamicDhcpClientList" msgstr="Dynamic DHCP client list"/>
 <message msgid="expiry time" msgstr="Expiry time"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="minimumLeaseTime" msgstr="Minimum lease time is 120 seconds"/>
 <message msgid="dhcpSubmitSuccess" msgstr="Your DHCP configuration changes were successfully saved and applied"/>
 <message msgid="dhcpReservationSubmitSuccess" msgstr="Your DHCP address reservation list changes were successfully saved and applied"/>

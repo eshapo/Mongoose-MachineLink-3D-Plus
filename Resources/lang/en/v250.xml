@@ -47,7 +47,7 @@
 <message msgid="autoAnswer" msgstr="Auto answer"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="Msg123" msgstr="Please disable PADD configuration to use Modem configuration."/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="field0and65535" msgstr="Please specify a value between 0 and 65535"/>
 <message msgid="field1and65535" msgstr="Please specify a value between 1 and 65535"/>
 <message msgid="status" msgstr="Status"/>

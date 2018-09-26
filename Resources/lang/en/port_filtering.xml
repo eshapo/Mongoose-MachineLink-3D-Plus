@@ -59,7 +59,7 @@
 <message msgid="index" msgstr="Index"/>
 <message msgid="transparent bridge warnMsg3" msgstr="Sorry, you can't configure MAC/IP/port filtering as the router is in transparent bridge mode. To configure, please disable transparent bridging."/>
 <message msgid="reset" msgstr="Reset"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="portFilteringSubmitSuccess" msgstr="Your port filtering configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

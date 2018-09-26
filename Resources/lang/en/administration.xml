@@ -26,7 +26,7 @@
 <message msgid="telnet account" msgstr="Telnet/SSH account"/>
 <message msgid="passwdLenLimit" msgstr=" 1-126 characters in length"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="administrationSubmitSuccess" msgstr="Your administration configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

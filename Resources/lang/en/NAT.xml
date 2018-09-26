@@ -40,7 +40,7 @@
 <message msgid="add" msgstr="Add"/>
 <message msgid="incoming port" msgstr="Incoming port"/>
 <message msgid="nat destport" msgstr="Destination port"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="natSubmitSuccess" msgstr="Your new port forwarding settings were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

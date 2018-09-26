@@ -22,7 +22,7 @@
 <message msgid="user" msgstr="Username"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="refresh" msgstr="Refresh"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="wwanSubmitSuccess" msgstr="Your configuration changes were successfully saved and applied. If you have enabled a connection profile, the device will now try to connect automatically. To see the connection status, go to the Status page."/>
 <message msgid="pppoeSubmitSuccess" msgstr="Your Transparent bridge mode (PPPoE) configuration changes were successfully saved and applied."/>
 <message msgid="status" msgstr="Status"/>

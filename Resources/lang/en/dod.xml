@@ -55,7 +55,7 @@
 <message msgid="no dod profile msg" msgstr="No profile is available for the Connect on demand configuration"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="cancel" msgstr="Cancel"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg126" msgstr="Port number must have a value between 1 and 65535."/>
 <message msgid="dodSubmitSuccess" msgstr="Your connect on demand configuration changes were successfully saved and applied."/>
 <message msgid="status" msgstr="Status"/>

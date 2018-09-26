@@ -16,7 +16,7 @@
 <message msgid="led power off timer" msgstr="LED power off timer"/>
 <message msgid="led power off range" msgstr="(1-65535 minutes)"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="ledModeSubmitSuccess" msgstr="Your LED operation mode configuration changes were successfully saved and applied."/>
 <message msgid="led warningMsg1" msgstr="The LED power off timer must have a value between 1 and 65535. Please try again."/>
 <message msgid="status" msgstr="Status"/>

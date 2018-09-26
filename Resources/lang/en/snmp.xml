@@ -20,7 +20,7 @@
 <message msgid="trap persistence time" msgstr="Trap persistence time"/>
 <message msgid="trap retransmission time" msgstr="Trap retransmission time"/>
 <message msgid="send heartbeat now" msgstr="Send heartbeat"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="snmpSubmitSuccess" msgstr="Your SNMP configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

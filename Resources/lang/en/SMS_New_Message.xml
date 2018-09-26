@@ -23,7 +23,7 @@
 <message msgid="sms msg count desc" msgstr="The maximum character count varies depending on the coding scheme. In GSM 7-bit mode, you can enter 160 characters in one message, but that number drops to 70 if your message includes special characters. In UCS-2 mode, you can include most special characters but up to a maximum 70 in one message."/>
 <message msgid="send msg" msgstr="Send"/>
 <message msgid="clear" msgstr="Clear"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="InputFieldRequired" msgstr="Input field(s) required"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

@@ -44,7 +44,7 @@
 <message msgid="download" msgstr="Download"/>
 <message msgid="clear" msgstr="Clear"/>
 <message msgid="GUI rebooting" msgstr="Rebooting..."/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="telephony profile warningMsg" msgstr="The system needs to reboot in order to make these changes take effect, are you sure you want to continue?"/>
 <message msgid="networkRetryPeriodMsg" msgstr="Best network retry period must have a value between 10 and 2880, or 0 for disable."/>
 <message msgid="rssiThresholdMsg" msgstr="RSSI threshold must have a positive numeric value between 105 and 95 (corresponding to -105 to -95 dBm)."/>

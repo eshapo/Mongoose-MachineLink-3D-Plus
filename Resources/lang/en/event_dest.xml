@@ -36,7 +36,7 @@
 <message msgid="event noti sms disclaimer1" msgstr="Note: The SMS messages sent by the Event notification feature are regarded as Diagnostic messages. This should be taken into consideration when configuring the maximum number of Diagnostic text messages that the router may send over a specified period. See the "/>
 <message msgid="event noti sms disclaimer2" msgstr="Diagnostics"/>
 <message msgid="event noti sms disclaimer3" msgstr=" section for details on limiting the number of sent text messages."/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="event noti saved" msgstr="Your Event notification configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

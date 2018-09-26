@@ -122,7 +122,7 @@
 <message msgid="clientSecretKeyUpload" msgstr="Client secret key upload"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="exit" msgstr="Exit"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="openvpnSubmitSuccess" msgstr="Your open VPN configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

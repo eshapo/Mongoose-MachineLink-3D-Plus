@@ -14,7 +14,7 @@
 <message msgid="noRetry" msgstr="(0 = No retry)"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="cancel" msgstr="Cancel"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="field1and65535" msgstr="Please specify a value between 1 and 65535"/>
 <message msgid="field1and50" msgstr="Please specify a value between 1 and 50"/>
 <message msgid="field1and1000" msgstr="Please specify a value between 1 and 1000"/>

@@ -34,7 +34,7 @@
 <message msgid="user" msgstr="Username"/>
 <message msgid="host name" msgstr="Hostname"/>
 <message msgid="upload" msgstr="Upload"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg120" msgstr="The inform period must have a value between 30 and 2592000. Please try again."/>
 <message msgid="tr069SubmitSuccess" msgstr="Your TR-069 configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>

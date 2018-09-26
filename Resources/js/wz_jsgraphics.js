@@ -748,7 +748,7 @@ function jsGraphics(cnv, wnd)
 				| (2 << (Math.floor((fAngZ %= 360.0)/180.0) << 3))
 				| ((fAngA >= fAngZ) << 16),
 		aBndA = new Array(b+1), aBndZ = new Array(b+1);
-		
+
 		// Set up radial boundary lines
 		fAngA *= Math.PI/180.0;
 		fAngZ *= Math.PI/180.0;
@@ -1032,7 +1032,7 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 	};
 
 	this.setStroke(1);
-	this.setFont("verdana,geneva,helvetica,sans-serif", "12px", Font.PLAIN);
+	this.setFont("OpenSans,Trebuchet,helvetica,sans-serif", "12px", Font.PLAIN);
 	this.color = "#000000";
 	this.htm = "";
 	this.wnd = wnd || window;
@@ -1118,4 +1118,3 @@ function _CompInt(x, y)
 {
 	return(x - y);
 }
-

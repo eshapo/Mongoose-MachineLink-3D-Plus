@@ -64,7 +64,7 @@
 <message msgid="keepaliveRange" msgstr="0-65535 seconds (0=disabled)"/>
 <message msgid="maxNumberOfProbeFailures" msgstr="Number of probe failures before disconnect"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg126" msgstr="Port number must have a value between 1 and 65535."/>
 <message msgid="dlevelError" msgstr="Debug level field must have a value between 0 and 2"/>
 <message msgid="Msg122" msgstr="Error: Inter Character timeout must have a value between 0 and 65535."/>

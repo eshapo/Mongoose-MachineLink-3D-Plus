@@ -43,7 +43,7 @@
 <message msgid="ref" msgstr="Ref"/>
 <message msgid="routing del use" msgstr="Use"/>
 <message msgid="interface" msgstr="Interface"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="routingSubmitSuccess" msgstr="Your routing table configuration changes were successfully saved and applied"/>
 <message msgid="Msg48" msgstr="Metric values must be between 0 and 65535. Please try again."/>
 <message msgid="status" msgstr="Status"/>

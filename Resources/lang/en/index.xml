@@ -2,7 +2,7 @@
 <message msgid="log in" msgstr="Log in"/>
 <message msgid="user name" msgstr="Username"/>
 <message msgid="password" msgstr="Password"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="loginErrTitle" msgstr="Sorry, we couldn't log you in. Please try again."/>
 <message msgid="loginFailed" msgstr="Sorry, we couldn't log you in. Please try again."/>
 <message msgid="admin passWarning" msgstr="You have entered the wrong username or password. Please check and try again."/>

@@ -40,7 +40,7 @@
 <message msgid="whitelistEmpty" msgstr="The white list is empty"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="refresh" msgstr="Refresh"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="smsDiagnosticsSubmitSuccess" msgstr="Your SMS Diagnostics configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

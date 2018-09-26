@@ -15,7 +15,7 @@
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="pppoeEnabled" msgstr="Transparent bridge mode (PPPoE) is enabled"/>
 <message msgid="functionNotAvailable" msgstr="This function isn't available while you're using transparent bridge mode"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="firewallSubmitSuccess" msgstr="Your firewall configuration changes were successfully saved and applied."/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

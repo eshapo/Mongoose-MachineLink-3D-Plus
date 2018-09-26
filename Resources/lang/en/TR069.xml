@@ -25,7 +25,7 @@
 <message msgid="tr069 description" msgstr="Description"/>
 <message msgid="tr069 productclass" msgstr="ProductClass"/>
 <message msgid="tr069 serialnumber" msgstr="SerialNumber"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg120" msgstr="The inform period must have a value between 30 and 2592000. Please try again."/>
 <message msgid="tr069SubmitSuccess" msgstr="Your TR-069 configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>

@@ -34,7 +34,7 @@
 <message msgid="period5min" msgstr="(0=disable, 5-65535) mins "/>
 <message msgid="random period" msgstr="Randomize reboot time"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="monitor warningMsg1" msgstr="The Periodic Ping timer must have a value between 300 and 65535. Please try again."/>
 <message msgid="log Error" msgstr="Error"/>
 <message msgid="monitor warningMsg2" msgstr="The periodic ping accelerated timer must have a value between 60 and 65535. Please try again."/>

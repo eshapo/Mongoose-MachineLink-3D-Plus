@@ -25,7 +25,7 @@
 <message msgid="remote syslog server" msgstr="Remote syslog server"/>
 <message msgid="ip hostname" msgstr="IP / Hostname [:PORT]"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="submitSuccess" msgstr="Your configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

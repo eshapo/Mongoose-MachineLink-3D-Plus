@@ -34,7 +34,7 @@
 <message msgid="zTo65535Unlimited" msgstr="(0-65535, 0=Unlimited)"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="exit" msgstr="Exit"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="Msg48" msgstr="Metric values must be between 0 and 65535. Please try again."/>
 <message msgid="Msg91" msgstr="The reconnect delay must have a value between 30 and 65535. Please try again."/>
 <message msgid="Msg92" msgstr="The reconnect retries must have a value between 0 and 65535. Please try again."/>

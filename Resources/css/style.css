@@ -1,10 +1,15 @@
 /* global */
 html {position:relative;min-height:100%;}
-body {position:relative;margin:0 auto;width:100%;min-height:1000px;}
+body {position:relative;margin:0 auto;width:100%;min-height:1000px;font-family: 'Open Sans', sans-serif, !important}
 ul,ol {list-style:none;}
 ol li, ul li {margin-bottom:10px;}
 label {width:220px;color:#888;}
 select {width:184px;}
+a {font-family: 'Open Sans', sans-serif;}
+p {font-family: 'Open Sans', sans-serif;}
+h2 {font-family: 'Open Sans', sans-serif;}
+ffn {font-family: 'Open Sans', sans-serif;}
+div {font-family: 'Open Sans', sans-serif;}
 input {width:258px;}
 input.med {width:100px;}
 input.mini {width:38px;}
@@ -12,7 +17,7 @@ input.ip-adress {width:28px;}
 input.table-input {width:120px;}
 input.large {width:172px;}
 .input-connect-dot {float:left;padding-top:10px;width:auto;padding:4px 0 0 0;}
-button {width:100px;}
+button {width:100px; font-family: 'Open Sans', sans-serif;}
 .grid-3, .js .js-grid-3 {width:220px;}
 .grid-9 {width:690px;margin-left:25px;}
 .hr {border-top:1px solid #eee;margin:20px 0 40px; top:10px;}
@@ -108,7 +113,7 @@ i.closed{background:url(../img/dashboard_arrow_pod_open.png) no-repeat 10px cent
 .logo img {width: 60px;height: 60px;position:absolute;left: -2px;}
 .top-right .list-inline {background-color:#D22630;width:940px;margin-left:-24px;padding:0;border-radius:4px;}
 .top-right .list-inline li {margin:0;}
-.top-right .list-inline li a {font-size:12pt;text-decoration:none;padding:12px 20px;display:block;border-left:1px solid #ddd;color:#fff;}
+.top-right .list-inline li a {font-size:12pt;text-decoration:none;padding:12px 20px;display:block;border-left:1px solid #ddd;color:#fff;font-family: 'Open Sans',sans-serif;}
 .top-right .list-inline li.help a {color:#fff;}
 .top-right .list-inline li.help a:focus,.top-right .list-inline li.help a:hover {color:#fff;}
 .top-right .list-inline li.active {color:#cccccc;}
@@ -133,7 +138,7 @@ i.closed{background:url(../img/dashboard_arrow_pod_open.png) no-repeat 10px cent
 /* content */
 .container {width:940px;margin:0 auto;padding: 16px 20px 56px 100px;position: relative;}
 .site-content {padding:0 0 110px !important;overflow:hidden;}
-h2 {line-height:40px;}
+h2 {line-height:40px;font-family: 'Open Sans', sans-serif;}
 .wrap h2 {font-weight:bold;line-height:1.5em;}
 .wrap .row {padding-top:10px;}
 .note .wrap p {font-size:1em;line-height:1em;}
@@ -168,7 +173,7 @@ table.no-border tbody tr:last-child td {padding-bottom:20px;}
 table td span.profile-number {display:block;font-size:0.846em;font-weight:normal;margin-top:5px;}
 tbody tr:nth-child(2n+1) {background:none;}
 tbody tr.no-border td {border:none;}
-tfoot tr td {background:#F4F4F4;border:none;padding:5px 0;border-radius:0px 0px 4px 4px;}
+tfoot tr td {background:#f4f4f4;border:none;padding:5px 0;border-radius:0px 0px 4px 4px;}
 tfoot tr td button{float:right !important;}
 table tr td.last { padding-right: 0px;}
 .button-row {width:100%;margin-bottom:10px;overflow:hidden;}

@@ -40,7 +40,7 @@
 <message msgid="ntp on wwan connection" msgstr="Synchronisation on WWAN connection"/>
 <message msgid="ntp daily sync" msgstr="Daily synchronisation"/>
 <message msgid="CSsave" msgstr="Save"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="ntpSubmitSuccess" msgstr="Your NTP configuration changes were successfully saved and applied"/>
 <message msgid="status" msgstr="Status"/>
 <message msgid="CSinternet" msgstr="Networking"/>

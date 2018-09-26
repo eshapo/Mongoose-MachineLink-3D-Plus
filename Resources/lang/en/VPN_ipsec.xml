@@ -118,7 +118,7 @@
 <message msgid="ipsec certificate upload" msgstr="IPSec certificate upload"/>
 <message msgid="CSsave" msgstr="Save"/>
 <message msgid="exit" msgstr="Exit"/>
-<message msgid="powered by netComm" msgstr="Powered by NetComm Wireless Limited"/>
+<message msgid="powered by netComm" msgstr="Powered by Mongoose Advanced Technologies"/>
 <message msgid="ike warningMsg" msgstr="IKE re-key time must have a value between 0 and 78400."/>
 <message msgid="sa warningMsg" msgstr="SA life time must have a value between 0 and 78400."/>
 <message msgid="ipsecSubmitSuccess" msgstr="Your IPSec VPN configuration changes were successfully saved and applied"/>
